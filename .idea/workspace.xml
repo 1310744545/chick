@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="75698e2f-3900-4e0b-99c3-20c2cd05c7a6" name="Default Changelist" comment="基础框架修改，新增定时任务模块">
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/aspect/WebLogAspect.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/base/CommonConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/base/R.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/domin/BaseEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/ChickUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$HashOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$Helper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$KeyOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$ListOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$LockOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$RedisOpsResultIsNullException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$SetOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$StringOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$ZSetOps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/config/ChickRunner.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/config/RedisConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/config/SwaggerConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/controller/ConfigController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/entity/SysConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/mapper/SysConfigMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/service/ISysConfigService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/service/impl/SysConfigServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/controller/DictionaryController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/entity/SysDbInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/entity/SysDbInfoVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/mapper/SysDbInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/service/ISysDbInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/service/Impl/SysDbInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/mapper/SysConfigMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/mapper/SysDbInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/DemoSMSVerificationCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/JedisClusterDemo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/JedisDemoBase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/JedisPoolUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/RedisTestController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/RedisTestLockController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/SpikeDemoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/ClassLoaderLoad.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/CustomClassLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/GetClassLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/InitializationDemo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/heap/HeapDemo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/stack/LocalVariablesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ClothFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/Human.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/HumanUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/MyInvocationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/NikeClothFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ProxyClothFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ProxyFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ProxyStudy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/StaticProxy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/SuperMan.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/bootstrap.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/ChickWebApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/JDKDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/MavenDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/MysqlDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/NavicatDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/NginxDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/RabbitMQDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/RedisDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/TomcatDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/XFtpDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/XShellDownloadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/JDKDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/MavenDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/MysqlDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/NavcatDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/NginxDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/RabbitMQDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/RedisDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/TomcatDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/XFtpDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/XShellDownloadService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/JDKDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/MavenDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/MysqlDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/NavcatDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/NginxDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/RabbitMQDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/RedisMQDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/TomcatDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/XShellDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/XftpDownloadServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-xxl-job/target/classes/com/chick/config/XxlJobConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chick-xxl-job/target/classes/com/chick/task/SampleXxlJob.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="ceb2ad26-98b3-445e-a060-3a9e8784707b" />
+  </component>
+  <component name="JRebelWorkspace">
+    <option name="jrebelEnabledAutocompile" value="true" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Program Files\MavenRep" />
+        <option name="mavenHome" value="D:\Program Files\apache-maven-3.6.3" />
+        <option name="useMavenConfig" value="true" />
+        <option name="userSettingsFile" value="D:\Program Files\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
+  <component name="ProjectId" id="21OLKImMkE5fIwvKhjfa7MIR0Wd" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last.edited.regexp" value="Sample Text" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../xxl-job-2.3.0" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.48321342" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaProjects\chick\chick-common\src\main\resources\mapper" />
+      <recent name="D:\IdeaProjects\chick\chick-common\src\main\java\com\chick\web\config\entity" />
+      <recent name="D:\IdeaProjects\chick\chick-common\src\main\java\com\chick\web\config\mapper" />
+      <recent name="D:\IdeaProjects\chick\chick-common\src\main\java\com\chick\web\dictionary\entity" />
+      <recent name="D:\IdeaProjects\chick\chick-common\src\main\java\com\chick\common\dictionary\mapper" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IdeaProjects\chick\chick-web\src\main\resources" />
+      <recent name="D:\IdeaProjects\chick\chick-common" />
+      <recent name="D:\IdeaProjects\chick" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.chick.config" />
+      <recent name="com.chick.common.domin" />
+      <recent name="com.chick.web.config.service" />
+      <recent name="com.chick.web.config.controller" />
+      <recent name="com.chick.aspect" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ChickWebApplication ">
+    <configuration name="ChickRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.chick.config.ChickRunner" />
+      <module name="chick-common" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chick.config.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HeapDemo" type="Application" factoryName="Application" activateToolWindowBeforeRun="false" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.chick.jvm.heap.HeapDemo" />
+      <module name="chick-study" />
+      <option name="VM_PARAMETERS" value="-Xms10m -Xmx10m" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chick.jvm.heap.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in chick-quartz (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="chick-quartz" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in chick-quartz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="chick-quartz" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChickWebApplication " type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="chick-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chick.ChickWebApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.HeapDemo" />
+      <item itemvalue="Application.ChickRunner" />
+      <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="JUnit.All in chick-quartz" />
+      <item itemvalue="JUnit.All in chick-quartz (1)" />
+      <item itemvalue="Spring Boot.ChickWebApplication " />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ChickWebApplication " />
+        <item itemvalue="JUnit.All in chick-quartz (1)" />
+        <item itemvalue="JUnit.All in chick-quartz" />
+        <item itemvalue="Application.ChickRunner" />
+        <item itemvalue="Application.HeapDemo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="75698e2f-3900-4e0b-99c3-20c2cd05c7a6" name="Default Changelist" comment="" />
+      <created>1637807123881</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1637807123881</updated>
+      <workItem from="1637807125441" duration="610000" />
+      <workItem from="1637810790152" duration="5360000" />
+      <workItem from="1637821076597" duration="1400000" />
+      <workItem from="1637837804434" duration="629000" />
+      <workItem from="1638347941678" duration="584000" />
+      <workItem from="1638362030018" duration="1516000" />
+      <workItem from="1638506578104" duration="926000" />
+      <workItem from="1638507523797" duration="721000" />
+      <workItem from="1638510367006" duration="618000" />
+      <workItem from="1638511951086" duration="25000" />
+      <workItem from="1638804063364" duration="557000" />
+      <workItem from="1638804639443" duration="118000" />
+      <workItem from="1638805300935" duration="2736000" />
+      <workItem from="1638836756858" duration="376000" />
+      <workItem from="1638837166926" duration="76000" />
+      <workItem from="1638837275839" duration="595000" />
+      <workItem from="1638884827283" duration="628000" />
+      <workItem from="1638923133284" duration="334000" />
+      <workItem from="1638930336188" duration="9000" />
+      <workItem from="1638930351769" duration="4313000" />
+      <workItem from="1638942734232" duration="903000" />
+      <workItem from="1638945383963" duration="686000" />
+      <workItem from="1638963823927" duration="1043000" />
+      <workItem from="1639314104582" duration="5982000" />
+      <workItem from="1639365598972" duration="1210000" />
+      <workItem from="1639386755418" duration="353000" />
+      <workItem from="1639387158900" duration="17000" />
+      <workItem from="1639387270808" duration="8083000" />
+      <workItem from="1639409604129" duration="5000" />
+      <workItem from="1639409994594" duration="89000" />
+      <workItem from="1639410238920" duration="1000" />
+      <workItem from="1639441185860" duration="273000" />
+      <workItem from="1639456057252" duration="5581000" />
+      <workItem from="1639486495775" duration="630000" />
+      <workItem from="1639487851928" duration="8710000" />
+      <workItem from="1639637007369" duration="1012000" />
+      <workItem from="1639640486549" duration="1315000" />
+      <workItem from="1639660908304" duration="145000" />
+      <workItem from="1639844189947" duration="520000" />
+      <workItem from="1639922992828" duration="754000" />
+      <workItem from="1639930148844" duration="2428000" />
+      <workItem from="1639960157449" duration="2496000" />
+      <workItem from="1640191077174" duration="398000" />
+      <workItem from="1640191497962" duration="1713000" />
+      <workItem from="1640193428346" duration="799000" />
+      <workItem from="1640194258204" duration="996000" />
+      <workItem from="1640224213599" duration="76000" />
+      <workItem from="1640226536262" duration="6850000" />
+      <workItem from="1640263317248" duration="3715000" />
+      <workItem from="1640305643785" duration="1429000" />
+      <workItem from="1640326877987" duration="6651000" />
+      <workItem from="1640565797706" duration="1294000" />
+      <workItem from="1640583834598" duration="2236000" />
+      <workItem from="1640619115067" duration="4300000" />
+      <workItem from="1640651350119" duration="2992000" />
+      <workItem from="1640698974332" duration="1255000" />
+      <workItem from="1640738419870" duration="3756000" />
+      <workItem from="1640794623085" duration="1124000" />
+      <workItem from="1640831344427" duration="1210000" />
+      <workItem from="1642735675385" duration="1662000" />
+      <workItem from="1642984982765" duration="2321000" />
+      <workItem from="1643030415918" duration="1195000" />
+      <workItem from="1643079316170" duration="2045000" />
+      <workItem from="1643156915271" duration="24000" />
+      <workItem from="1644212351885" duration="3838000" />
+      <workItem from="1644244412310" duration="1149000" />
+      <workItem from="1644280100566" duration="6044000" />
+      <workItem from="1644568957506" duration="2904000" />
+      <workItem from="1644824185278" duration="4415000" />
+      <workItem from="1644841943720" duration="4146000" />
+      <workItem from="1644846139707" duration="1256000" />
+      <workItem from="1644918053292" duration="334000" />
+      <workItem from="1644974622744" duration="9635000" />
+      <workItem from="1645060821934" duration="474000" />
+      <workItem from="1645061310323" duration="3263000" />
+      <workItem from="1645498530762" duration="7087000" />
+      <workItem from="1645577177297" duration="10308000" />
+      <workItem from="1645626838052" duration="594000" />
+      <workItem from="1645663087958" duration="7091000" />
+      <workItem from="1645709377241" duration="609000" />
+      <workItem from="1645750606080" duration="12014000" />
+      <workItem from="1645771432400" duration="5172000" />
+      <workItem from="1645967061863" duration="596000" />
+      <workItem from="1646011987451" duration="16086000" />
+      <workItem from="1646095838876" duration="971000" />
+    </task>
+    <task id="LOCAL-00001" summary="初始化">
+      <created>1638885445793</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1638885445793</updated>
+    </task>
+    <task id="LOCAL-00002" summary="初始化">
+      <created>1639403998665</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1639403998665</updated>
+    </task>
+    <task id="LOCAL-00003" summary="一些代码">
+      <created>1639926961586</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1639926961586</updated>
+    </task>
+    <task id="LOCAL-00004" summary="初始化">
+      <created>1640332345834</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1640332345834</updated>
+    </task>
+    <task id="LOCAL-00005" summary="初始化">
+      <created>1645060960082</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645060960082</updated>
+    </task>
+    <task id="LOCAL-00006" summary="去除class文件">
+      <created>1645061323206</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1645061323206</updated>
+    </task>
+    <task id="LOCAL-00007" summary="基础初始化">
+      <created>1645771367918</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1645771367918</updated>
+    </task>
+    <task id="LOCAL-00008" summary="基础框架修改，新增定时任务模块">
+      <created>1646095915202</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1646095915202</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="一些代码" />
+    <MESSAGE value="初始化" />
+    <MESSAGE value="去除class文件" />
+    <MESSAGE value="基础初始化" />
+    <MESSAGE value="基础框架修改，新增定时任务模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="基础框架修改，新增定时任务模块" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="dbInfoList.get(1)" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: chick
+  cloud:
+    nacos:
+      config:
+        server-addr: 47.93.35.215:8848
+        file-extension: yaml
+        namespace: dev
+  main:
+    allow-bean-definition-overriding: true
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:8080/xxl-job-admin
+    executor:
+      appname: xxl-job-executor-sample # 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+      address:
+      ip:
+      port: 9999
+      logpath: D:/
+      logretentiondays: -1
+    accessToken: ### 执行器通讯TOKEN [选填]：非空时启用；
+
+
+
+
+

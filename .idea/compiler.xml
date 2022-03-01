@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="chick-study-springcloud" />
+        <module name="chick-xxl-job" />
+        <module name="chick-web" />
+        <module name="chick-common" />
+        <module name="chick-study" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="chick" target="1.8" />
+      <module name="chick-common" target="8" />
+      <module name="chick-quartz" target="8" />
+      <module name="chick-study" target="8" />
+      <module name="chick-study-springcloud" target="8" />
+      <module name="chick-web" target="8" />
+      <module name="chick-xlljob" target="8" />
+      <module name="chick-xxl-job" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="chick" options="-parameters" />
+      <module name="chick-common" options="-parameters" />
+      <module name="chick-quartz" options="-parameters" />
+      <module name="chick-study" options="-parameters" />
+      <module name="chick-study-springcloud" options="-parameters" />
+      <module name="chick-web" options="-parameters" />
+      <module name="chick-xlljob" options="-parameters" />
+      <module name="chick-xxl-job" options="-parameters" />
+    </option>
+  </component>
+</project>
