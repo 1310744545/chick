@@ -24,4 +24,11 @@ public interface CommonConstants {
      */
     String DICTIONARY = "dictionary";
     String CONFIG = "config";
+
+    /**
+     * 配置
+     */
+    String NGINX_DOWNLOAD_URL = "NginxDownLoadUrl";
+    String WINDOWS_FILE_PRO = "windowsFilePro";
+    String Linux_FILE_PRO = "linuxFilePro";
 }

@@ -74,6 +74,16 @@ public class RedisUtil {
     }
 
     /**
+     * 根据key获取值
+     *
+     * @param key 键
+     * @return 值
+     */
+    public String getString(String key) {
+        return key == "" ? "" : redisTemplate.opsForValue().get(key).toString();
+    }
+
+    /**
      * 将值放入缓存
      *
      * @param key   键

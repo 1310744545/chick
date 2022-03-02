@@ -37,14 +37,6 @@ public class XxlJobConfig {
 
     @Bean
     public XxlJobSpringExecutor xxlJobExecutor() {
-        System.out.println(adminAddresses);
-        System.out.println(appname);
-        System.out.println(address);
-        System.out.println(ip);
-        System.out.println(port);
-        System.out.println(accessToken);
-        System.out.println(logPath);
-        System.out.println(logRetentionDays);
         System.out.println(">>>>>>>>>>> xxl-job config init.");
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
         xxlJobSpringExecutor.setAdminAddresses(adminAddresses);
