@@ -1,6 +1,7 @@
 package com.chick.util;
 
 
+import cn.hutool.core.io.FileUtil;
 import com.chick.base.R;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,7 @@ public class MultiPartThreadDownLoad {
 
 
     public static R MultiPartDownLoad(String serverPath, String localPath){
+        FileUtil.mkParentDirs(localPath);
         //次标记用于重复请求，github上的文件请求总是出问题
         int downloadFlag = 10;
         while (downloadFlag > 0) {

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author xiaokexin
- * @since 2022-03-03
+ * @since 2022-03-01
  */
 @RestController
-@RequestMapping("/software-detail")
-public class SoftwareDetailController {
+@RequestMapping("/software")
+public class SoftwareController {
 
 }
 

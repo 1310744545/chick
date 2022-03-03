@@ -41,7 +41,6 @@ public class ChickRunner implements ApplicationRunner {
         chickRunner.redisUtil = this.redisUtil;
     }
 
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         //加载配置到redis
@@ -59,19 +58,23 @@ public class ChickRunner implements ApplicationRunner {
             chickRunner.redisUtil.delete(CommonConstants.DICTIONARY, key);
         }
         for (SysDbInfo sysDbInfo:sysDbInfos){
+            chickRunner.redisUtil.set(CommonConstants.DICTIONARY + ":" + sysDbInfo.getDataNum(), sysDbInfo.getDataInfo());
             chickRunner.redisUtil.addObject(CommonConstants.DICTIONARY, sysDbInfo.getDataNum(), sysDbInfo);
         }
     }
 
     public static void loadSysConfig(){
         List<SysConfig> sysConfigs = chickRunner.sysConfigMapper.selectAll();
-        //先删除redis中的字典
+        //先删除redis中的字典(hash)
         Set<String> keys = chickRunner.redisUtil.hashKeysString(CommonConstants.CONFIG);
         for (String key : keys){
             chickRunner.redisUtil.delete(CommonConstants.CONFIG, key);
         }
         for (SysConfig sysConfig : sysConfigs){
+            chickRunner.redisUtil.set(CommonConstants.CONFIG + ":" + sysConfig.getConfigName(), sysConfig.getConfigValue());
             chickRunner.redisUtil.addObject(CommonConstants.CONFIG, sysConfig.getConfigName(), sysConfig);
         }
+
+        //先删除redis中的字典(String)
     }
 }

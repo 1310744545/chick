@@ -21,4 +21,6 @@ public class ChickUtil {
     public static String DoId(){
         return UUID.randomUUID().toString().replace("-","");
     }
+
+
 }

@@ -33,8 +33,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    private RedisTemplate redisTemplate;
-    @Autowired
     private SysConfigMapper sysConfigMapper;
 
     @Override
@@ -62,6 +60,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public R remove(SysConfig sysConfig) {
         if(sysConfigMapper.updateByPrimaryKeySelective(sysConfig) == 1){
+            redisUtil.delete(CommonConstants.CONFIG + ":" + sysConfig.getConfigName());
             loadSysConfig();
             return R.ok("删除成功");
         }

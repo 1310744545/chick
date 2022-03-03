@@ -1,7 +1,9 @@
 package com.chick.common.utils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -80,8 +82,21 @@ public class RedisUtil {
      * @return 值
      */
     public String getString(String key) {
-        return key == "" ? "" : redisTemplate.opsForValue().get(key).toString();
+        Object o = redisTemplate.opsForValue().get(key);
+        return key == "" ? "" : (ObjectUtils.isEmpty(o) ? "" : redisTemplate.opsForValue().get(key).toString());
     }
+
+
+    /**
+     * 根据key获取值
+     *
+     * @param key 键
+     * @return 值
+     */
+    public Boolean delete(String key) {
+        return redisTemplate.opsForValue().getOperations().delete(key);
+    }
+
 
     /**
      * 将值放入缓存
@@ -328,6 +343,17 @@ public class RedisUtil {
      */
     public String getMapString(String key, String key2) {
         return redisTemplate.opsForHash().get("map1", "key1").toString();
+    }
+
+    /**
+     * 获取指定key下的hashKey的对象
+     *
+     * @param key  键
+     * @param hashKey 键
+     * @return
+     */
+    public Object getMapObj(String key, String hashKey) {
+        return redisTemplate.opsForHash().get(key, hashKey);
     }
 
     /**
