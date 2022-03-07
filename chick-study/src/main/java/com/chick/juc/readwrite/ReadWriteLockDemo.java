@@ -1,4 +1,4 @@
-package com.atguigu.readwrite;
+package com.chick.juc.readwrite;
 
 import java.util.HashMap;
 import java.util.Map;

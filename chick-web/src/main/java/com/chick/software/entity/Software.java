@@ -7,6 +7,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.chick.common.domin.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -49,11 +50,26 @@ public class Software extends BaseEntity implements Serializable {
     /**
      * 描述
      */
-    private String describtion;
+    private String describe;
 
     /**
      * 备注
      */
     private String remarks;
 
+    private String officialWebsite;
+
+    private String githubUrl;
+
+    private String giteeUrl;
+
+    private List<SoftwareDetail> softwareDetails;
+
+    public Software(String id, String softwareName, String company, String describe, String remarks) {
+        this.id = id;
+        this.softwareName = softwareName;
+        this.company = company;
+        this.describe = describe;
+        this.remarks = remarks;
+    }
 }

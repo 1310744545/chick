@@ -1,4 +1,4 @@
-package com.atguigu.queue;
+package com.chick.juc.queue;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -14,15 +14,15 @@ public class BlockingQueueDemo {
 
         //第一组
 //        System.out.println(blockingQueue.add("a"));
-////        System.out.println(blockingQueue.add("b"));
-////        System.out.println(blockingQueue.add("c"));
-////        //System.out.println(blockingQueue.element());
-////
-////        //System.out.println(blockingQueue.add("w"));
-////        System.out.println(blockingQueue.remove());
-////        System.out.println(blockingQueue.remove());
-////        System.out.println(blockingQueue.remove());
-////        System.out.println(blockingQueue.remove());
+//        System.out.println(blockingQueue.add("b"));
+//        System.out.println(blockingQueue.add("c"));
+//        //System.out.println(blockingQueue.element());
+//
+//        //System.out.println(blockingQueue.add("w"));
+//        System.out.println(blockingQueue.remove());
+//        System.out.println(blockingQueue.remove());
+//        System.out.println(blockingQueue.remove());
+//        System.out.println(blockingQueue.remove());
 
         //第二组
 //        System.out.println(blockingQueue.offer("a"));

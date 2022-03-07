@@ -1,4 +1,4 @@
-package com.atguigu.pool;
+package com.chick.juc.pool;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

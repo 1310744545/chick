@@ -12,8 +12,8 @@ import java.net.URL;
 import java.util.concurrent.*;
 
 /**
- * 多线程下载模型
- *
+ * 多线程下载
+ * 返回文件大小
  * @author bridge
  */
 @Slf4j
@@ -53,7 +53,7 @@ public class MultiPartThreadDownLoad {
                     }
                     long endTime = System.currentTimeMillis();
                     log.info("全部下载结束,共耗时" + (endTime - startTime) / 1000 + "s");
-                    return R.ok();
+                    return R.ok(length, "下载成功");
                 }
             } catch (Exception e) {
                 downloadFlag--;
@@ -61,47 +61,6 @@ public class MultiPartThreadDownLoad {
             }
         }
         return R.failed("在尝试请求10次该文件后失败，文件链接--->" + serverPath);
-    }
-
-    public static void main(String[] args) {
-        String serverPath = "http://nginx.org/download/nginx-1.20.2.zip";
-        String localPath = "D:/IdeaProjects/chick/nginx-1.20.2.zip";
-        //次标记用于重复请求，github上的文件请求总是出问题
-        boolean downloadFlag = false;
-        while (!downloadFlag) {
-            try {
-                URL url = new URL(serverPath);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(30000);
-                conn.setRequestMethod("GET");
-                int code = conn.getResponseCode();
-                if (code == 200) {
-                    log.info("请求文件成功----修改downloadFlag");
-                    downloadFlag = true;
-                    //服务器返回的数据的长度，实际上就是文件的长度,单位是字节
-                    int length = conn.getContentLength();
-                    //应创建的线程数
-                    int threadCount = getThreadCountBySoftwareSize(length);
-                    //创建线程池
-                    ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-                    //线程计数器，当其归零之后才继续往下走
-                    CountDownLatch latch = new CountDownLatch(threadCount);
-                    MultiPartThreadDownLoad m = new MultiPartThreadDownLoad(serverPath, localPath, latch, executor, length, threadCount);
-                    long startTime = System.currentTimeMillis();
-                    try {
-                        m.executeDownLoad();
-                        latch.await();
-                        executor.shutdown();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    long endTime = System.currentTimeMillis();
-                    log.info("全部下载结束,共耗时" + (endTime - startTime) / 1000 + "s");
-                }
-            } catch (Exception e) {
-                log.error("请求文件数据出错-->再次请求" + e.getMessage());
-            }
-        }
     }
 
     /**

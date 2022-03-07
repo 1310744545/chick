@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @ClassName SoftwateUtil
@@ -38,8 +39,19 @@ public class SoftwareUtil {
      * @Date 2022/3/3 13:39
      * @Param [url]
      **/
-    public static String getSoftWareNameByUrl(String url) {
+    public static String getSoftwareNameByUrl(String url) {
         return url.substring(url.lastIndexOf("/")).replace("/", "");
+    }
+
+    /**
+     * @return java.lang.String
+     * @Author xiaokexin
+     * @Description 通过真实文件名获取文件名
+     * @Date 2022/3/3 13:39
+     * @Param [url]
+     **/
+    public static String getSoftwareNameBySoftwareName(String softwareName) {
+        return softwareName.replace(".tar.gz","").replace(".zip", "");
     }
 
     /**
@@ -104,5 +116,26 @@ public class SoftwareUtil {
             return DictionaryConstants.LINUX;
         }
         return DictionaryConstants.WINDOWS;
+    }
+
+    /**
+    * @Author xiaokexin
+    * @Description 根据软件名获取版本
+    * @Date 2022/3/7 13:50
+    * @Param [software]
+    * @return java.lang.String
+    **/
+    public static String getVersionBySoftwareName(String softwareName){
+        String version = "";
+        for (int i = 0; i < softwareName.length(); i++) {
+            char c = softwareName.charAt(i);
+            if ((c <= 67 && c >= 48) || c == 46) {
+                if (version.endsWith(".") && c == 46) {
+                    break;
+                }
+                version += c;
+            }
+        }
+        return version.substring(0, version.length() - 1);
     }
 }

@@ -102,4 +102,8 @@ public class SoftwareDetail extends BaseEntity implements Serializable {
 
     private String downloadUrl;
 
+    public SoftwareDetail(String id, String softwareId) {
+        this.id = id;
+        this.softwareId = softwareId;
+    }
 }
