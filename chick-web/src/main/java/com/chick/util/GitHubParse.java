@@ -1,5 +1,6 @@
 package com.chick.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chick.base.CommonConstants;
 import com.chick.base.ConfigConstant;
 import com.chick.common.utils.ChickUtil;
@@ -60,11 +61,11 @@ public class GitHubParse implements Callable<Document> {
         //请求软件基本信息
         Software software = new Software();
         software.setId(ChickUtil.DoId());
-
+        software.setSoftwareName(softwareName);
         //请求下载信息
-        url = url + "/releases?page=1";
+        url = url + "/releases";
         //去请求文件页面
-        Document doc = getDocumentByUrl(url, 1);
+        Document doc = getDocumentByUrl(url + "?page=1", 1);
         //下载页面共多少页
         Element pagination = doc.getElementsByClass("pagination").first();
         Integer pageCount = 0;
@@ -84,24 +85,24 @@ public class GitHubParse implements Callable<Document> {
         List<Document> documents = new ArrayList<>();
         //放入第一页
         documents.add(doc);
-        for(int i = 2; i < pageCount; i++){
-            Future<Document> docResult = threadPoolExecutor.submit(new GitHubParse(url + "", 1, countDownLatch));
-            try {
-                Document document = docResult.get();
-                documents.add(document);
-            } catch (Exception e) {
-                log.error("从线程中获取结果失败！！！！！" + e.getMessage());
-            }
+        ArrayList<Future<Document>> resultDoc = new ArrayList<>();
+        for (int i = 2; i <= pageCount; i++) {
+            Future<Document> docResult = threadPoolExecutor.submit(new GitHubParse(url + "?page=" + i, 1, countDownLatch));
+            resultDoc.add(docResult);
         }
         try {
             countDownLatch.await();
             threadPoolExecutor.shutdown();
+            for (Future<Document> future : resultDoc){
+                Document document = future.get();
+                documents.add(document);
+            }
         } catch (Exception e) {
             log.error("线程等待或关闭线程池出错！！！！！" + e.getMessage());
         }
         //解析
         List<SoftwareDetail> softwareDetails = new ArrayList<>();
-        for (Document document : documents){
+        for (Document document : documents) {
             Elements elementsItems = document.getElementsByClass("d-flex flex-column flex-md-row my-5 flex-justify-center");
             softwareDetails.addAll(getSoftwareByElement(elementsItems, software.getId(), softwareName));
         }
@@ -147,9 +148,9 @@ public class GitHubParse implements Callable<Document> {
                 Elements downloadTagA = elementBoxRow.getElementsByTag("a");
                 String href = downloadTagA.attr("href");
                 //软件原名
-                softwareDetail.setFileOriginalName(downloadTagA.text());
+                softwareDetail.setFileOriginalName(SoftwareUtil.getSoftwareNameByUrl(href));
                 //软件名称
-                softwareDetail.setFileName(SoftwareUtil.getSoftwareNameBySoftwareName(SoftwareUtil.getSoftwareNameByUrl(href)));
+                softwareDetail.setFileName(downloadTagA.text());
                 //软件版本
                 softwareDetail.setVersion(SoftwareUtil.getVersionBySoftwareName(SoftwareUtil.getSoftwareNameByUrl(href)));
                 //软件操作系统
@@ -165,9 +166,11 @@ public class GitHubParse implements Callable<Document> {
                 //软件大小单位b
                 softwareDetail.setSize("");
                 //下载地址
-                softwareDetail.setDownloadUrl(redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.NGINX_DOWNLOAD_PRE) + href);
+                softwareDetail.setDownloadUrl(redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.GITHUB_DOWNLOAD_PRE) + href);
                 //1：源码 2：编译后的
-                softwareDetail.setSourceOrCompile("");
+                softwareDetail.setSourceOrCompile(SoftwareUtil.getSourceOrCompile(softwareDetail.getFileName()));
+                //类型
+                softwareDetail.setType(SoftwareUtil.getSoftwareTypeByHrefOnAfter(href));
                 //备注
                 softwareDetail.setRemarks(elementsItem.getElementsByClass("Link--primary").text());
 
@@ -182,12 +185,14 @@ public class GitHubParse implements Callable<Document> {
     public Document call() throws Exception {
         Document doc = null;
         try {
+            log.info("多线程开始请求页面，请求地址：" + url);
             while (ObjectUtils.isEmpty(doc)) {
                 doc = Jsoup.connect(url).get();
+                Thread.sleep(3000);
             }
             countDownLatch.countDown();
             return doc;
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("请求" + url + "失败，尝试再次请求，第" + numberOfRequests++ + "次");
             return call();
         }

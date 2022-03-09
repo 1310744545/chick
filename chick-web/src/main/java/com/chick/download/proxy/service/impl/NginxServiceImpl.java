@@ -46,14 +46,16 @@ public class NginxServiceImpl implements INginxService {
     private SoftwareMapper softwareMapper;
     @Autowired
     private SoftwareDetailMapper softwareDetailMapper;
+    @Autowired
+    private MultiPartThreadDownLoad multiPartThreadDownLoad;
 
     @Override
     public R download() {
         log.info("Nginx下载开始");
         Software nginx = softwareMapper.selectOne(Wrappers.<Software>lambdaQuery()
-                .eq(Software::getSoftwareName, "Nginx"));
+                .eq(Software::getSoftwareName, "nginx"));
         if (ObjectUtils.isEmpty(nginx)) {
-            nginx = new Software(ChickUtil.DoId(), "Nginx", "伊戈尔·赛索耶夫为", "ginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。", "");
+            nginx = new Software(ChickUtil.DoId(), "nginx", "伊戈尔·赛索耶夫为", "ginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。", "");
             softwareMapper.insert(nginx);
         }
         String url = redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.NGINX_DOWNLOAD_URL);
@@ -85,9 +87,9 @@ public class NginxServiceImpl implements INginxService {
                 SoftwareDetail softwareDetail = creatSoftwareDetailByElement(element, nginx.getId());
                 R r;
                 if (FileUtil.isWindows()) {
-                    r = MultiPartThreadDownLoad.MultiPartDownLoad(softwareDetail.getDownloadUrl(), redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.WINDOWS_FILE_PRO) + softwareDetail.getWindowsPath());
+                    r = multiPartThreadDownLoad.MultiPartDownLoad(softwareDetail.getDownloadUrl(), redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.WINDOWS_FILE_PRO) + softwareDetail.getWindowsPath());
                 } else {
-                    r = MultiPartThreadDownLoad.MultiPartDownLoad(softwareDetail.getDownloadUrl(), redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.LINUX_FILE_PRO) + softwareDetail.getLinuxPath());
+                    r = multiPartThreadDownLoad.MultiPartDownLoad(softwareDetail.getDownloadUrl(), redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.LINUX_FILE_PRO) + softwareDetail.getLinuxPath());
                 }
                 if (r.getCode() == 0) {
                     softwareDetailResult.setSize(r.getData().toString());
@@ -124,9 +126,9 @@ public class NginxServiceImpl implements INginxService {
         softwareDetail.setLastModified(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
         softwareDetail.setType(SoftwareUtil.getSoftwareTypeByHrefOnAfter(element.attr("href")));
         //软件在windows系统中的本地路径
-        softwareDetail.setWindowsPath("\\Nginx\\" + redisUtil.getString(CommonConstants.DICTIONARY + ":" + softwareDetail.getOperatingSystem()) + "\\" + softwareDetail.getVersion() + "\\" + softwareDetail.getFileOriginalName());
+        softwareDetail.setWindowsPath("\\nginx\\" + redisUtil.getString(CommonConstants.DICTIONARY + ":" + softwareDetail.getOperatingSystem()) + "\\" + softwareDetail.getVersion() + "\\" + softwareDetail.getFileOriginalName());
         //软件在linux系统中的本地路径
-        softwareDetail.setLinuxPath("/Nginx/" + redisUtil.getString(CommonConstants.DICTIONARY + ":" + softwareDetail.getOperatingSystem()) + "/" + softwareDetail.getVersion() + "/" + softwareDetail.getFileOriginalName());
+        softwareDetail.setLinuxPath("/nginx/" + redisUtil.getString(CommonConstants.DICTIONARY + ":" + softwareDetail.getOperatingSystem()) + "/" + softwareDetail.getVersion() + "/" + softwareDetail.getFileOriginalName());
         softwareDetail.setSize("");
         softwareDetail.setRemarks("");
         softwareDetail.setCreateDate(new Date());

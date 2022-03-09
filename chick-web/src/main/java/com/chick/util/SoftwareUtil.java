@@ -119,6 +119,20 @@ public class SoftwareUtil {
     }
 
     /**
+     * @Author xiaokexin
+     * @Description 获取代码类型源码or编译后的
+     * @Date 2022/3/3 15:41
+     * @Param [SoftwareOriginalName]
+     * @return java.lang.String
+     **/
+    public static String getSourceOrCompile(String fileName) {
+        if (fileName.contains("Source code")){
+            return "1";
+        }
+        return "2";
+    }
+
+    /**
     * @Author xiaokexin
     * @Description 根据软件名获取版本
     * @Date 2022/3/7 13:50

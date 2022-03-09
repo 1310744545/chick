@@ -2,28 +2,72 @@ package com.chick.util;
 
 
 import cn.hutool.core.io.FileUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.chick.base.CommonConstants;
+import com.chick.base.ConfigConstant;
 import com.chick.base.R;
+import com.chick.common.utils.ChickUtil;
+import com.chick.common.utils.RedisUtil;
+import com.chick.software.entity.Software;
+import com.chick.software.entity.SoftwareDetail;
+import com.chick.software.mapper.SoftwareDetailMapper;
+import com.chick.software.mapper.SoftwareMapper;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
  * 多线程下载
  * 返回文件大小
+ *
  * @author bridge
  */
 @Slf4j
+@Component
+@NoArgsConstructor
 public class MultiPartThreadDownLoad {
 
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private SoftwareMapper softwareMapper;
+    @Autowired
+    private SoftwareDetailMapper softwareDetailMapper;
+    @Autowired
+    private static MultiPartThreadDownLoad multiPartThreadDownLoad;
 
-    public static R MultiPartDownLoad(String serverPath, String localPath){
+    @PostConstruct
+    public void init() {
+        multiPartThreadDownLoad = this;
+        multiPartThreadDownLoad.redisUtil = this.redisUtil;
+        multiPartThreadDownLoad.softwareMapper = this.softwareMapper;
+        multiPartThreadDownLoad.softwareDetailMapper = this.softwareDetailMapper;
+    }
+
+    //通过下载路径和本地路径下载
+    @Async
+    public R MultiPartDownLoad(String serverPath, String localPath) {
         FileUtil.mkParentDirs(localPath);
         //次标记用于重复请求，github上的文件请求总是出问题
-        int downloadFlag = 10;
+        int downloadFlag = 100;
         while (downloadFlag > 0) {
             try {
                 URL url = new URL(serverPath);
@@ -60,7 +104,40 @@ public class MultiPartThreadDownLoad {
                 log.error("请求文件数据出错-->再次请求" + e.getMessage());
             }
         }
-        return R.failed("在尝试请求10次该文件后失败，文件链接--->" + serverPath);
+        return R.failed("在尝试请求100次该文件后失败，文件链接--->" + serverPath);
+    }
+
+    //通过文件下载
+    public static R MultiPartDownLoadBySoftware(Software software) {
+        Software softwareResult = multiPartThreadDownLoad.softwareMapper.selectOne(Wrappers.<Software>lambdaQuery()
+                .eq(Software::getSoftwareName, software.getSoftwareName()));
+        if (ObjectUtils.isEmpty(softwareResult)) {
+            multiPartThreadDownLoad.softwareMapper.insert(software);
+        } else {
+            software.setId(softwareResult.getId());
+            multiPartThreadDownLoad.softwareMapper.updateById(software);
+        }
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(24, 24, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory());
+        CountDownLatch countDownLatch = new CountDownLatch(software.getSoftwareDetails().size());
+        List<Future<R>> futures = new ArrayList<>();
+        for (SoftwareDetail softwareDetail : software.getSoftwareDetails()){
+            Future<R> future = threadPool.submit(new DownloadThread(softwareDetail, countDownLatch));
+            futures.add(future);
+        }
+        int successSize = 0;
+        try {
+            countDownLatch.await();
+            threadPool.shutdown();
+            for (Future<R> future : futures){
+                R r = future.get();
+                if (r.getCode() == 0){
+                    successSize ++;
+                }
+            }
+        } catch (Exception e) {
+            log.error("下载文件等待出错" + e.getMessage());
+        }
+        return R.ok("下载成功，共下载" + successSize + "个");
     }
 
     /**

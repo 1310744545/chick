@@ -1,20 +1,15 @@
 package com.chick.software.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-
-import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.io.Serializable;
-import java.util.List;
-
 import com.chick.common.domin.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -28,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Software extends BaseEntity implements Serializable {
+public class SoftwareVO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,7 +46,7 @@ public class Software extends BaseEntity implements Serializable {
     /**
      * 描述
      */
-    private String description;
+    private String describe;
 
     /**
      * 备注
@@ -64,14 +59,13 @@ public class Software extends BaseEntity implements Serializable {
 
     private String giteeUrl;
 
-    @TableField(exist = false)
     private List<SoftwareDetail> softwareDetails;
 
-    public Software(String id, String softwareName, String company, String description, String remarks) {
+    public SoftwareVO(String id, String softwareName, String company, String describe, String remarks) {
         this.id = id;
         this.softwareName = softwareName;
         this.company = company;
-        this.description = description;
+        this.describe = describe;
         this.remarks = remarks;
     }
 }
