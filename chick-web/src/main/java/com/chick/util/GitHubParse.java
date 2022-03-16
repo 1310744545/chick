@@ -115,10 +115,14 @@ public class GitHubParse implements Callable<Document> {
         Document doc = null;
         try {
             while (ObjectUtils.isEmpty(doc)) {
-                doc = Jsoup.connect(url).get();
+                try {   //此处加一个try-catch是因为如果出错可能是异常，无法在进行循环，防止进入递归
+                    doc = Jsoup.connect(url).get();
+                } catch (Exception e){
+                    log.error("请求" + url + "失败，尝试再次请求，第" + numberOfRequests++ + "次");
+                }
             }
             return doc;
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("请求" + url + "失败，尝试再次请求，第" + numberOfRequests++ + "次");
             return getDocumentByUrl(url, numberOfRequests);
         }
@@ -187,8 +191,11 @@ public class GitHubParse implements Callable<Document> {
         try {
             log.info("多线程开始请求页面，请求地址：" + url);
             while (ObjectUtils.isEmpty(doc)) {
-                doc = Jsoup.connect(url).get();
-                Thread.sleep(3000);
+                try {   //此处加一个try-catch是因为如果出错可能是异常，无法在进行循环，防止进入递归
+                    doc = Jsoup.connect(url).get();
+                } catch (Exception e){
+                    log.error("请求" + url + "失败，尝试再次请求，第" + numberOfRequests++ + "次");
+                }
             }
             countDownLatch.countDown();
             return doc;

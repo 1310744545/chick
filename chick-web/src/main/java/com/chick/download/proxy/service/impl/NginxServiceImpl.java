@@ -92,7 +92,7 @@ public class NginxServiceImpl implements INginxService {
                     r = multiPartThreadDownLoad.MultiPartDownLoad(softwareDetail.getDownloadUrl(), redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.LINUX_FILE_PRO) + softwareDetail.getLinuxPath());
                 }
                 if (r.getCode() == 0) {
-                    softwareDetailResult.setSize(r.getData().toString());
+                    softwareDetail.setSize(r.getData().toString());
                     if (ObjectUtils.isEmpty(softwareDetailResult)) {
                         softwareDetailMapper.insert(softwareDetail);
                     } else {
