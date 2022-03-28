@@ -12,13 +12,14 @@ import java.lang.reflect.Proxy;
  * @Version 1.0
  */
 
-interface Human{
+interface Human {
     String getBelief();
+
     void eat(String food);
 }
 
 //被代理类
-class SuperMan implements Human{
+class SuperMan implements Human {
 
     @Override
     public String getBelief() {
@@ -37,9 +38,9 @@ class SuperMan implements Human{
     问题二：当通过代理类的对象调用方法是，如何动态的去调用被代理类中的同名方法
 */
 
-class ProxyFactory{
+class ProxyFactory {
     //调用此方法，返回一个代理类的对象。解决问题一
-    public static Object getProxyInstance(Object obj){
+    public static Object getProxyInstance(Object obj) {
         MyInvocationHandler handler = new MyInvocationHandler();
 
         handler.bind(obj);
@@ -49,21 +50,23 @@ class ProxyFactory{
 }
 
 //仿AOP前置通知和后置通知
-class HumanUtil{
-    public static void method1(){
+class HumanUtil {
+    public static void method1() {
         System.out.println("==================================通用方法1==================================");
     }
-    public static void method2(){
+
+    public static void method2() {
         System.out.println("==================================通用方法2==================================");
     }
 }
 
-class MyInvocationHandler implements InvocationHandler{
+class MyInvocationHandler implements InvocationHandler {
     private Object obj;
 
-    public void bind(Object obj){
+    public void bind(Object obj) {
         this.obj = obj;
     }
+
     //当我们通过代理类的对象，调用方法a时，就会自动调用如下的方法：invoke()
     //将被代理类要执行的方法a的功能就声明在invoke()中
     @Override
