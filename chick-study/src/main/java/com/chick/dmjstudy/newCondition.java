@@ -2,7 +2,8 @@ package com.chick.dmjstudy;
 
 import com.sun.javafx.logging.PulseLogger;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.*;
 
 /**
@@ -48,16 +49,51 @@ public class newCondition {
     }
 
     public static void main(String[] args) {
-        ArrayList<Object> objects = new ArrayList<>(10);
-        new Thread(()->{
-            for (int i = 0; i<100; i++){
-                threadA();
+        int[] a = new int[10000];
+        int[] b = new int[1000000];
+        Random rd = new Random();
+        for (int i = 0; i < a.length; i++) {
+            a[i] = rd.nextInt(1000000);
+        }
+        for (int j = 0; j < b.length; j++) {
+            b[j] = rd.nextInt(1000000);
+        }
+        long s1 = System.currentTimeMillis();
+
+        ArrayList<Integer> c = new ArrayList<>();
+        Arrays.sort(a);
+        Arrays.sort(b);
+        int i = 0, j = 0;
+        try {
+            while (true){
+                if (a[i] < b[j]){
+                    i ++;
+                }
+                if (a[i] > b[j]){
+                    j ++;
+                }
+                if (a[i] == b[j]){
+                    i++;
+                    j++;
+                    c.add(a[i]);
+                }
             }
-        }).start();
-        new Thread(()->{
-            for (int i = 0; i<100; i++){
-                threadB();
-            }
-        }).start();
+        } catch (Exception e) {}
+        long s2 = System.currentTimeMillis();
+        System.out.println(c);
+        System.out.println("耗时毫秒" + (s2 - s1));
+
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        ArrayList<Object> objects = new ArrayList<>(10);
+//        new Thread(()->{
+//            for (int i = 0; i<100; i++){
+//                threadA();
+//            }
+//        }).start();
+//        new Thread(()->{
+//            for (int i = 0; i<100; i++){
+//                threadB();
+//            }
+//        }).start();
     }
 }

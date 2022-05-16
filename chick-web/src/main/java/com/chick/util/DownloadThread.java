@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -27,18 +28,18 @@ import java.util.concurrent.CountDownLatch;
  * @Version 1.0
  */
 @Slf4j
-@AllArgsConstructor
 @NoArgsConstructor
+@Component
 public class DownloadThread implements Callable<R> {
 
     private SoftwareDetail softwareDetail;
     private CountDownLatch countDownLatch;
 
-    @Autowired
+
     private RedisUtil redisUtil;
-    @Autowired
+
     private SoftwareDetailMapper softwareDetailMapper;
-    @Autowired
+
     private MultiPartThreadDownLoad multiPartThreadDownLoad;
 
     @Override
@@ -70,8 +71,11 @@ public class DownloadThread implements Callable<R> {
         return R.ok();
     }
 
-    public DownloadThread(SoftwareDetail softwareDetail, CountDownLatch countDownLatch) {
+    public DownloadThread(SoftwareDetail softwareDetail, CountDownLatch countDownLatch, RedisUtil redisUtil, SoftwareDetailMapper softwareDetailMapper, MultiPartThreadDownLoad multiPartThreadDownLoad) {
         this.softwareDetail = softwareDetail;
         this.countDownLatch = countDownLatch;
+        this.redisUtil = redisUtil;
+        this.softwareDetailMapper = softwareDetailMapper;
+        this.multiPartThreadDownLoad = multiPartThreadDownLoad;
     }
 }

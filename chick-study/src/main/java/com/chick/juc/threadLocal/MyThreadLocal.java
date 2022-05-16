@@ -1,5 +1,10 @@
 package com.chick.juc.threadLocal;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @ClassName MyThreadLocal
  * @Author xiaokexin
@@ -28,6 +33,11 @@ public class MyThreadLocal {
     }
 
     public static void main(String[] args) {
+        ReentrantLock reentrantLock = new ReentrantLock();
+        StringBuilder stringBuilder = new StringBuilder();
+        BlockingQueue<String> objects = new ArrayBlockingQueue<>(20);
+        reentrantLock.lock();
+        new CountDownLatch(11);
         MyThreadLocal test = new MyThreadLocal();
         for (int i = 0; i < 100; i++) {
             new Thread(() -> {

@@ -10,6 +10,7 @@ import com.chick.software.entity.SoftwareDetail;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -93,7 +94,7 @@ public class GitHubParse implements Callable<Document> {
         try {
             countDownLatch.await();
             threadPoolExecutor.shutdown();
-            for (Future<Document> future : resultDoc){
+            for (Future<Document> future : resultDoc) {
                 Document document = future.get();
                 documents.add(document);
             }
@@ -117,7 +118,7 @@ public class GitHubParse implements Callable<Document> {
             while (ObjectUtils.isEmpty(doc)) {
                 try {   //此处加一个try-catch是因为如果出错可能是异常，无法在进行循环，防止进入递归
                     doc = Jsoup.connect(url).get();
-                } catch (Exception e){
+                } catch (Exception e) {
                     log.error("请求" + url + "失败，尝试再次请求，第" + numberOfRequests++ + "次");
                 }
             }
@@ -138,14 +139,17 @@ public class GitHubParse implements Callable<Document> {
             }
             //获取版本日期
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 月日年
-            String datetimeParam = elementsItem.getElementsByTag("local-time").get(0).attr("datetime");
+            Elements elementsByTag = elementsItem.getElementsByTag("local-time");
+            String datetimeParam;
             Date datetime = null;
-            try {
-                datetime = sdf.parse(datetimeParam.replace("T", " ").replace("Z", " "));
-            } catch (ParseException e) {
-                log.error("日期格式化失败，失败原因---->" + e.getMessage());
+            if (elementsByTag.size() > 0) {
+                datetimeParam = elementsItem.getElementsByTag("local-time").get(0).attr("datetime");
+                try {
+                    datetime = sdf.parse(datetimeParam.replace("T", " ").replace("Z", " "));
+                } catch (ParseException e) {
+                    log.error("日期格式化失败，失败原因---->" + e.getMessage());
+                }
             }
-
             Elements elementsBoxRows = elementsItem.getElementsByClass("Box-row");
             for (Element elementBoxRow : elementsBoxRows) {
                 SoftwareDetail softwareDetail = new SoftwareDetail(ChickUtil.DoId(), softwareId);
@@ -162,7 +166,7 @@ public class GitHubParse implements Callable<Document> {
                 //软件操作系统版本
                 softwareDetail.setOsVersion("");
                 //软件最后更新时间
-                softwareDetail.setLastModified(sdf.format(datetime));
+                softwareDetail.setLastModified(ObjectUtils.isEmpty(datetime) ? "" : sdf.format(datetime));
                 //软件在windows系统中的本地路径
                 softwareDetail.setWindowsPath("\\" + softwareName + "\\" + redisUtil.getString(CommonConstants.DICTIONARY + ":" + softwareDetail.getOperatingSystem()) + "\\" + softwareDetail.getVersion() + "\\" + softwareDetail.getFileOriginalName());
                 //软件在linux系统中的本地路径
@@ -193,7 +197,7 @@ public class GitHubParse implements Callable<Document> {
             while (ObjectUtils.isEmpty(doc)) {
                 try {   //此处加一个try-catch是因为如果出错可能是异常，无法在进行循环，防止进入递归
                     doc = Jsoup.connect(url).get();
-                } catch (Exception e){
+                } catch (Exception e) {
                     log.error("请求" + url + "失败，尝试再次请求，第" + numberOfRequests++ + "次");
                 }
             }

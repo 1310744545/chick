@@ -6,9 +6,9 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 47.93.35.215:8848
+        server-addr: 124.221.239.221:8848
         file-extension: yaml
-        namespace: dev
+        namespace: e8cc886d-0d6c-42a2-b4c9-0c7ad82affa9
   main:
     allow-bean-definition-overriding: true
 xxl:

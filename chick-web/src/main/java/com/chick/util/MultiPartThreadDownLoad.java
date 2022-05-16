@@ -108,7 +108,7 @@ public class MultiPartThreadDownLoad {
     }
 
     //通过文件下载
-    public static R MultiPartDownLoadBySoftware(Software software) {
+    public R MultiPartDownLoadBySoftware(Software software) {
         Software softwareResult = multiPartThreadDownLoad.softwareMapper.selectOne(Wrappers.<Software>lambdaQuery()
                 .eq(Software::getSoftwareName, software.getSoftwareName()));
         if (ObjectUtils.isEmpty(softwareResult)) {
@@ -121,7 +121,7 @@ public class MultiPartThreadDownLoad {
         CountDownLatch countDownLatch = new CountDownLatch(software.getSoftwareDetails().size());
         List<Future<R>> futures = new ArrayList<>();
         for (SoftwareDetail softwareDetail : software.getSoftwareDetails()){
-            Future<R> future = threadPool.submit(new DownloadThread(softwareDetail, countDownLatch));
+            Future<R> future = threadPool.submit(new DownloadThread(softwareDetail, countDownLatch, redisUtil, softwareDetailMapper, multiPartThreadDownLoad));
             futures.add(future);
         }
         int successSize = 0;

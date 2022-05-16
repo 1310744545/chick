@@ -1,6 +1,7 @@
 package com.chick.download.proxy.controller;
 
 import cn.hutool.core.io.FileUtil;
+import com.chick.annotation.LoginUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class JDKController {
 
     @ResponseBody
     @PostMapping("/test")
-    public String test(){
+    public String test(@LoginUser String asdasd, String qweqwe){
         String picPathOut = System.getProperty("catalina.home");
         if (FileUtil.isWindows()) {
             picPathOut = picPathOut.substring(0, picPathOut.lastIndexOf("\\"));

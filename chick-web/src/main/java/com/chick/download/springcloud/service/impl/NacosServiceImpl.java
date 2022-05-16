@@ -8,10 +8,10 @@ import com.chick.common.utils.RedisUtil;
 import com.chick.download.springcloud.service.INacosService;
 import com.chick.software.entity.Software;
 import com.chick.util.GitHubParse;
+import com.chick.util.MultiPartThreadDownLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.chick.util.MultiPartThreadDownLoad.MultiPartDownLoadBySoftware;
 
 /**
  * @ClassName NacosServiceImpl
@@ -27,10 +27,12 @@ public class NacosServiceImpl implements INacosService {
     private GitHubParse gitHubParse;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private MultiPartThreadDownLoad multiPartThreadDownLoad;
 
     @Override
     public R download() {
         Software nacos = gitHubParse.parseHtmlByUrl(redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.NACOS_INDEX), "nacos");
-        return MultiPartDownLoadBySoftware(nacos);
+        return multiPartThreadDownLoad.MultiPartDownLoadBySoftware(nacos);
     }
 }
