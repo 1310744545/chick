@@ -7,6 +7,7 @@ import com.chick.base.DictionaryConstants;
 import com.chick.common.utils.RedisUtil;
 import com.chick.software.entity.SoftwareDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.nio.charset.StandardCharsets;
  * @Description SoftwateUtil
  * @Version 1.0
  */
+@Component
 public class SoftwareUtil {
 
 
@@ -66,12 +68,12 @@ public class SoftwareUtil {
         if (ObjectUtils.isEmpty(softwareDetailResult)) {
             return false;
         }
-        //服务器为window
-        if (FileUtil.isWindows() && !FileUtil.exist(softwareUtil.redisUtil.getString(ConfigConstant.WINDOWS_FILE_PRO) + softwareDetailResult.getWindowsPath())) {
+        if (FileUtil.isWindows() && !FileUtil.exist(softwareUtil.redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.WINDOWS_FILE_PRO) + softwareDetailResult.getWindowsPath())) {
+            //服务器为window
             return false;
         }
         //服务器为linux
-        if (!FileUtil.exist(softwareUtil.redisUtil.getString(ConfigConstant.LINUX_FILE_PRO) + softwareDetailResult.getLinuxPath())) {
+        if (!FileUtil.isWindows() && !FileUtil.exist(softwareUtil.redisUtil.getString(ConfigConstant.LINUX_FILE_PRO) + softwareDetailResult.getLinuxPath())) {
             return false;
         }
         //存在

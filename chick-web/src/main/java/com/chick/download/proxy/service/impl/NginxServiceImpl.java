@@ -77,10 +77,11 @@ public class NginxServiceImpl implements INginxService {
             if (element.attr("href").contains("/download/nginx") && !element.attr("href").contains("asc")) {
                 //查询是否存在
                 SoftwareDetail softwareDetailResult = softwareDetailMapper.selectOne(Wrappers.<SoftwareDetail>lambdaQuery()
-                        .eq(SoftwareDetail::getFileOriginalName, element.text())
+                        .eq(SoftwareDetail::getFileName, element.text())
                         .eq(SoftwareDetail::getDelFlag, CommonConstants.NO));
                 //判断是否需要去下载
                 if (SoftwareUtil.existWinOrLinux(softwareDetailResult)) {
+                    log.error("文件已存在暂停下载---文件名：{}", softwareDetailResult.getFileOriginalName());
                     continue;
                 }
                 //不存在去下载并保存/更新
@@ -93,6 +94,7 @@ public class NginxServiceImpl implements INginxService {
                 }
                 if (r.getCode() == 0) {
                     softwareDetail.setSize(r.getData().toString());
+                    softwareDetail.setDelFlag(CommonConstants.NO);
                     if (ObjectUtils.isEmpty(softwareDetailResult)) {
                         softwareDetailMapper.insert(softwareDetail);
                     } else {
@@ -100,7 +102,7 @@ public class NginxServiceImpl implements INginxService {
                         softwareDetailMapper.updateById(softwareDetail);
                     }
                 } else {
-                    log.error("下载文件出错，文件名：" + softwareDetailResult.getFileOriginalName());
+                    log.error("下载文件出错，文件名：" + softwareDetailResult.getFileName());
                 }
             }
         }

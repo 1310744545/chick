@@ -150,17 +150,21 @@ public class GitHubParse implements Callable<Document> {
                     log.error("日期格式化失败，失败原因---->" + e.getMessage());
                 }
             }
+            //获取版本
+            Elements elementsByClass = elementsItem.getElementsByClass("mr-3 mr-md-0 d-flex");
+            String version = elementsByClass.get(0).getElementsByTag("span").text();
             Elements elementsBoxRows = elementsItem.getElementsByClass("Box-row");
             for (Element elementBoxRow : elementsBoxRows) {
                 SoftwareDetail softwareDetail = new SoftwareDetail(ChickUtil.DoId(), softwareId);
                 Elements downloadTagA = elementBoxRow.getElementsByTag("a");
                 String href = downloadTagA.attr("href");
                 //软件原名
-                softwareDetail.setFileOriginalName(SoftwareUtil.getSoftwareNameByUrl(href));
-                //软件名称
-                softwareDetail.setFileName(downloadTagA.text());
+                softwareDetail.setFileOriginalName(CommonConstants.SOURCE_CODE.equals(downloadTagA.text()) ? downloadTagA.text() + SoftwareUtil.getSoftwareNameByUrl(href) : SoftwareUtil.getSoftwareNameByUrl(href));
+                //软件名称 (如果是源码，就变成源码+版本)
+                softwareDetail.setFileName(CommonConstants.SOURCE_CODE.equals(downloadTagA.text()) ? downloadTagA.text() + SoftwareUtil.getSoftwareNameByUrl(href) : downloadTagA.text());
                 //软件版本
-                softwareDetail.setVersion(SoftwareUtil.getVersionBySoftwareName(SoftwareUtil.getSoftwareNameByUrl(href)));
+                //softwareDetail.setVersion(SoftwareUtil.getVersionBySoftwareName(SoftwareUtil.getSoftwareNameByUrl(href)));
+                softwareDetail.setVersion(version);
                 //软件操作系统
                 softwareDetail.setOperatingSystem(SoftwareUtil.getSoftwareOperationVersionBySoftwareOriginalName(softwareDetail.getFileOriginalName()));
                 //软件操作系统版本
@@ -181,6 +185,10 @@ public class GitHubParse implements Callable<Document> {
                 softwareDetail.setType(SoftwareUtil.getSoftwareTypeByHrefOnAfter(href));
                 //备注
                 softwareDetail.setRemarks(elementsItem.getElementsByClass("Link--primary").text());
+                //删除状态
+                softwareDetail.setDelFlag(CommonConstants.NO);
+
+                softwareDetail.setCreateDate(new Date());
 
                 softwareList.add(softwareDetail);
             }

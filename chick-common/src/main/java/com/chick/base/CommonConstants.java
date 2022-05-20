@@ -25,4 +25,7 @@ public interface CommonConstants {
     String DICTIONARY = "dictionary";
     String CONFIG = "config";
 
+    //源码
+    String SOURCE_CODE = "Source code (tar.gz)";
+
 }

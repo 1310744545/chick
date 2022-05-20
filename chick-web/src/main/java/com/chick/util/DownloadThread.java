@@ -17,6 +17,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
@@ -50,6 +51,7 @@ public class DownloadThread implements Callable<R> {
                 .eq(SoftwareDetail::getDelFlag, CommonConstants.NO));
         //判断是否需要去下载
         if (SoftwareUtil.existWinOrLinux(softwareDetailResult)) {
+            log.info("当前文件已下载，停止下载--文件名{}",softwareDetailResult.getFileOriginalName());
             return R.failed("已下载");
         }
         String windowsPathPre = redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.WINDOWS_FILE_PRO);
@@ -64,6 +66,7 @@ public class DownloadThread implements Callable<R> {
                 softwareDetailMapper.insert(softwareDetail);
             } else {
                 softwareDetail.setId(softwareDetailResult.getId());
+                softwareDetail.setUpdateDate(new Date());
                 softwareDetailMapper.updateById(softwareDetail);
             }
         }

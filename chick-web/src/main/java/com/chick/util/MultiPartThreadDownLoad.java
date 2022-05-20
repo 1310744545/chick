@@ -76,10 +76,13 @@ public class MultiPartThreadDownLoad {
                 conn.setRequestMethod("GET");
                 int code = conn.getResponseCode();
                 if (code == 200) {
-                    log.info("请求文件成功----修改downloadFlag");
-                    downloadFlag = 0;
                     //服务器返回的数据的长度，实际上就是文件的长度,单位是字节
                     int length = conn.getContentLength();
+                    if (length <= 0){
+                        throw new Exception("请求到的文件错误，大小为空");
+                    }
+                    log.info("请求文件成功----修改downloadFlag");
+                    downloadFlag = 0;
                     //应创建的线程数
                     int threadCount = getThreadCountBySoftwareSize(length);
                     //创建线程池
@@ -101,7 +104,7 @@ public class MultiPartThreadDownLoad {
                 }
             } catch (Exception e) {
                 downloadFlag--;
-                log.error("请求文件数据出错-->再次请求" + e.getMessage());
+                log.error("请求文件数据出错-->再次请求" + e.getMessage() + "---文件路径--->" + serverPath);
             }
         }
         return R.failed("在尝试请求100次该文件后失败，文件链接--->" + serverPath);
@@ -109,6 +112,7 @@ public class MultiPartThreadDownLoad {
 
     //通过文件下载
     public R MultiPartDownLoadBySoftware(Software software) {
+        log.info("开始下载文件,共有文件{}个", software.getSoftwareDetails().size());
         Software softwareResult = multiPartThreadDownLoad.softwareMapper.selectOne(Wrappers.<Software>lambdaQuery()
                 .eq(Software::getSoftwareName, software.getSoftwareName()));
         if (ObjectUtils.isEmpty(softwareResult)) {
@@ -117,7 +121,7 @@ public class MultiPartThreadDownLoad {
             software.setId(softwareResult.getId());
             multiPartThreadDownLoad.softwareMapper.updateById(software);
         }
-        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(24, 24, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory());
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(10, 10, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory());
         CountDownLatch countDownLatch = new CountDownLatch(software.getSoftwareDetails().size());
         List<Future<R>> futures = new ArrayList<>();
         for (SoftwareDetail softwareDetail : software.getSoftwareDetails()){
