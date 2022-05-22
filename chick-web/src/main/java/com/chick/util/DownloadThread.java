@@ -52,6 +52,7 @@ public class DownloadThread implements Callable<R> {
         //判断是否需要去下载
         if (SoftwareUtil.existWinOrLinux(softwareDetailResult)) {
             log.info("当前文件已下载，停止下载--文件名{}",softwareDetailResult.getFileOriginalName());
+            countDownLatch.countDown();
             return R.failed("已下载");
         }
         String windowsPathPre = redisUtil.getString(CommonConstants.CONFIG + ":" + ConfigConstant.WINDOWS_FILE_PRO);

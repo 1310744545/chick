@@ -63,6 +63,8 @@ public class GitHubParse implements Callable<Document> {
         Software software = new Software();
         software.setId(ChickUtil.DoId());
         software.setSoftwareName(softwareName);
+        software.setCreateDate(new Date());
+        software.setDelFlag("0");
         //请求下载信息
         url = url + "/releases";
         //去请求文件页面
