@@ -1,11 +1,13 @@
-package com.chick.download.proxy.controller;
+package com.chick.download.controller;
 
 import com.chick.base.R;
-import com.chick.download.proxy.service.INginxService;
+import com.chick.download.service.INginxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * @ClassName NginxDownloadController
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/nginx")
 public class NginxController {
 
-    @Autowired
+    @Resource
     private INginxService nginxService;
 
     /**

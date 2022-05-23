@@ -1,4 +1,4 @@
-package com.chick.download.proxy.service.impl;
+package com.chick.download.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
@@ -8,7 +8,7 @@ import com.chick.base.ConfigConstant;
 import com.chick.base.R;
 import com.chick.common.utils.ChickUtil;
 import com.chick.common.utils.RedisUtil;
-import com.chick.download.proxy.service.INginxService;
+import com.chick.download.service.INginxService;
 import com.chick.util.MultiPartThreadDownLoad;
 import com.chick.util.SoftwareUtil;
 import com.chick.software.entity.Software;

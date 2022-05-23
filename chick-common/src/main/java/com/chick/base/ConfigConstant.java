@@ -19,8 +19,9 @@ public interface ConfigConstant {
     String WINDOWS_FILE_PRO = "windowsFilePro";
     //软件在linux系统中的前缀
     String LINUX_FILE_PRO = "linuxFilePro";
-    //nacos首页地址
-    String NACOS_INDEX = "nacosIndex";
+
+    String INDEX = "Index";
+
     //软件在linux系统中的前缀
     String GITHUB_DOWNLOAD_PRE = "githubDownloadPre";
 }

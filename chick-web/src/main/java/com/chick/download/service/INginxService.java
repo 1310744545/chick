@@ -1,4 +1,6 @@
-package com.chick.download.proxy.service;
+package com.chick.download.service;
+
+import com.chick.base.R;
 
 /**
  * @ClassName JDKDownloadService
@@ -7,5 +9,7 @@ package com.chick.download.proxy.service;
  * @Description JDKDownloadService
  * @Version 1.0
  */
-public interface INavicatService {
+public interface INginxService {
+
+    R download();
 }
