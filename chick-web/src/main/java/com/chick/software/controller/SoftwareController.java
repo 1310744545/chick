@@ -1,15 +1,12 @@
 package com.chick.software.controller;
 
-
-import cn.afterturn.easypoi.excel.ExcelImportUtil;
-import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.chick.base.R;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,12 +22,28 @@ import java.util.List;
 public class SoftwareController {
 
     @RequestMapping("/test")
-    public R upload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
-        ImportParams params = new ImportParams();
-        params.setHeadRows(8);
-        List<question> result = ExcelImportUtil.importExcel(multipartFile.getInputStream(),
-                question.class, params);
-        return R.ok();
+    public R upload() {
+        return R.ok(new Date());
+    }
+
+    @RequestMapping("/testAdmin")
+    public R test2() {
+        return R.ok(new Date());
+    }
+
+    @RequestMapping("/testManager")
+    public R test3() {
+        return R.ok("test3");
+    }
+
+    @RequestMapping("/testVip")
+    public R test4() {
+        return R.ok("test4");
+    }
+
+    @RequestMapping("/testCommon")
+    public R test5() {
+        return R.ok("test5");
     }
 }
 

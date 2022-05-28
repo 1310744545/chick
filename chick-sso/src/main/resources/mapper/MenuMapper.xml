@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chick.mapper.MenuMapper">
+
+    <select id="loadMenuAndRole" resultType="com.chick.pojo.dto.MenuAndRole">
+        select path, permission, role_code as role
+        from sys_role_menu rm
+                 left join sys_menu m on rm.menu_id = m.menu_id
+                 left join sys_role r on rm.role_id = r.role_id
+    </select>
+</mapper>

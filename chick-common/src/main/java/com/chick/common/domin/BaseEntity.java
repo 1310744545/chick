@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * @ClassName BaseEntity
  * @Author xiaokexin
- * @Date 2021/2/5 18:23
+ * @Date 2022-05-27 18:23
  * @Description 基础实体类
  * @Version 1.0
  */
