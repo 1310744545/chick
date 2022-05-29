@@ -3,6 +3,8 @@ package com.chick.controller;
 
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
+import com.chick.pojo.vo.LoginUserVO;
+import com.chick.pojo.vo.RegisterUserVO;
 import com.chick.service.IUserService;
 import com.chick.utils.JwtUtils;
 import com.chick.utils.SecurityUtils;
@@ -61,20 +63,22 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
     })
     @PostMapping("/login")
-    public R login(String username, String password, String captchaText, String code, HttpServletRequest request) {
-        if (StringUtils.isAnyBlank(username, password)) {
+    public R login(@RequestBody LoginUserVO loginUserVO, HttpServletRequest request) {
+        if (ObjectUtils.isEmpty(loginUserVO)){
+            return R.failed("系统错误");
+        }
+        if (StringUtils.isAnyBlank(loginUserVO.getUsername(), loginUserVO.getPassword())) {
             return R.failed("用户名和密码不能为空");
         }
-//        if (StringUtils.isAnyBlank(code)) {
-//            return R.failed("验证码不能为空");
-//        }
-        return userService.login(username, password, captchaText, code, request);
+        if (StringUtils.isAnyBlank(loginUserVO.getCode())) {
+            return R.failed("验证码不能为空");
+        }
+        return userService.login(loginUserVO, request);
     }
 
     /**
      * 注册
-     * @param username 用户名
-     * @param password 密码
+     * @param registerUserVO 注册人信息
      * @return
      */
     @ApiOperation(value = "注册", httpMethod = "POST")
@@ -83,11 +87,17 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
     })
     @PostMapping("/register")
-    public R register(String username, String password) {
-        if (StringUtils.isAnyBlank(username, password)) {
+    public R register(@RequestBody RegisterUserVO registerUserVO) {
+        if (ObjectUtils.isEmpty(registerUserVO)){
+            return R.failed("系统错误");
+        }
+        if (StringUtils.isAnyBlank(registerUserVO.getUsername(), registerUserVO.getPassword())) {
             return R.failed("用户名和密码不能为空");
         }
-        return userService.register(username, password);
+        if (StringUtils.isAnyBlank(registerUserVO.getCode())) {
+            return R.failed("验证码不能为空");
+        }
+        return userService.register(registerUserVO);
     }
 
     /**

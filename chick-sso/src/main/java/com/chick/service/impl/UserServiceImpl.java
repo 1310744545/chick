@@ -11,6 +11,8 @@ import com.chick.mapper.UserMapper;
 import com.chick.pojo.bo.UserInfoDetail;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
+import com.chick.pojo.vo.LoginUserVO;
+import com.chick.pojo.vo.RegisterUserVO;
 import com.chick.service.IUserService;
 import com.chick.utils.JwtUtils;
 import com.chick.utils.SecurityUtils;
@@ -107,22 +109,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     /**
      * 登录
      *
-     * @param username 账号
-     * @param password 密码
+     * @param loginUserVO 登录用户
      * @param request
      */
     @Override
-    public R<HashMap> login(String username, String password, String captchaText, String code, HttpServletRequest request) {
+    public R<HashMap> login(LoginUserVO loginUserVO, HttpServletRequest request) {
         //校验验证码
 //        String rightCode = (String) request.getSession().getAttribute("rightCode");
 //        if (StringUtils.isEmpty(rightCode) || !rightCode.equalsIgnoreCase(code)) {
 //            return R.failed("验证码输入错误,请重新输入");
 //        }
-        if(!code.equals(captchaText)){
+        if (!loginUserVO.getCode().equals(loginUserVO.getCaptchaText())) {
             return R.failed("验证码输入错误,请重新输入");
         }
         //构造token
-        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(loginUserVO.getUsername(), loginUserVO.getPassword());
 
         //验证用户信息
         try {
@@ -136,7 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         //通过自己的UserDetailService获取用户信息
-        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailService.loadUserByUsername(loginUserVO.getUsername());
         //生成token
         String token = jwtUtils.generateToken((UserInfoDetail) userDetails);
 
@@ -147,16 +148,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public R register(String username, String password) {
+    @Transactional(rollbackFor = RuntimeException.class)
+    public R register(RegisterUserVO registerUserVO) {
         List<User> userCount = baseMapper.selectList(Wrappers.<User>lambdaQuery()
-                .eq(User::getUsername, username));
-        if (userCount.size() > 0){
+                .eq(User::getUsername, registerUserVO.getUsername()));
+        if (userCount.size() > 0) {
             return R.failed("该用户名已存在");
         }
-        String encode = passwordEncoder.encode(password);
+        String encode = passwordEncoder.encode(registerUserVO.getPassword());
         User user = new User();
         user.setUserId(UUID.randomUUID().toString());
-        user.setUsername(username);
+        user.setUsername(registerUserVO.getUsername());
         user.setPassword(encode);
         int insert = baseMapper.insert(user);
         if (insert > 0) {
@@ -203,6 +205,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 上传头像
+     *
      * @param userId 用户id
      * @return
      */
@@ -246,7 +249,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public R updateUser(String userId, String sex, String phone, String name, String email, String birthday) {
         User user = new User(userId, name, sex, birthday, phone, email);
         int i = baseMapper.updateById(user);
-        if (i == 1){
+        if (i == 1) {
             return R.ok("更新成功");
         }
         return R.failed("更新失败");

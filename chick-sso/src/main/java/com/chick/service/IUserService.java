@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.chick.base.R;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
+import com.chick.pojo.vo.LoginUserVO;
+import com.chick.pojo.vo.RegisterUserVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,21 +46,19 @@ public interface IUserService extends IService<User> {
     /**
      * 用户登录
      *
-     * @param username 账号
-     * @param password 密码
+     * @param loginUserVO 登录用户
      * @param request
      * @return
      */
-    R login(String username, String password, String captchaText, String code, HttpServletRequest request);
+    R login(LoginUserVO loginUserVO, HttpServletRequest request);
 
     /**
      * 用户注册
      *
-     * @param username 账号
-     * @param password 密码
+     * @param registerUserVO 注册人信息
      * @return
      */
-    R register(String username, String password);
+    R register(RegisterUserVO registerUserVO);
 
     /**
      * 退出登录

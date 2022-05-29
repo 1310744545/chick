@@ -32,7 +32,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         FilterInvocation fi = (FilterInvocation)o;
         //获取请求的地址
-        String requestUrl = fi.getRequestUrl();
+        String requestUrl = fi.getRequestUrl().split("\\?")[0];
         String requestKey = CommonConstants.SYS_ROLE_PATH + ":" + requestUrl;
         //不受保护的资源，直接返回null.
         if (!redisUtil.hasKey(requestKey)){
