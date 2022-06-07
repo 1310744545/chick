@@ -1,10 +1,10 @@
 package com.chick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chick.mapper.MenuMapper;
+import com.chick.base.R;
 import com.chick.pojo.dto.MenuAndRole;
 import com.chick.pojo.entity.Menu;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.chick.web.dictionary.entity.SysDbInfo;
 
 import java.util.List;
 
@@ -20,4 +20,12 @@ public interface IMenuService extends IService<Menu> {
 
 
     List<MenuAndRole> loadMenuAndRole();
+
+    R getBackStageMenu();
+
+    R saveCustom(Menu menu);
+
+    R update(Menu menu);
+
+    R removeByDataNum(Menu menu);
 }

@@ -1,6 +1,7 @@
 package com.chick.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.chick.common.domin.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_user_role")
-public class UserRole implements Serializable {
+public class UserRole extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

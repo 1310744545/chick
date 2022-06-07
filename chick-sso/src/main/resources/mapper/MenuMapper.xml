@@ -9,5 +9,109 @@
         from sys_role_menu rm
                  left join sys_menu m on rm.menu_id = m.menu_id
                  left join sys_role r on rm.role_id = r.role_id
+        where m.type = '3'
     </select>
+
+    <resultMap id="BaseResultMap" type="com.chick.pojo.entity.Menu">
+        <id column="menu_id" jdbcType="VARCHAR" property="menuId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="permission" jdbcType="VARCHAR" property="permission" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="parent_menu_id" jdbcType="INTEGER" property="parentMenuId" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        menu_id, `name`, permission, `path`, parent_menu_id, `type`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_menu
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_menu
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.chick.pojo.entity.Menu">
+        insert into sys_menu (menu_id, `name`, permission,
+                              `path`, parent_menu_id, `type`
+        )
+        values (#{menuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR},
+                #{path,jdbcType=VARCHAR}, #{parentMenuId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}
+               )
+    </insert>
+    <insert id="insertSelective" parameterType="com.chick.pojo.entity.Menu">
+        insert into sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="permission != null">
+                permission,
+            </if>
+            <if test="path != null">
+                `path`,
+            </if>
+            <if test="parentMenuId != null">
+                parent_menu_id,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                #{menuId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="permission != null">
+                #{permission,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="parentMenuId != null">
+                #{parentMenuId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chick.pojo.entity.Menu">
+        update sys_menu
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="permission != null">
+                permission = #{permission,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                `path` = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="parentMenuId != null">
+                parent_menu_id = #{parentMenuId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chick.pojo.entity.Menu">
+        update sys_menu
+        set `name` = #{name,jdbcType=VARCHAR},
+            permission = #{permission,jdbcType=VARCHAR},
+            `path` = #{path,jdbcType=VARCHAR},
+            parent_menu_id = #{parentMenuId,jdbcType=INTEGER},
+            `type` = #{type,jdbcType=VARCHAR}
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
 </mapper>

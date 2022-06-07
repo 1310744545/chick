@@ -62,7 +62,13 @@ public class MultiPartThreadDownLoad {
         multiPartThreadDownLoad.softwareDetailMapper = this.softwareDetailMapper;
     }
 
-    //通过下载路径和本地路径下载
+    /**
+    * @Author xkx
+    * @Description 通过下载路径和本地路径下载
+    * @Date 2022-06-07 20:13
+    * @Param [serverPath, localPath]
+    * @return 返回文件大小 单位b
+    **/
     @Async
     public R MultiPartDownLoad(String serverPath, String localPath) {
         FileUtil.mkParentDirs(localPath);

@@ -1,12 +1,15 @@
 package com.chick.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.chick.common.domin.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -19,7 +22,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_menu")
-public class Menu implements Serializable {
+public class Menu extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,5 +47,16 @@ public class Menu implements Serializable {
      */
     private String path;
 
+    /**
+     * 前端路由标识路径
+     */
+    private String parentMenuId;
 
+    /**
+     * 前端路由标识路径
+     */
+    private String type;
+
+    @TableField(exist = false)
+    private List<Menu> children;
 }
