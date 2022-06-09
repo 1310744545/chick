@@ -4,12 +4,8 @@ package com.chick.controller;
 import com.chick.base.R;
 import com.chick.pojo.entity.Menu;
 import com.chick.service.IMenuService;
-import com.chick.service.impl.MenuServiceImpl;
-import com.chick.web.dictionary.entity.SysDbInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,7 +37,7 @@ public class MenuController extends BaseController {
 
     /**
      * @Author xiaokexin
-     * @Description 保存字典
+     * @Description 保存菜单
      * @Date 2022/2/24 17:35
      * @Param [sysDbInfo]
      * @return com.chick.base.R
@@ -56,7 +52,7 @@ public class MenuController extends BaseController {
 
     /**
      * @Author xiaokexin
-     * @Description 更新字典
+     * @Description 更新菜单
      * @Date 2022/2/24 17:35
      * @Param [sysDbInfo]
      * @return com.chick.base.R
@@ -71,7 +67,7 @@ public class MenuController extends BaseController {
 
     /**
      * @Author xiaokexin
-     * @Description 根据dataNum作废字典及子字典
+     * @Description 删除菜单
      * @Date 2022/2/25 9:35
      * @Param [sysDbInfo]
      * @return com.chick.base.R
@@ -82,5 +78,63 @@ public class MenuController extends BaseController {
             return R.failed("参数错误");
         }
         return menuService.removeByDataNum(menu);
+    }
+
+
+    /**
+     * @Author xkx
+     * @Description 获取全部资源
+     * @Date 2022-06-06 17:39
+     * @Param []
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getResource")
+    public R getResource(){
+        return menuService.getResource();
+    }
+
+    /**
+     * @Author xiaokexin
+     * @Description 保存资源
+     * @Date 2022/2/24 17:35
+     * @Param [sysDbInfo]
+     * @return com.chick.base.R
+     **/
+    @PostMapping("/saveResource")
+    public R saveResource(@RequestBody Menu menu){
+        if(ObjectUtils.isEmpty(menu)){
+            return R.failed("参数错误");
+        }
+        return menuService.saveResource(menu);
+    }
+
+    /**
+     * @Author xiaokexin
+     * @Description 更新资源
+     * @Date 2022/2/24 17:35
+     * @Param [sysDbInfo]
+     * @return com.chick.base.R
+     **/
+    @PostMapping("/updateResource")
+    public R updateResource(@RequestBody Menu menu){
+        if(ObjectUtils.isEmpty(menu)){
+            return R.failed("参数错误");
+        }
+        return menuService.updateResource(menu);
+    }
+
+    /**
+     * @Author xiaokexin
+     * @Description 删除资源
+     * @Date 2022/2/25 9:35
+     * @Param [sysDbInfo]
+     * @return com.chick.base.R
+     **/
+    @PostMapping("/removeResource")
+    public R removeResource(@RequestBody Menu menu){
+        if(ObjectUtils.isEmpty(menu)){
+            return R.failed("参数错误");
+        }
+        return menuService.removeResource(menu);
     }
 }

@@ -1,6 +1,7 @@
 package com.chick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chick.base.R;
 import com.chick.pojo.entity.Role;
 
 /**
@@ -13,4 +14,11 @@ import com.chick.pojo.entity.Role;
  */
 public interface IRoleService extends IService<Role> {
 
+    R getRole();
+
+    R saveRole(Role menu);
+
+    R updateRole(Role menu);
+
+    R removeRole(Role menu);
 }

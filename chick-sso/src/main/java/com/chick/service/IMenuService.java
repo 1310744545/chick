@@ -28,4 +28,12 @@ public interface IMenuService extends IService<Menu> {
     R update(Menu menu);
 
     R removeByDataNum(Menu menu);
+
+    R getResource();
+
+    R saveResource(Menu menu);
+
+    R updateResource(Menu menu);
+
+    R removeResource(Menu menu);
 }

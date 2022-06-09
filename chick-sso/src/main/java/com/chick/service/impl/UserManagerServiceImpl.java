@@ -80,11 +80,11 @@ public class UserManagerServiceImpl extends ServiceImpl<UserManagerMapper, User>
     public R deleteOrRenew(String userId, String delFlag) {
         int update = baseMapper.update(null, Wrappers.<User>lambdaUpdate()
                 .eq(User::getUserId, userId)
-                .set(User::getDelFlag, CommonConstants.DELETE_FLAG.equals(delFlag) ? CommonConstants.UN_DELETE_FLAG:CommonConstants.DELETE_FLAG));
+                .set(User::getDelFlag, CommonConstants.UN_DELETE_FLAG.equals(delFlag) ? CommonConstants.DELETE_FLAG:CommonConstants.UN_DELETE_FLAG));
 
-        if (update > 0 && CommonConstants.DELETE_FLAG.equals(delFlag)){
+        if (update > 0 && CommonConstants.UN_DELETE_FLAG.equals(delFlag)){
             return R.ok("删除成功");
-        }else if (update > 0 && CommonConstants.UN_DELETE_FLAG.equals(delFlag)){
+        }else if (update > 0 && CommonConstants.DELETE_FLAG.equals(delFlag)){
             return R.ok("恢复成功");
         }else {
             return R.failed("系统错误,请联系站长");

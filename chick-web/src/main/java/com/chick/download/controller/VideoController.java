@@ -1,5 +1,7 @@
 package com.chick.download.controller;
 
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * @ClassName videoController
  * @Author xiaokexin
@@ -7,5 +9,9 @@ package com.chick.download.controller;
  * @Description videoController
  * @Version 1.0
  */
-public class videoController {
+@RestController
+public class VideoController {
+
+
+
 }

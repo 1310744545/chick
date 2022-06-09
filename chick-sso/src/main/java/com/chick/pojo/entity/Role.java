@@ -28,7 +28,7 @@ public class Role extends BaseEntity implements Serializable {
     /**
      * 角色ID
      */
-    @TableId(value = "role_id", type = IdType.AUTO)
+    @TableId(value = "role_id", type = IdType.INPUT)
     private String roleId;
 
     /**
@@ -46,14 +46,5 @@ public class Role extends BaseEntity implements Serializable {
      */
     private String roleDesc;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
 
 }

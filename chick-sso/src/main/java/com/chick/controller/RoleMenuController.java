@@ -3,11 +3,15 @@ package com.chick.controller;
 
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.chick.base.R;
+import com.chick.service.IRoleService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,28 +26,18 @@ import java.util.List;
 @RequestMapping("/sys/roleMenu")
 public class RoleMenuController extends BaseController {
 
-//    @RequestMapping("/test")
-//    public R upload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
-//        ImportParams params = new ImportParams();
-//        params.setHeadRows(8);
-//        List<question> result = ExcelImportUtil.importExcel(multipartFile.getInputStream(),
-//                question.class, params);
-//        return R.ok();
-//    }
-//    @RequestMapping("/test2")
-//    public R upload1(@RequestParam("file") MultipartFile multipartFile) throws Exception {
-//        ImportParams params = new ImportParams();
-//        params.setHeadRows(8);
-//        List<question> result = ExcelImportUtil.importExcel(multipartFile.getInputStream(),
-//                question.class, params);
-//        return R.ok();
-//    }
-//    @RequestMapping("/test3")
-//    public R upload2(@RequestParam("file") MultipartFile multipartFile) throws Exception {
-//        ImportParams params = new ImportParams();
-//        params.setHeadRows(8);
-//        List<question> result = ExcelImportUtil.importExcel(multipartFile.getInputStream(),
-//                question.class, params);
-//        return R.ok();
-//    }
+    @Resource
+    private IRoleService roleService;
+
+    /**
+     * @Author xkx
+     * @Description 获取全部角色
+     * @Date 2022-06-06 17:39
+     * @Param []
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getRole")
+    public R getRole(){
+        return roleService.getRole();
+    }
 }

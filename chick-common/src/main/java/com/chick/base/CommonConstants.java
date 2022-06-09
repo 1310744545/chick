@@ -56,8 +56,8 @@ public interface CommonConstants {
     /**
      * 删除标记
      */
-    String DELETE_FLAG = "0";
-    String UN_DELETE_FLAG = "1";
+    String UN_DELETE_FLAG = "0";
+    String DELETE_FLAG = "1";
 
     /**
      * 阿里云key与secret的名字
@@ -72,4 +72,14 @@ public interface CommonConstants {
     String ROLE_ADMIN = "ROLE_ADMIN";
     String HAS_ROLE_ADMIN = "hasRole('ROLE_ADMIN')";
 
+
+    /* 类型相关 */
+    /**
+     * 1、后台菜单
+     * 2、接口分类
+     * 3、接口
+     */
+    String MENU_TYPE_BACKSTAGE = "1";
+    String MENU_TYPE_INTERFACE_TYPE = "2";
+    String MENU_TYPE_INTERFACE = "3";
 }

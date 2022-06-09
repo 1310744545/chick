@@ -87,8 +87,13 @@ public class RedisUtil {
     }
 
 
+    public Set<String> keys(String key) {
+        Set<String> keys = redisTemplate.opsForValue().getOperations().keys(key);
+        return keys;
+    }
+
     /**
-     * 根据key获取值
+     * 根据key删除值
      *
      * @param key 键
      * @return 值
@@ -97,6 +102,16 @@ public class RedisUtil {
         return redisTemplate.opsForValue().getOperations().delete(key);
     }
 
+
+    /**
+     * 根据key删除值
+     *
+     * @param key 键
+     * @return 值
+     */
+    public Long delete(Set<String> key) {
+        return redisTemplate.opsForValue().getOperations().delete(key);
+    }
 
     /**
      * 将值放入缓存

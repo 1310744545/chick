@@ -25,8 +25,10 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author 肖可欣
@@ -79,13 +81,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //将所有资源相关的权限放入缓存
         List<MenuAndRole> menuAndRoles = menuService.loadMenuAndRole();
         //删除所有的老权限数据
-        for (MenuAndRole menuAndRole : menuAndRoles){
-            if (!"anonymous".equals(menuAndRole.getPermission())){
-                String key = CommonConstants.SYS_ROLE_PATH + ":" + menuAndRole.getPath();
-                if (redisUtil.hasKey(key)){
-                    redisUtil.delete(key);
-                }
-            }
+        Set<String> keys = redisUtil.keys("*" + CommonConstants.SYS_ROLE_PATH + "*");
+        if (!CollectionUtils.isEmpty(keys)){
+            redisUtil.delete(keys);
         }
         //放入所有的新key
         for (MenuAndRole menuAndRole : menuAndRoles){
