@@ -1,4 +1,6 @@
 package com.chick.common.utils;
+
+import com.chick.base.CommonConstants;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,9 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -73,6 +73,25 @@ public class RedisUtil {
      */
     public Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
+    }
+
+    /**
+     * 根据key获取子项值
+     *
+     * @param key      键
+     * @param ontology 是否包含本体，true包含，false不包含
+     * @return 值
+     */
+    public Object getMagic(String key, boolean ontology) {
+        Set<String> keys = keys(key + "*");
+        HashMap<String, Object> objectObjectHashMap = new HashMap<>();
+        for (String keyResult : keys) {
+            if (keyResult.equals(key) && !ontology) {
+                continue;
+            }
+            objectObjectHashMap.put(keyResult.replace(CommonConstants.DICTIONARY + ":", ""), get(keyResult));
+        }
+        return objectObjectHashMap;
     }
 
     /**
@@ -319,9 +338,9 @@ public class RedisUtil {
     /**
      * 加入缓存对象
      *
-     * @param key 键
+     * @param key     键
      * @param hashKey 键
-     * @param val 对象
+     * @param val     对象
      * @return
      */
     public void addObject(String key, String hashKey, Object val) {
@@ -363,7 +382,7 @@ public class RedisUtil {
     /**
      * 获取指定key下的hashKey的对象
      *
-     * @param key  键
+     * @param key     键
      * @param hashKey 键
      * @return
      */
@@ -537,7 +556,7 @@ public class RedisUtil {
      * @return
      */
     public void rightPushAll(String key, String... values) {
-      //redisTemplate.opsForList().leftPushAll(key,"w","x","y");
+        //redisTemplate.opsForList().leftPushAll(key,"w","x","y");
         redisTemplate.opsForList().rightPushAll(key, values);
     }
 

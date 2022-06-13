@@ -1,6 +1,8 @@
 package com.chick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chick.base.R;
+import com.chick.pojo.dto.RoleMenuUpdateDTO;
 import com.chick.pojo.entity.RoleMenu;
 
 /**
@@ -13,4 +15,7 @@ import com.chick.pojo.entity.RoleMenu;
  */
 public interface IRoleMenuService extends IService<RoleMenu> {
 
+    R getRoleMenuByRoleId(RoleMenu roleMenu);
+
+    R updateRoleMenu(RoleMenuUpdateDTO roleMenuUpdateDTO);
 }

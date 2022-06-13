@@ -4,11 +4,11 @@ package com.chick.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.chick.base.R;
+import com.chick.pojo.dto.RoleMenuUpdateDTO;
+import com.chick.pojo.entity.RoleMenu;
+import com.chick.service.IRoleMenuService;
 import com.chick.service.IRoleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -23,11 +23,14 @@ import java.util.List;
  * @since 2022-05-27
  */
 @RestController
-@RequestMapping("/sys/roleMenu")
+@RequestMapping("/roleMenu")
 public class RoleMenuController extends BaseController {
 
     @Resource
     private IRoleService roleService;
+
+    @Resource
+    private IRoleMenuService roleMenuService;
 
     /**
      * @Author xkx
@@ -36,8 +39,32 @@ public class RoleMenuController extends BaseController {
      * @Param []
      * @return com.chick.base.R
      **/
-    @GetMapping("/getRole")
+    @GetMapping("/getRoleMenu")
     public R getRole(){
         return roleService.getRole();
+    }
+
+    /**
+     * @Author xkx
+     * @Description 获取全部角色
+     * @Date 2022-06-06 17:39
+     * @Param []
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getRoleMenuByRoleId")
+    public R getRoleMenuByRoleId(RoleMenu roleMenu){
+        return roleMenuService.getRoleMenuByRoleId(roleMenu);
+    }
+
+    /**
+     * @Author xkx
+     * @Description 授权
+     * @Date 2022-06-06 17:39
+     * @Param []
+     * @return com.chick.base.R
+     **/
+    @PostMapping("/updateRoleMenu")
+    public R updateRoleMenu(@RequestBody RoleMenuUpdateDTO roleMenuUpdateDTO){
+        return roleMenuService.updateRoleMenu(roleMenuUpdateDTO);
     }
 }

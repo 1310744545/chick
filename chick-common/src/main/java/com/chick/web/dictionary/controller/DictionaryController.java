@@ -78,4 +78,34 @@ public class DictionaryController {
         }
         return sysDbInfoService.removeByDataNum(sysDbInfo);
     }
+
+    /**
+    * @Author xkx
+    * @Description 根据字典key获取value
+    * @Date 2022-06-10 13:36
+    * @Param [sysDbInfo]
+    * @return com.chick.base.R
+    **/
+    @GetMapping("/getData")
+    public R getData(String key){
+        if(ObjectUtils.isEmpty(key)){
+            return R.failed("参数错误");
+        }
+        return sysDbInfoService.getData(key);
+    }
+
+    /**
+     * @Author xkx
+     * @Description 根据字典ket获取子项
+     * @Date 2022-06-10 13:36
+     * @Param [sysDbInfo]
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getChildrenData")
+    public R getChildrenData(String key){
+        if(ObjectUtils.isEmpty(key)){
+            return R.failed("参数错误");
+        }
+        return sysDbInfoService.getChildrenData(key);
+    }
 }

@@ -21,4 +21,10 @@ public interface ISysDbInfoService {
     R removeByDataNum(SysDbInfo sysDbInfo);
 
     R getAllDbInfo();
+
+
+    R getData(String key);
+
+
+    R getChildrenData(String key);
 }

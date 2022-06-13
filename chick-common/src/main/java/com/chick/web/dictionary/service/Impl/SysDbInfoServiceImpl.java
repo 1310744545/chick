@@ -71,6 +71,16 @@ public class SysDbInfoServiceImpl implements ISysDbInfoService {
         return R.ok(nodeTreeByRedisInfo);
     }
 
+    @Override
+    public R getData(String key) {
+        return R.ok(redisUtil.get(CommonConstants.DICTIONARY + ":" + key));
+    }
+
+    @Override
+    public R getChildrenData(String key) {
+        return  R.ok(redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false));
+    }
+
     public List<Tree<String>> getNodeTreeByRedisInfo(ArrayList<SysDbInfo> dbInfoList) {
         //ArrayList<SysDbInfo> dbInfoList = new ArrayList<SysDbInfo>(boundHashDictionary.entries().values());
         // 配置
