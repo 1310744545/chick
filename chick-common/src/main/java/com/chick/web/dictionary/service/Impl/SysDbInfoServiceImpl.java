@@ -16,7 +16,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import static com.chick.common.utils.ChickUtil.DoId;
@@ -78,7 +80,10 @@ public class SysDbInfoServiceImpl implements ISysDbInfoService {
 
     @Override
     public R getChildrenData(String key) {
-        return  R.ok(redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false));
+        //获取所有子项
+        Map<String, Object> magic = redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false, false);
+
+        return  R.ok(redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false, false));
     }
 
     public List<Tree<String>> getNodeTreeByRedisInfo(ArrayList<SysDbInfo> dbInfoList) {

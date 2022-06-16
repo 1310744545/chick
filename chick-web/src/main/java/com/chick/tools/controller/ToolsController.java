@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -66,14 +67,17 @@ public class ToolsController extends BaseController {
             @ApiImplicitParam(paramType = "query", name = "count", value = "生成个数", required = true),
     })
     @GetMapping("/generateUUID")
-    public R<List<String>> generateUUID(Integer count) {
+    public R<List<String>> generateUUID(Integer count, boolean horizontalBar) {
         if (ObjectUtils.isEmpty(count)) {
             return R.failed("请填写生成个数");
+        }
+        if (ObjectUtils.isEmpty(horizontalBar)) {
+            return R.failed("缺少是否去除-的标识");
         }
         if (count <= 0) {
             return R.failed("生成个数须大于0");
         }
-        return R.ok(iToolsService.generateUUID(count), "生成成功");
+        return R.ok(iToolsService.generateUUID(count, horizontalBar), "生成成功");
     }
 
     @ApiOperation(value = "生成随机密码", position = 1, httpMethod = "GET")
@@ -127,11 +131,11 @@ public class ToolsController extends BaseController {
             @ApiImplicitParam(name = "textarea", value = "内容", paramType = "query"),
     })
     @GetMapping("/createQRCode")
-    public void createQRCode(String textarea, HttpServletRequest request, HttpServletResponse response){
+    public R createQRCode(String textarea, HttpServletRequest request, HttpServletResponse response){
         if (StringUtils.isEmpty(textarea)){
-            return;
+            return R.failed("待生成字符串为空");
         }
-        iToolsService.createQRCode(textarea, request, response);
+        return iToolsService.createQRCode(textarea, request, response);
     }
 
     @ApiOperation(value = "下载二维码", position = 1, httpMethod = "POST")
@@ -147,13 +151,15 @@ public class ToolsController extends BaseController {
     }
 
     @ApiOperation(value = "识别二维码", position = 1, httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileStr", value = "内容", paramType = "query"),
+    })
     @PostMapping("/distinguishQRCode")
-    @PreAuthorize(CommonConstants.HAS_ROLE_ADMIN)
-    public R distinguishQRCode(@RequestParam(name = "file") MultipartFile file){
-        if (ObjectUtils.isEmpty(file)){
+    public R distinguishQRCode(@RequestBody Map base64){
+        if (ObjectUtils.isEmpty(base64) || ObjectUtils.isEmpty(base64.get("base64")) || StringUtils.isBlank(base64.get("base64").toString())){
             return R.failed("请上传二维码");
         }
-        return iToolsService.distinguishQRCode(file);
+        return iToolsService.distinguishQRCode(base64.get("base64").toString());
     }
 
 }

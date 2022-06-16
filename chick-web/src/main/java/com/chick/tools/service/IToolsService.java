@@ -44,7 +44,7 @@ public interface IToolsService extends IService<Tools> {
      * @param count 生成个数
      * @return UUID
      */
-    List<String> generateUUID(Integer count);
+    List<String> generateUUID(Integer count, boolean horizontalBar);
 
     /**
      * 生成随机密码
@@ -73,12 +73,12 @@ public interface IToolsService extends IService<Tools> {
      *
      * @param textarea 内容
      */
-    void createQRCode(String textarea, HttpServletRequest request, HttpServletResponse response);
+    R createQRCode(String textarea, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 识别二维码
      *
-     * @param file 二维码
+     * @param fileStr 二维码
      */
-    R distinguishQRCode(MultipartFile file);
+    R distinguishQRCode(String fileStr);
 }

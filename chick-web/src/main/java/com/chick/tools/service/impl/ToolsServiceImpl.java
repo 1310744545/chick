@@ -1,5 +1,9 @@
 package com.chick.tools.service.impl;
 
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.codec.Base64Decoder;
+import cn.hutool.extra.qrcode.BufferedImageLuminanceSource;
+import cn.hutool.extra.qrcode.QrCodeUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +15,12 @@ import com.chick.tools.mapper.ToolsMapper;
 import com.chick.tools.service.IToolsService;
 import com.chick.tools.vo.ToolsVO;
 import com.chick.util.QRCodeUtil;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
@@ -43,6 +53,7 @@ public class ToolsServiceImpl extends ServiceImpl<ToolsMapper, Tools> implements
 
     @Resource
     private ToolsMapper toolsMapper;
+
     /**
      * 获取在线工具列表
      *
@@ -75,12 +86,12 @@ public class ToolsServiceImpl extends ServiceImpl<ToolsMapper, Tools> implements
     public R deleteOrRenew(String toolId, String delFlag) {
         int update = baseMapper.update(null, Wrappers.<Tools>lambdaUpdate()
                 .eq(Tools::getId, toolId)
-                .set(Tools::getDelFlag, CommonConstants.DELETE_FLAG.equals(delFlag) ? CommonConstants.UN_DELETE_FLAG:CommonConstants.DELETE_FLAG));
-        if (update > 0 && CommonConstants.DELETE_FLAG.equals(delFlag)){
+                .set(Tools::getDelFlag, CommonConstants.DELETE_FLAG.equals(delFlag) ? CommonConstants.UN_DELETE_FLAG : CommonConstants.DELETE_FLAG));
+        if (update > 0 && CommonConstants.DELETE_FLAG.equals(delFlag)) {
             return R.ok("删除成功");
-        }else if (update > 0 && CommonConstants.UN_DELETE_FLAG.equals(delFlag)){
+        } else if (update > 0 && CommonConstants.UN_DELETE_FLAG.equals(delFlag)) {
             return R.ok("恢复成功");
-        }else {
+        } else {
             return R.failed("系统错误,请联系站长");
         }
     }
@@ -92,10 +103,14 @@ public class ToolsServiceImpl extends ServiceImpl<ToolsMapper, Tools> implements
      * @return UUID
      */
     @Override
-    public List<String> generateUUID(Integer count) {
+    public List<String> generateUUID(Integer count, boolean horizontalBar) {
         ArrayList<String> UUIDList = new ArrayList<>();
         for (int i = 1; i <= count; i++) {
-            UUIDList.add(UUID.randomUUID().toString());
+            if (horizontalBar) {
+                UUIDList.add(UUID.randomUUID().toString().replace("-", ""));
+            } else {
+                UUIDList.add(UUID.randomUUID().toString());
+            }
         }
         return UUIDList;
     }
@@ -182,7 +197,7 @@ public class ToolsServiceImpl extends ServiceImpl<ToolsMapper, Tools> implements
      * @param textarea 内容
      */
     @Override
-    public void createQRCode(String textarea, HttpServletRequest request, HttpServletResponse response) {
+    public R createQRCode(String textarea, HttpServletRequest request, HttpServletResponse response) {
         byte[] captcha;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -194,41 +209,31 @@ public class ToolsServiceImpl extends ServiceImpl<ToolsMapper, Tools> implements
             ImageIO.write(bi, "jpg", out);
 
             captcha = out.toByteArray();
-            response.setHeader("Cache-Control", "no-store");
-            response.setHeader("Pragma", "no-cache");
-            response.setDateHeader("Expires", 0);
-            response.setContentType("image/jpeg");
-            ServletOutputStream sout = response.getOutputStream();
-            sout.write(captcha);
-            sout.flush();
-            sout.close();
+            String encoded = Base64.encode(captcha);
+            return R.ok("data:image/jpg;base64," + encoded, "生成成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("生成二维码失败" + e.getMessage());
+            return R.failed("生成失败，请联系站长");
         }
     }
 
     /**
      * 识别二维码
      *
-     * @param file 二维码
+     * @param fileStr 二维码
      */
     @Override
-    public R distinguishQRCode(MultipartFile file) {
-        File toFile = null;
-        String content ;
+    public R distinguishQRCode(String fileStr) {
+        byte[] decode = Base64.decode(fileStr.substring(fileStr.indexOf(",") + 1));
+        String content;
         try {
-            InputStream ins = null;
-            ins = file.getInputStream();
-            toFile = new File(file.getOriginalFilename());
-            inputStreamToFile(ins, toFile);
-            ins.close();
-            content = QRCodeUtil.decode(toFile);
+            InputStream ins = new ByteArrayInputStream(decode);
+            content = QrCodeUtil.decode(ins);
         } catch (Exception e) {
-            return R.failed("请上传正确的二维码");
+            e.printStackTrace();
+            return R.failed("识别失败");
         }
-        ArrayList<String> list = new ArrayList<>();
-        list.add(content);
-        return R.ok(list);
+        return R.ok(content, "识别成功");
     }
 
 

@@ -80,16 +80,28 @@ public class RedisUtil {
      *
      * @param key      键
      * @param ontology 是否包含本体，true包含，false不包含
+     * @param childrenOfChildren 是否包含子项的子项，true包含，false不包含
      * @return 值
      */
-    public Object getMagic(String key, boolean ontology) {
+    public Map<String, Object> getMagic(String key, boolean ontology, boolean childrenOfChildren) {
         Set<String> keys = keys(key + "*");
-        HashMap<String, Object> objectObjectHashMap = new HashMap<>();
+        Map<String, Object> objectObjectHashMap = new TreeMap<>();
+        String keyReal = key.replace(CommonConstants.DICTIONARY + ":", "");
         for (String keyResult : keys) {
             if (keyResult.equals(key) && !ontology) {
                 continue;
             }
-            objectObjectHashMap.put(keyResult.replace(CommonConstants.DICTIONARY + ":", ""), get(keyResult));
+            String keyResultReal = keyResult.replace(CommonConstants.DICTIONARY + ":", "");
+            if (childrenOfChildren) {
+                // 包含子项的子项
+                objectObjectHashMap.put(keyResultReal, get(keyResult));
+            } else {
+                // 不包含子项的子项
+                String replace = keyResultReal.replace(keyReal, "");
+                if (replace.split("_").length == 2){
+                    objectObjectHashMap.put(keyResultReal, get(keyResult));
+                }
+            }
         }
         return objectObjectHashMap;
     }

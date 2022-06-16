@@ -57,6 +57,10 @@ public class ChickRunner implements ApplicationRunner {
         for (String key : keys){
             chickRunner.redisUtil.delete(CommonConstants.DICTIONARY, key);
         }
+        Set<String> keysData = chickRunner.redisUtil.keys(CommonConstants.DICTIONARY + "*");
+        for (String key : keysData){
+            chickRunner.redisUtil.delete(key);
+        }
         for (SysDbInfo sysDbInfo:sysDbInfos){
             chickRunner.redisUtil.set(CommonConstants.DICTIONARY + ":" + sysDbInfo.getDataNum(), sysDbInfo.getDataInfo());
             chickRunner.redisUtil.addObject(CommonConstants.DICTIONARY, sysDbInfo.getDataNum(), sysDbInfo);
