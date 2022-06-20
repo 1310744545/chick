@@ -45,6 +45,11 @@ public class ExamQuestion extends BaseEntity implements Serializable {
     private String subjectId;
 
     /**
+     * 科目id
+     */
+    private String questionTypeId;
+
+    /**
      * 题目名
      */
     private String name;

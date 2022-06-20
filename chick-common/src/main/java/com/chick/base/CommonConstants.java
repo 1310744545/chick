@@ -60,6 +60,12 @@ public interface CommonConstants {
     String DELETE_FLAG = "1";
 
     /**
+     * 题目正确性标记
+     */
+    String EXAM_ANSWER_RIGHT = "0";
+    String EXAM_ANSWER_FAIL = "1";
+
+    /**
      * 阿里云key与secret的名字
      */
     String aliKey = "accessKeyId";

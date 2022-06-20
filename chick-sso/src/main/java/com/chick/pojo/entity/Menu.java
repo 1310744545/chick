@@ -57,6 +57,11 @@ public class Menu extends BaseEntity implements Serializable {
      */
     private String type;
 
+    /**
+     * 排序
+     */
+    private String sort;
+
     @TableField(exist = false)
     private List<Menu> children;
 }

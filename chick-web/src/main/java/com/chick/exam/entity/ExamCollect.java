@@ -9,15 +9,15 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 知识点分类
+ *
  * </p>
  *
  * @author xiaokexin
- * @since 2022-06-15
+ * @since 2022-06-16
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ExamQuestionType implements Serializable {
+public class ExamCollect implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,11 @@ public class ExamQuestionType implements Serializable {
      */
       @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
+
+    /**
+     * 用户id
+     */
+    private String userId;
 
     /**
      * 考试id
@@ -38,14 +43,14 @@ public class ExamQuestionType implements Serializable {
     private String detailId;
 
     /**
+     * 题目id
+     */
+    private String questionId;
+
+    /**
      * 科目id
      */
     private String subjectId;
-
-    /**
-     * 知识点分类名称
-     */
-    private String name;
 
     /**
      * 是否逻辑删除 1是0否

@@ -26,5 +26,8 @@ public interface ISysDbInfoService {
     R getData(String key);
 
 
-    R getChildrenData(String key);
+    R getChildrenData(String key, boolean childrenOfChildren);
+
+
+    R getChildrenDataForManager(String key, boolean containThis, boolean childrenOfChildren);
 }

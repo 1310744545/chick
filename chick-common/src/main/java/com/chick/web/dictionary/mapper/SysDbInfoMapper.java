@@ -66,4 +66,6 @@ public interface SysDbInfoMapper {
     * @return int
     **/
     List<SysDbInfo> selectAll();
+
+    List<SysDbInfo> getChildrenDataForManager(String key);
 }

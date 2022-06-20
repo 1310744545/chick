@@ -19,9 +19,10 @@
         <result column="path" jdbcType="VARCHAR" property="path" />
         <result column="parent_menu_id" jdbcType="INTEGER" property="parentMenuId" />
         <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="sort" jdbcType="VARCHAR" property="sort" />
     </resultMap>
     <sql id="Base_Column_List">
-        menu_id, `name`, permission, `path`, parent_menu_id, `type`
+        menu_id, `name`, permission, `path`, parent_menu_id, `type`, sort
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -35,10 +36,10 @@
     </delete>
     <insert id="insert" parameterType="com.chick.pojo.entity.Menu">
         insert into sys_menu (menu_id, `name`, permission,
-                              `path`, parent_menu_id, `type`
+                              `path`, parent_menu_id, `type`, sort
         )
         values (#{menuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR},
-                #{path,jdbcType=VARCHAR}, #{parentMenuId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}
+                #{path,jdbcType=VARCHAR}, #{parentMenuId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}
                )
     </insert>
     <insert id="insertSelective" parameterType="com.chick.pojo.entity.Menu">
@@ -62,6 +63,9 @@
             <if test="type != null">
                 `type`,
             </if>
+            <if test="sort != null">
+                sort,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="menuId != null">
@@ -81,6 +85,9 @@
             </if>
             <if test="type != null">
                 #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -102,6 +109,9 @@
             <if test="type != null">
                 `type` = #{type,jdbcType=VARCHAR},
             </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=VARCHAR},
+            </if>
         </set>
         where menu_id = #{menuId,jdbcType=VARCHAR}
     </update>
@@ -112,6 +122,7 @@
             `path` = #{path,jdbcType=VARCHAR},
             parent_menu_id = #{parentMenuId,jdbcType=INTEGER},
             `type` = #{type,jdbcType=VARCHAR}
+            sort = #{sort,jdbcType=VARCHAR}
         where menu_id = #{menuId,jdbcType=VARCHAR}
     </update>
 </mapper>

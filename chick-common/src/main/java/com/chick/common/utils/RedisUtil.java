@@ -1,6 +1,7 @@
 package com.chick.common.utils;
 
 import com.chick.base.CommonConstants;
+import com.chick.web.dictionary.entity.SysDbInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,32 @@ public class RedisUtil {
         Map<String, Object> objectObjectHashMap = new TreeMap<>();
         String keyReal = key.replace(CommonConstants.DICTIONARY + ":", "");
         for (String keyResult : keys) {
+            if (keyResult.equals(key) && !ontology) {
+                continue;
+            }
+            String keyResultReal = keyResult.replace(CommonConstants.DICTIONARY + ":", "");
+            if (childrenOfChildren) {
+                // 包含子项的子项
+                objectObjectHashMap.put(keyResultReal, get(keyResult));
+            } else {
+                // 不包含子项的子项
+                String replace = keyResultReal.replace(keyReal, "");
+                if (replace.split("_").length == 2){
+                    objectObjectHashMap.put(keyResultReal, get(keyResult));
+                }
+            }
+        }
+        return objectObjectHashMap;
+    }
+
+
+    public Map<String, Object> getMagicToList(String key, boolean ontology, boolean childrenOfChildren) {
+        Set<String> keys = keys(key + "*");
+        Map<String, Object> objectObjectHashMap = new TreeMap<>();
+        String keyReal = key.replace(CommonConstants.DICTIONARY + ":", "");
+        ArrayList<SysDbInfo> sysDbInfos = new ArrayList<>();
+        for (String keyResult : keys) {
+            SysDbInfo sysDbInfo = new SysDbInfo();
             if (keyResult.equals(key) && !ontology) {
                 continue;
             }

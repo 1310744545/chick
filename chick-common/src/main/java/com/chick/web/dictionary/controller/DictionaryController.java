@@ -102,10 +102,10 @@ public class DictionaryController {
      * @return com.chick.base.R
      **/
     @GetMapping("/getChildrenData")
-    public R getChildrenData(String key){
+    public R getChildrenData(String key, Boolean childrenOfChildren){
         if(ObjectUtils.isEmpty(key)){
             return R.failed("参数错误");
         }
-        return sysDbInfoService.getChildrenData(key);
+        return sysDbInfoService.getChildrenData(key, childrenOfChildren);
     }
 }

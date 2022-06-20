@@ -15,10 +15,7 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 import static com.chick.common.utils.ChickUtil.DoId;
@@ -41,7 +38,7 @@ public class SysDbInfoServiceImpl implements ISysDbInfoService {
     @Override
     public R save(SysDbInfo sysDbInfo) {
         sysDbInfo.setId(DoId());
-        if (sysDbInfoMapper.insertSelective(sysDbInfo) == 1){
+        if (sysDbInfoMapper.insertSelective(sysDbInfo) == 1) {
             ChickRunner.loadDictionary();
             return R.ok("保存成功");
         }
@@ -50,7 +47,7 @@ public class SysDbInfoServiceImpl implements ISysDbInfoService {
 
     @Override
     public R update(SysDbInfo sysDbInfo) {
-        if (sysDbInfoMapper.updateByPrimaryKeySelective(sysDbInfo) == 1){
+        if (sysDbInfoMapper.updateByPrimaryKeySelective(sysDbInfo) == 1) {
             ChickRunner.loadDictionary();
             return R.ok("更新成功");
         }
@@ -59,7 +56,7 @@ public class SysDbInfoServiceImpl implements ISysDbInfoService {
 
     @Override
     public R removeByDataNum(SysDbInfo sysDbInfo) {
-        if(sysDbInfoMapper.removeByDataNum(sysDbInfo) > 0){
+        if (sysDbInfoMapper.removeByDataNum(sysDbInfo) > 0) {
             ChickRunner.loadDictionary();
             return R.ok("删除成功");
         }
@@ -79,14 +76,17 @@ public class SysDbInfoServiceImpl implements ISysDbInfoService {
     }
 
     @Override
-    public R getChildrenData(String key) {
-        //获取所有子项
-        Map<String, Object> magic = redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false, false);
-
-        return  R.ok(redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false, false));
+    public R getChildrenData(String key, boolean childrenOfChildren) {
+        return R.ok(redisUtil.getMagic(CommonConstants.DICTIONARY + ":" + key, false, childrenOfChildren));
     }
 
-    public List<Tree<String>> getNodeTreeByRedisInfo(ArrayList<SysDbInfo> dbInfoList) {
+    @Override
+    public R getChildrenDataForManager(String key, boolean containsThis, boolean childrenOfChildren) {
+        List<SysDbInfo> childrenDataForManager = sysDbInfoMapper.getChildrenDataForManager(key);
+        return R.ok(getNodeTreeByRedisInfo(childrenDataForManager));
+    }
+
+    public List<Tree<String>> getNodeTreeByRedisInfo(List<SysDbInfo> dbInfoList) {
         //ArrayList<SysDbInfo> dbInfoList = new ArrayList<SysDbInfo>(boundHashDictionary.entries().values());
         // 配置
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();

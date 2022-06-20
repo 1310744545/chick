@@ -47,7 +47,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     public R getBackStageMenu() {
         List<Menu> menus = menuMapper.selectList(Wrappers.<Menu>lambdaQuery()
                 .eq(Menu::getType, CommonConstants.MENU_TYPE_BACKSTAGE)
-                .eq(Menu::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+                .eq(Menu::getDelFlag, CommonConstants.UN_DELETE_FLAG)
+                .orderByAsc(Menu::getSort));
         return R.ok(buildTree(menus, null));
     }
 
