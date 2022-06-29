@@ -221,11 +221,11 @@
         <!-- 验证码 end-->
 
         <!-- 定时任务 start-->
-<!--        <dependency>-->
-<!--            <groupId>org.quartz-scheduler</groupId>-->
-<!--            <artifactId>quartz</artifactId>-->
-<!--            <version>${quartz.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.quartz-scheduler</groupId>-->
+        <!--            <artifactId>quartz</artifactId>-->
+        <!--            <version>${quartz.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
@@ -269,16 +269,21 @@
             <version>${junit.platform.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!--WebSocket-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
         <!--测试相关 end-->
     </dependencies>
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
@@ -293,11 +298,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- 指定程序的主类
+                <!-- 指定程序的主类-->
                 <configuration>
-                   <mainClass>org.mySpring.service.TestService</mainClass>
+                    <mainClass>com.chick.ChickWebApplication</mainClass>
                 </configuration>
-                -->
                 <executions>
                     <execution>
                         <goals>

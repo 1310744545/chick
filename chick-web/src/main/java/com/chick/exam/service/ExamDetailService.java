@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chick.base.R;
 import com.chick.exam.entity.ExamDetail;
+import com.chick.exam.entity.ExamQuestionType;
 import com.chick.exam.entity.ExamType;
 
 /**
@@ -43,6 +44,15 @@ public interface ExamDetailService extends IService<ExamDetail> {
     * @return com.chick.base.R
     **/
     R getExamDetailByExamId(String examId);
+
+    /**
+    * @Author xkx
+    * @Description 通过考试id、详情id、科目id获取知识点
+    * @Date 2022-06-17 14:33
+    * @Param []
+    * @return com.chick.base.R
+    **/
+    R getExamQuestionTypeByExamId(Page<ExamQuestionType> validPage, String keyword, String delFlag, String examId, String detailId, String subjectId);
 
     /**
     * @Author xkx

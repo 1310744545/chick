@@ -10,12 +10,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>chick-study</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- 这个属性为可执行jar包的名字后缀 -->
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>chick-common</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch</groupId>

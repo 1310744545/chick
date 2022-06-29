@@ -15,19 +15,63 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
-* @Author xkx
-* @Description 水印工具类
-* @Date 2022-06-16 15:39
-* @Param
-* @return
-**/
+ * @Author xkx
+ * @Description 水印工具类
+ * @Date 2022-06-16 15:39
+ * @Param
+ * @return
+ **/
 public class WatermarkUtils {
     private static List<File> fileList = new ArrayList<>();
 
     public static void main(String[] args) {
-        convertAllImages("C:\\Users\\xiaokexin\\Desktop\\test\\1.jpg", "C:\\Users\\xiaokexin\\Desktop\\test\\3.jpg");
-//        fileList.add(new File("C:\\Users\\xiaokexin\\Desktop\\test\\1.jpg"));
-//        convertAllImages(fileList);
+//        MultiPartThreadDownLoad multiPartThreadDownLoad = new MultiPartThreadDownLoad();
+//        multiPartThreadDownLoad.MultiPartDownLoad("https://manhua.acimg.cn/manhua_detail/0/02_23_04_a08d017e4365f86216b9f9899e8605568_90591468.jpg/0","C:\\Users\\xiaokexin\\Desktop\\cumic\\a.jpg");
+//        convertAllImages("C:\\Users\\xiaokexin\\Desktop\\cumic\\a.jpg", "C:\\Users\\xiaokexin\\Desktop\\cumic\\b.jpg");
+        convertPath("C:\\Users\\xiaokexin\\Desktop\\cumic\\c.jpg");
+
+    }
+
+    public static void convertPath(String path) {
+        try {
+            File file = new File(path);
+            if (!file.exists()) {
+                return;
+            }
+            if (!file.getName().endsWith("png") && !file.getName().endsWith("jpg")) {
+                return;
+            }
+            BufferedImage bi = ImageIO.read(file); //用ImageIO流读取像素块
+            if (bi != null) {
+                removeWatermark(bi);
+                String formatName = file.getName().substring(file.getName().lastIndexOf(".") + 1);//生成的图片格式
+                ImageIO.write(bi, formatName, file);//用ImageIO流生成的处理图替换原图片
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void convertAllPath(List<String> paths) {
+        try {
+            for (String path : paths) {
+                File file = new File(path);
+                if (!file.exists()) {
+                    continue;
+                }
+                if (!file.getName().endsWith("png") && !file.getName().endsWith("jpg")) {
+                    continue;
+                }
+                BufferedImage bi = ImageIO.read(file); //用ImageIO流读取像素块
+                if (bi != null) {
+                    removeWatermark(bi);
+                    String formatName = file.getName().substring(file.getName().lastIndexOf(".") + 1);//生成的图片格式
+                    ImageIO.write(bi, formatName, file);//用ImageIO流生成的处理图替换原图片
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

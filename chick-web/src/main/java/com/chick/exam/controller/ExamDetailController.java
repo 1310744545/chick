@@ -85,6 +85,27 @@ public class ExamDetailController extends BaseController {
 
     /**
      * @Author xkx
+     * @Description 通过考试id、详情id、科目id获取知识点
+     * @Date 2022-06-16 17:28
+     * @Param [examId]
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getExamQuestionTypeByExamId")
+    public R getExamQuestionTypeByExamId(Integer current, Integer size, String keyword, String delFlag, String examId, String detailId, String subjectId){
+        if (StringUtils.isBlank(examId)) {
+            return R.failed("考试id为空");
+        }
+        if (StringUtils.isBlank(detailId)) {
+            return R.failed("详情id为空");
+        }
+        if (StringUtils.isBlank(subjectId)) {
+            return R.failed("科目id为空");
+        }
+        return examDetailService.getExamQuestionTypeByExamId(PageUtils.validPage(current, size), keyword, delFlag, examId, detailId, subjectId);
+    }
+
+    /**
+     * @Author xkx
      * @Description 根据字典ket获取子项
      * @Date 2022-06-10 13:36
      * @Param [sysDbInfo]

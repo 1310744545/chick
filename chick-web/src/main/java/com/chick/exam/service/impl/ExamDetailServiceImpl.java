@@ -7,9 +7,11 @@ import com.chick.base.CommonConstants;
 import com.chick.base.R;
 import com.chick.exam.entity.Exam;
 import com.chick.exam.entity.ExamDetail;
+import com.chick.exam.entity.ExamQuestionType;
 import com.chick.exam.entity.ExamType;
 import com.chick.exam.mapper.ExamDetailMapper;
 import com.chick.exam.mapper.ExamMapper;
+import com.chick.exam.mapper.ExamQuestionTypeMapper;
 import com.chick.exam.mapper.ExamTypeMapper;
 import com.chick.exam.service.ExamDetailService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -37,6 +39,8 @@ public class ExamDetailServiceImpl extends ServiceImpl<ExamDetailMapper, ExamDet
     private ExamMapper examMapper;
     @Resource
     private ExamTypeMapper examTypeMapper;
+    @Resource
+    private ExamQuestionTypeMapper examQuestionTypeMapper;
     /**
      * @return com.chick.base.R
      * @Author xkx
@@ -91,6 +95,33 @@ public class ExamDetailServiceImpl extends ServiceImpl<ExamDetailMapper, ExamDet
                 .eq(ExamType::getDelFlag, CommonConstants.UN_DELETE_FLAG)
                 .orderByAsc(ExamType::getSort));
         return R.ok(examTypes);
+    }
+
+    @Override
+    public R getExamQuestionTypeByExamId(Page<ExamQuestionType> validPage, String keyword, String delFlag, String examId, String detailId, String subjectId) {
+        LambdaQueryWrapper<ExamQuestionType> wrapper = Wrappers.<ExamQuestionType>lambdaQuery()
+                .eq(ExamQuestionType::getDelFlag, delFlag);
+        // 添加考试id
+        if (StringUtils.isNotBlank(examId)) {
+            wrapper.eq(ExamQuestionType::getExamId, examId);
+        }
+        // 添加考试类型id
+        if (StringUtils.isNotBlank(examId)) {
+            wrapper.eq(ExamQuestionType::getExamId, examId);
+        }
+        // 添加详情类型id
+        if (StringUtils.isNotBlank(detailId)) {
+            wrapper.eq(ExamQuestionType::getDetailId, detailId);
+        }
+        // 添加科目类型id
+        if (StringUtils.isNotBlank(subjectId)) {
+            wrapper.eq(ExamQuestionType::getSubjectId, subjectId);
+        }
+        //3.添加关键字
+        if (StringUtils.isNotBlank(keyword)) {
+            wrapper.and(wr -> wr.like(ExamQuestionType::getName, keyword));
+        }
+        return R.ok(examQuestionTypeMapper.selectPage(validPage, wrapper));
     }
 
     /**

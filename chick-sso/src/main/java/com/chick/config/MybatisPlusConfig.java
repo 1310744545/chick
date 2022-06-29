@@ -1,7 +1,9 @@
 package com.chick.config;
 
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
+import com.chick.handle.MetaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -35,10 +37,10 @@ public class MybatisPlusConfig {
      * 自动填充功能
      * @return
      */
-//    @Bean
-//    public GlobalConfig globalConfig() {
-//        GlobalConfig globalConfig = new GlobalConfig();
-//        globalConfig.setMetaObjectHandler(new MetaHandler());
-//        return globalConfig;
-//    }
+    @Bean
+    public GlobalConfig globalConfig() {
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setMetaObjectHandler(new MetaHandler());
+        return globalConfig;
+    }
 }

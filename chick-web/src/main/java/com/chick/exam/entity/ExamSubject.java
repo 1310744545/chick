@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.chick.common.domin.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +19,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ExamSubject implements Serializable {
+public class ExamSubject extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,31 +48,5 @@ public class ExamSubject implements Serializable {
      * 排序
      */
     private String sort;
-
-    /**
-     * 是否逻辑删除 1是0否
-     */
-    private String delFlag;
-
-    /**
-     * 创建者
-     */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateDate;
-
 
 }

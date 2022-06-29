@@ -6,6 +6,7 @@ import com.chick.base.ConfigConstant;
 import com.chick.base.DictionaryConstants;
 import com.chick.common.utils.RedisUtil;
 import com.chick.software.entity.SoftwareDetail;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -74,6 +75,22 @@ public class SoftwareUtil {
         }
         //服务器为linux
         if (!FileUtil.isWindows() && !FileUtil.exist(softwareUtil.redisUtil.getString(ConfigConstant.LINUX_FILE_PRO) + softwareDetailResult.getLinuxPath())) {
+            return false;
+        }
+        //存在
+        return true;
+    }
+
+    /**
+     * @Author xiaokexin
+     * @Description 通过路径判断文件是否存在
+     * @Date 2022/3/3 13:58
+     * @Param [softwareDetailResult]
+     * @return boolean
+     **/
+    public static boolean existByPath(String path) {
+        // 不存在
+        if (StringUtils.isEmpty(path) || !FileUtil.exist(path)) {
             return false;
         }
         //存在
