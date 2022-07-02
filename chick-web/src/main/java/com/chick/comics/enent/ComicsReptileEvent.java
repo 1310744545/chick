@@ -18,7 +18,7 @@ public interface ComicsReptileEvent {
 
     /**
     * @Author xkx
-    * @Description 获取爬取的漫画总页数
+    * @Description 解析漫画的页数
     * @Date 2022-06-27 14:40
     * @Param []
     * @return int
@@ -36,7 +36,7 @@ public interface ComicsReptileEvent {
 
     /**
      * @Author xkx
-     * @Description 获取某一个漫画的所有篇章，直接给comics的属性赋值
+     * @Description 获取某一个漫画的所有篇章，直接给comics的属性赋值 ， 包含名、作者、来源
      * @Date 2022-06-27 14:40
      * @Param [pageNum]
      * @return int
@@ -45,7 +45,7 @@ public interface ComicsReptileEvent {
 
     /**
      * @Author xkx
-     * @Description 获取某一个篇章的所有图片
+     * @Description 获取某一个篇章的所有图片 包含图片地址
      * @Date 2022-06-27 14:40
      * @Param [pageNum]
      * @return int

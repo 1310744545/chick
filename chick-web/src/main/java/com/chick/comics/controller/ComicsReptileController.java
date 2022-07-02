@@ -26,7 +26,7 @@ public class ComicsReptileController {
     private ComicsReptileService comicsReptileService;
 
     @GetMapping("/tencentComics")
-    public R TencentComics() {
-        return comicsReptileService.tencentComics();
+    public R TencentComics(boolean imageScan) {
+        return comicsReptileService.tencentComics(imageScan);
     }
 }

@@ -11,5 +11,5 @@ import com.chick.base.R;
  */
 public interface ComicsReptileService {
 
-    R tencentComics();
+    R tencentComics(boolean imageScan);
 }

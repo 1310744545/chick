@@ -1,7 +1,10 @@
 package com.chick.util;
 
 
+import cn.hutool.Hutool;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chick.base.R;
 import com.chick.comics.entity.ComicsImage;
@@ -18,12 +21,14 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 /**
@@ -54,29 +59,36 @@ public class MultiPartThreadDownLoad {
         multiPartThreadDownLoad.softwareDetailMapper = this.softwareDetailMapper;
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        OrdinaryDownLoad("https://manhua.acimg.cn/manhua_detail/0/28_19_32_acf74c3b5bc67be5cde58068a139b49c4_112266827.jpg/0","D:\\comics\\中国惊奇先生\\973-973 突围\\" + 123 + ".jpg");
+    }
+
     /**
-    * @Author xkx
-    * @Description 通过下载路径和本地路径下载
-    * @Date 2022-06-07 20:13
-    * @Param [serverPath, localPath]
-    * @return 返回文件大小 单位b
-    **/
+     * @return 返回文件大小 单位b
+     * @Author xkx
+     * @Description 通过下载路径和本地路径下载
+     * @Date 2022-06-07 20:13
+     * @Param [serverPath, localPath]
+     **/
     @Async
     public R MultiPartDownLoad(String serverPath, String localPath) {
         FileUtil.mkParentDirs(localPath);
         //次标记用于重复请求，github上的文件请求总是出问题
-        int downloadFlag = 100;
+        int downloadFlag = 10;
         while (downloadFlag > 0) {
+            ExecutorService executor = null;
+            HttpURLConnection conn = null;
+            CountDownLatch latch;
             try {
                 URL url = new URL(serverPath);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(30000);
                 conn.setRequestMethod("GET");
                 int code = conn.getResponseCode();
                 if (code == 200) {
                     //服务器返回的数据的长度，实际上就是文件的长度,单位是字节
                     int length = conn.getContentLength();
-                    if (length <= 0){
+                    if (length <= 0) {
                         throw new Exception("请求到的文件错误，大小为空");
                     }
                     log.info("请求文件成功----修改downloadFlag");
@@ -84,14 +96,14 @@ public class MultiPartThreadDownLoad {
                     //应创建的线程数
                     int threadCount = getThreadCountBySoftwareSize(length);
                     //创建线程池
-                    ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+                    executor = Executors.newFixedThreadPool(threadCount);
                     //线程计数器，当其归零之后才继续往下走
-                    CountDownLatch latch = new CountDownLatch(threadCount);
+                    latch = new CountDownLatch(threadCount);
                     MultiPartThreadDownLoad m = new MultiPartThreadDownLoad(serverPath, localPath, latch, executor, length, threadCount);
                     long startTime = System.currentTimeMillis();
                     try {
                         m.executeDownLoad();
-                        latch.await();
+                        latch.await(60000, TimeUnit.SECONDS);
                         executor.shutdown();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -103,11 +115,47 @@ public class MultiPartThreadDownLoad {
             } catch (Exception e) {
                 downloadFlag--;
                 log.error("请求文件数据出错-->再次请求" + e.getMessage() + "---文件路径--->" + serverPath);
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+                if (executor != null) {
+                    executor.shutdown();
+                }
             }
         }
         return R.failed("在尝试请求100次该文件后失败，文件链接--->" + serverPath);
     }
 
+    public static void OrdinaryDownLoad(String serverPath, String localPath){
+        // 下载网络文件
+        InputStream is = null;
+        FileOutputStream fos = null;
+        try {
+            is = HttpUtil.createGet(serverPath).timeout(20000).execute().bodyStream();
+            FileUtil.mkParentDirs(localPath);
+            fos = new FileOutputStream(localPath);
+            byte[] buffer = new byte[102400];
+            int byteRead = 0;
+            while ((byteRead = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, byteRead);
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                log.error("is关闭报错");
+            }
+            try {
+                fos.close();
+            } catch (IOException e) {
+                log.error("fos关闭报错");
+            }
+        }
+    }
     //通过文件下载
     public R MultiPartDownLoadBySoftware(Software software) {
         log.info("开始下载文件,共有文件{}个", software.getSoftwareDetails().size());
@@ -122,7 +170,7 @@ public class MultiPartThreadDownLoad {
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(10, 10, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory());
         CountDownLatch countDownLatch = new CountDownLatch(software.getSoftwareDetails().size());
         List<Future<R>> futures = new ArrayList<>();
-        for (SoftwareDetail softwareDetail : software.getSoftwareDetails()){
+        for (SoftwareDetail softwareDetail : software.getSoftwareDetails()) {
             Future<R> future = threadPool.submit(new DownloadThread(softwareDetail, countDownLatch, redisUtil, softwareDetailMapper, multiPartThreadDownLoad));
             futures.add(future);
         }
@@ -130,10 +178,10 @@ public class MultiPartThreadDownLoad {
         try {
             countDownLatch.await();
             threadPool.shutdown();
-            for (Future<R> future : futures){
+            for (Future<R> future : futures) {
                 R r = future.get();
-                if (r.getCode() == 0){
-                    successSize ++;
+                if (r.getCode() == 0) {
+                    successSize++;
                 }
             }
         } catch (Exception e) {
@@ -230,23 +278,25 @@ public class MultiPartThreadDownLoad {
         public void run() {
             boolean downloadFlag = false;
             while (!downloadFlag) {
+                HttpURLConnection conn = null;
+                InputStream is = null;
+                RandomAccessFile raf = null;
                 try {
                     System.out.println("线程" + threadId + "正在下载...");
                     URL url = new URL(serverPath);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     //请求服务器下载部分的文件的指定位置
                     conn.setRequestProperty("Range", "bytes=" + startIndex + "-" + endIndex);
-                    conn.setConnectTimeout(60000);
+                    conn.setConnectTimeout(10000);
                     int code = conn.getResponseCode();
-
+                    downloadFlag = true;
                     System.out.println("线程" + threadId + "请求返回code=" + code);
 
-                    InputStream is = conn.getInputStream();//返回资源
-                    RandomAccessFile raf = new RandomAccessFile(localPath, "rwd");
+                    is = conn.getInputStream();//返回资源
+                    raf = new RandomAccessFile(localPath, "rwd");
                     //随机写文件的时候从哪个位置开始写
                     raf.seek(startIndex);//定位文件
-
                     int len = 0;
                     byte[] buffer = new byte[1024];
                     while ((len = is.read(buffer)) != -1) {
@@ -256,10 +306,28 @@ public class MultiPartThreadDownLoad {
                     raf.close();
                     System.out.println("线程" + threadId + "下载完毕");
                     //计数值减一
-                    latch.countDown();
-                    downloadFlag = true;
                 } catch (Exception e) {
                     log.error("分段下载时某段请求数据出错-->再次请求" + e.getMessage());
+                } finally {
+                    latch.countDown();
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                    if (is != null) {
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    if (is != null) {
+                        try {
+                            assert raf != null;
+                            raf.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
             }
         }
@@ -267,7 +335,9 @@ public class MultiPartThreadDownLoad {
 
     public static int getThreadCountBySoftwareSize(int size) {
         int softwareMb = size / 1024 / 1024;
-        if (softwareMb < 10) {
+        if (softwareMb < 5) {
+            return 2;
+        } else if (softwareMb < 10) {
             return 3;
         } else if (softwareMb < 20) {
             return 4;

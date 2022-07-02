@@ -1,5 +1,7 @@
 package com.chick.util;
 
+import lombok.extern.log4j.Log4j2;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
@@ -21,6 +23,7 @@ import java.util.List;
  * @Param
  * @return
  **/
+@Log4j2
 public class WatermarkUtils {
     private static List<File> fileList = new ArrayList<>();
 
@@ -33,20 +36,23 @@ public class WatermarkUtils {
     }
 
     public static void convertPath(String path) {
+        BufferedImage bi;
+        File file;
         try {
-            File file = new File(path);
+            file = new File(path);
             if (!file.exists()) {
                 return;
             }
             if (!file.getName().endsWith("png") && !file.getName().endsWith("jpg")) {
                 return;
             }
-            BufferedImage bi = ImageIO.read(file); //用ImageIO流读取像素块
+            bi = ImageIO.read(file); //用ImageIO流读取像素块
             if (bi != null) {
                 removeWatermark(bi);
                 String formatName = file.getName().substring(file.getName().lastIndexOf(".") + 1);//生成的图片格式
                 ImageIO.write(bi, formatName, file);//用ImageIO流生成的处理图替换原图片
             }
+            log.info("去除水印成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
