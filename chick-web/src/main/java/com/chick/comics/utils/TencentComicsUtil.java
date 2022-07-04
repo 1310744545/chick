@@ -33,21 +33,7 @@ import java.util.stream.Collectors;
 @Component
 public class TencentComicsUtil {
 
-    public static void main(String[] args) {
-        String s = Long.toBinaryString(Long.parseLong("4848448498494"));
-        String substring = s.substring(s.length() - 8);
-        Integer integer = Integer.valueOf(substring, 2);
-        System.out.println(integer);
-//        TencentComicsUtil tencentComicsUtil = new TencentComicsUtil();
-//        Document document = null;
-//        try {
-//            document = Jsoup.connect("https://ac.qq.com/ComicView/index/id/635980/cid/10").get();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        List<String> pics = tencentComicsUtil.getPics(document.toString());
-//        System.out.println(pics);
-    }
+    public static final String FILE_NAME = "tencent";
 
     /**
      * @param htmlContent 章节url的html文本

@@ -16,12 +16,12 @@ import java.util.Map;
  */
 public class BiliBiliComicsReptileEvent implements ComicsReptileEvent{
     @Override
-    public int getComicsPageTotal() {
+    public int getComicsPageTotal(String flag) {
         return 0;
     }
 
     @Override
-    public List<Comics> getComics(int pageNum) {
+    public List<Comics> getComics(String flag, int pageNum) {
         return null;
     }
 

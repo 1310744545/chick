@@ -39,7 +39,7 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
     private RedisUtil redisUtil;
 
     @Override
-    public int getComicsPageTotal() {
+    public int getComicsPageTotal(String flag) {
         Document document = null;
         try {
             document = Jsoup.connect("https://ac.qq.com/Comic/index").get();
@@ -58,7 +58,7 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
     }
 
     @Override
-    public List<Comics> getComics(int pageNum) {
+    public List<Comics> getComics(String flag, int pageNum) {
         Document document = null;
         try {
             document = Jsoup.connect("https://ac.qq.com/Comic/all/page/" + pageNum).get();
@@ -84,16 +84,7 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
             StringJoiner stringJoiner = new StringJoiner(",");
             for (Element elementSpan : spanElements) {
                 if (elementSpan.hasAttr("target")) {
-//                    String dicKey = "";
-//                    String label = elementSpan.text();
-//                    for (Map.Entry<String, Object> entry : comicsDic.entrySet()) {
-//                        if (entry.getValue().toString().equals(label)) {
-//                            dicKey = entry.getKey();
-//                        }
-//                    }
-//                    if (StringUtils.isNotBlank(dicKey)){
                     stringJoiner.add(elementSpan.text());
-//                    }
                 }
             }
             comics.setLabel(stringJoiner.toString());
@@ -126,6 +117,7 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
             log.error("getComicsChapter获取章节错误--->" + comics.getName());
             return new ArrayList<>();
         }
+        // 解析漫画是不能解析的
         comics.setDescription(document.getElementsByClass("works-intro-short").get(0).text());
 
         ArrayList<ComicsChapter> comicsChapters = new ArrayList<>();
@@ -148,7 +140,7 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
             document = Jsoup.connect(comicsChapter.getIndexUrl()).get();
         } catch (IOException e) {
             log.error("请求图片出错--->" + comicsChapter.getName());
-            throw new RuntimeException(e);
+            return new ArrayList<>();
         }
         List<String> pics = tencentComicsUtil.getPics(document.toString());
         ArrayList<ComicsImage> comicsImages = new ArrayList<>();

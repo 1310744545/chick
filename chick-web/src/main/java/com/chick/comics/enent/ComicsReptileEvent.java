@@ -23,7 +23,7 @@ public interface ComicsReptileEvent {
     * @Param []
     * @return int
     **/
-    int getComicsPageTotal();
+    int getComicsPageTotal(String flag);
 
     /**
     * @Author xkx
@@ -32,7 +32,7 @@ public interface ComicsReptileEvent {
     * @Param [pageNum]
     * @return int
     **/
-    List<Comics> getComics(int pageNum);
+    List<Comics> getComics(String flag, int pageNum);
 
     /**
      * @Author xkx

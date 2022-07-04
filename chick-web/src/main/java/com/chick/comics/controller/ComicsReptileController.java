@@ -29,4 +29,9 @@ public class ComicsReptileController {
     public R TencentComics(boolean imageScan) {
         return comicsReptileService.tencentComics(imageScan);
     }
+
+    @GetMapping("/IIMHComics")
+    public R IIMHComics(boolean imageScan) {
+        return comicsReptileService.IIMHComics(imageScan);
+    }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
 import com.chick.comics.enent.ComicsReptileEvent;
+import com.chick.comics.enent.IIMComicsReptileEvent;
 import com.chick.comics.enent.TencentComicsReptileEvent;
 import com.chick.comics.entity.Comics;
 import com.chick.comics.entity.ComicsChapter;
@@ -12,6 +13,7 @@ import com.chick.comics.mapper.ComicsChapterMapper;
 import com.chick.comics.mapper.ComicsImageMapper;
 import com.chick.comics.mapper.ComicsMapper;
 import com.chick.comics.service.ComicsReptileService;
+import com.chick.comics.utils.TencentComicsUtil;
 import com.chick.util.MultiPartThreadDownLoad;
 import com.chick.util.SoftwareUtil;
 import com.chick.util.WatermarkUtils;
@@ -36,6 +38,7 @@ import static com.chick.common.utils.ChickUtil.DoId;
 @Log4j2
 public class ComicsReptileServiceImpl implements ComicsReptileService {
 
+    public static final String disk = "D";
     @Resource
     private ComicsMapper comicsMapper;
     @Resource
@@ -44,59 +47,60 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
     private ComicsImageMapper comicsImageMapper;
     @Resource
     private MultiPartThreadDownLoad multiPartThreadDownLoad;
-    private static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(50, 50, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
+    private static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(30, 30, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
 
     @Override
     public R tencentComics(boolean imageScan) {
         ComicsReptileEvent comicsReptileEvent = new TencentComicsReptileEvent();
-        return comicsReptile(comicsReptileEvent, imageScan);
+        return comicsReptile(comicsReptileEvent, imageScan, TencentComicsUtil.FILE_NAME, null);
     }
 
+    public R IIMHComics(boolean imageScan) {
+        ComicsReptileEvent comicsReptileEvent = new IIMComicsReptileEvent();
+        return comicsReptile(comicsReptileEvent, imageScan, IIMComicsReptileEvent.FILE_NAME, "a");
+    }
 
-    public R comicsReptile(ComicsReptileEvent comicsReptileEvent, boolean imageScan) {
+    public R comicsReptile(ComicsReptileEvent comicsReptileEvent, boolean imageScan, String fileName, String flag) {
         // 漫画总页数
-        int comicsPageTotal = comicsReptileEvent.getComicsPageTotal();
+        int comicsPageTotal = comicsReptileEvent.getComicsPageTotal(flag);
 
         for (int i = 1; i <= comicsPageTotal; i++) {
             // 解析漫画
             List<Comics> comicsList;
             try {
-                comicsList = comicsReptileEvent.getComics(i);
+                comicsList = comicsReptileEvent.getComics(flag, i);
             } catch (Exception e) {
                 log.error("第" + i + "页漫画解析错误, 跳过-->" + e);
                 continue;
             }
-
             // 每次处理一页的漫画
             for (Comics comics : comicsList) {
-
-                // 解析篇章
-                List<ComicsChapter> comicsChapterList;
-                try {
-                    // 查询是否存在
-                    Comics comicsSelect = comicsMapper.selectOne(Wrappers.<Comics>lambdaQuery()
-                            .eq(Comics::getName, comics.getName())
-                            .eq(Comics::getAuthor, comics.getAuthor())
-                            .eq(Comics::getSource, comics.getSource())
-                            .eq(Comics::getDelFlag, CommonConstants.UN_DELETE_FLAG));
-                    // 存在时替换为存在的id，并进行更新
-                    if (ObjectUtils.isNotEmpty(comicsSelect)) {
-                        comics.setId(comicsSelect.getId());
-                        comicsMapper.updateById(comics);
-                    } else {
-                        // 下载封面
-                        comics.setCoverLocalPath("D:\\comics\\" + SoftwareUtil.replaceAllIllegalCode(comics.getName()) + "\\0-cover\\" + DoId() + ".jpg");
-                        if (!SoftwareUtil.existByPath(comics.getCoverLocalPath())) {
-                            multiPartThreadDownLoad.MultiPartDownLoad(comics.getCoverUrl(), comics.getCoverLocalPath());
-                        }
-                        comicsMapper.insert(comics);
-                    }
-                } catch (Exception e) {
-                    log.error(comics.getName() + "篇章解析错误, 跳过-->" + e);
-                    continue;
+                // 设置封面地址
+                comics.setCoverLocalPath(disk + ":\\comics\\" + fileName + "\\" + SoftwareUtil.replaceAllIllegalCode(comics.getName()) + "\\0-cover\\" + DoId() + ".jpg");
+                // 查询是否存在
+                Comics comicsSelect = comicsMapper.selectOne(Wrappers.<Comics>lambdaQuery()
+                        .eq(Comics::getName, comics.getName())
+                        .eq(Comics::getAuthor, comics.getAuthor())
+                        .eq(Comics::getSource, comics.getSource())
+                        .eq(Comics::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+                // 存在赋值
+                if (ObjectUtils.isNotEmpty(comicsSelect)) {
+                    comics.setId(comicsSelect.getId());
                 }
                 int j = 1; //章节标识
+                // 解析篇章
+                List<ComicsChapter> comicsChapterList;
                 comicsChapterList = comicsReptileEvent.getComicsChapter(comics);
+                // 存在时替换为存在的id，并进行更新
+                if (ObjectUtils.isNotEmpty(comicsSelect)) {
+                    comicsMapper.updateById(comics);
+                } else {
+                    comicsMapper.insert(comics);
+                }
+                // 下载封面， 移动到这里了 因为有些要到章节里才能加载封面
+                if (!SoftwareUtil.existByPath(comics.getCoverLocalPath())) {
+                    MultiPartThreadDownLoad.OrdinaryDownLoad(comics.getCoverUrl(), comics.getCoverLocalPath());
+                }
                 // 解析图片
                 for (ComicsChapter comicsChapter : comicsChapterList) {
                     // 查询是否存在
@@ -111,11 +115,11 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
                         comicsChapter.setComicsId(comics.getId());
                         comicsChapterMapper.updateById(comicsChapter);
                         // 不扫描章节下的图片
-                        if (!imageScan){
-                            continue;
-                        }
+//                        if (!imageScan){
+//                            continue;
+//                        }
                         // 实际存在不存在
-                        if (SoftwareUtil.existByPath("D:\\comics\\" + SoftwareUtil.replaceAllIllegalCode(comics.getName()))) {
+                        if (SoftwareUtil.existByPath(disk + ":\\comics\\" + fileName + "\\" + SoftwareUtil.replaceAllIllegalCode(comics.getName()) + "\\" + j + "-" + SoftwareUtil.replaceAllIllegalCode(comicsChapter.getName()))) {
                             log.info("漫画章节数据库中已存在--实际有------>" + comics.getName() + comicsChapter.getName());
                             continue;
                         } else {
@@ -139,7 +143,7 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
                                 continue;
                             }
                             // 不存在的添加到下载队列中
-                            comicsImage.setImageLocalPath("D:\\comics\\" + SoftwareUtil.replaceAllIllegalCode(comics.getName()) + "\\" + j + "-" + SoftwareUtil.replaceAllIllegalCode(comicsChapter.getName()) + "\\" + comicsImage.getSort() + "-" + DoId() + ".jpg");
+                            comicsImage.setImageLocalPath(disk + ":\\comics\\" + fileName + "\\" + SoftwareUtil.replaceAllIllegalCode(comics.getName()) + "\\" + j + "-" + SoftwareUtil.replaceAllIllegalCode(comicsChapter.getName()) + "\\" + comicsImage.getSort() + "-" + DoId() + ".jpg");
                             // 保存
                             if (ObjectUtils.isNotEmpty(comicsImageSelect)) {
                                 comicsImage.setId(comicsImageSelect.getId());
@@ -154,10 +158,10 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
                             threadPool.submit(() -> {
                                 log.info("线程开始执行---    " + comicsImage.getImageLocalPath() + "---");
                                 // 下载图片
-//                                multiPartThreadDownLoad.MultiPartDownLoad(comicsImage.getImageUrl(), comicsImage.getImageLocalPath());
+                                //multiPartThreadDownLoad.MultiPartDownLoad(comicsImage.getImageUrl(), comicsImage.getImageLocalPath());
                                 MultiPartThreadDownLoad.OrdinaryDownLoad(comicsImage.getImageUrl(), comicsImage.getImageLocalPath());
                                 // 清除水印
-                                WatermarkUtils.convertPath(comicsImage.getImageLocalPath());
+                                //WatermarkUtils.convertPath(comicsImage.getImageLocalPath());
                                 log.info("线程执行结束---    " + comicsImage.getImageLocalPath() + "--- ");
                             });
                         }
