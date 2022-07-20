@@ -1,5 +1,7 @@
 package com.chick.comics.enent;
 
+import cn.hutool.http.HttpUtil;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.chick.comics.entity.Comics;
 import com.chick.comics.entity.ComicsChapter;
@@ -29,42 +31,20 @@ import static com.chick.common.utils.ChickUtil.DoId;
 public class IIMComicsReptileEvent implements ComicsReptileEvent {
 
     public static final String FILE_NAME = "IIMH";
-    protected static String source = "IIMHComics";
+    public static String source = "IIMHComics";
     protected static IIMHComicsUtil iimhComicsUtil = new IIMHComicsUtil();
-
-    public static void main(String[] args) {
-        Document document = null;
-        try {
-            document = Jsoup.connect("http://www.iimanhua.cc/comic/993/index.html").get();
-        } catch (IOException e) {
-            log.error("getComicsChapter获取章节错误--->");
-        }
-        Comics comics = new Comics();
-        // 解析漫画是不能解析的
-        comics.setDescription(document.getElementById("intro1").text());
-        comics.setPopularity(document.getElementsByClass("detailInfo").get(0).getElementsByTag("li").get(7).text().replace("人气：", ""));
-        comics.setLabel(document.getElementsByClass("detailInfo").get(0).getElementsByTag("li").get(6).text().replace("关键词：", ""));
-        comics.setCoverUrl(document.getElementsByClass("info_cover").get(0).getElementsByTag("img").get(0).attr("src"));
-
-        ArrayList<ComicsChapter> comicsChapters = new ArrayList<>();
-        Elements worksChapterItem = document.getElementsByClass("plist").get(0).getElementsByTag("li");
-        for (Element element : worksChapterItem) {
-            ComicsChapter comicsChapter = new ComicsChapter();
-            comicsChapter.setId(DoId());
-            comicsChapter.setComicsId(comics.getId());
-            comicsChapter.setName(element.text());
-            comicsChapter.setIndexUrl("http://www.iimanhua.cc/" + element.getElementsByTag("a").get(0).attr("href"));
-            comicsChapters.add(comicsChapter);
-        }
-    }
 
     @Override
     public int getComicsPageTotal(String flag) {
         Document document = null;
+        String html;
         try {
-            document = Jsoup.connect("http://www.iimanhua.cc/mh/" + flag).get();
-        } catch (IOException e) {
+            html = HttpUtil.get("http://www.iimanhua.cc/mh/" + flag + "/", 60000);
+            document = Jsoup.parse(html);
+            //document = Jsoup.connect("http://www.iimanhua.cc/mh/" + flag).get();
+        } catch (Exception e) {
             log.error("请求页面失败--> http://www.iimanhua.cc/mh/" + flag);
+            return 0;
         }
         if (ObjectUtils.isEmpty(document)) {
             return -1;
@@ -78,10 +58,14 @@ public class IIMComicsReptileEvent implements ComicsReptileEvent {
     @Override
     public List<Comics> getComics(String flag, int pageNum) {
         Document document = null;
+        String html;
         try {
-            document = Jsoup.connect("http://www.iimanhua.cc/mh/" + flag + "/index" + (pageNum == 1 ? "" : "_" + pageNum) + ".html").get();
-        } catch (IOException e) {
+            html = HttpUtil.get("http://www.iimanhua.cc/mh/" + flag + "/index" + (pageNum == 1 ? "" : "_" + pageNum) + ".html", 60000);
+            document = Jsoup.parse(html);
+            //document = Jsoup.connect("http://www.iimanhua.cc/mh/" + flag + "/index" + (pageNum == 1 ? "" : "_" + pageNum) + ".html").get();
+        } catch (Exception e) {
             log.error("请求页面失败--> http://www.iimanhua.cc/mh/" + flag + "/index" + (pageNum == 1 ? "" : "_" + pageNum) + ".html");
+            return new ArrayList<>();
         }
         Elements li = document.getElementsByClass("dmList clearfix").get(0).getElementsByTag("li");
         ArrayList<Comics> comicsList = new ArrayList<>();
@@ -121,25 +105,35 @@ public class IIMComicsReptileEvent implements ComicsReptileEvent {
     @Override
     public List<ComicsChapter> getComicsChapter(Comics comics) {
         Document document = null;
+        String html;
         try {
-            document = Jsoup.connect(comics.getIndexUrl()).get();
-        } catch (IOException e) {
-            log.error("getComicsChapter获取章节错误--->");
+            html = HttpUtil.get(comics.getIndexUrl(), 60000);
+            document = Jsoup.parse(html);
+        } catch (Exception e) {
+            log.error("getComicsChapter获取章节错误--->" + comics.getName());
             return new ArrayList<>();
         }
         // 解析漫画是不能解析的
+        if (ObjectUtils.isEmpty(document.getElementsByClass("introduction")) || document.getElementsByClass("introduction").size() ==0){
+            return new ArrayList<>();
+        }
         comics.setDescription(document.getElementsByClass("introduction").get(0).text());
         comics.setPopularity(document.getElementsByClass("detailInfo").get(0).getElementsByTag("li").get(7).text().replace("人气：", ""));
         comics.setLabel(document.getElementsByClass("detailInfo").get(0).getElementsByTag("li").get(6).text().replace("关键词：", ""));
         comics.setCoverUrl(document.getElementsByClass("info_cover").get(0).getElementsByTag("img").get(0).attr("src"));
 
         ArrayList<ComicsChapter> comicsChapters = new ArrayList<>();
+        if (ObjectUtils.isEmpty(document.getElementsByClass("plist")) || document.getElementsByClass("plist").size() == 0){
+            return new ArrayList<>();
+        }
         Elements worksChapterItem = document.getElementsByClass("plist").get(0).getElementsByTag("li");
+        Collections.reverse(worksChapterItem);
         for (Element element : worksChapterItem) {
             ComicsChapter comicsChapter = new ComicsChapter();
             comicsChapter.setId(DoId());
             comicsChapter.setComicsId(comics.getId());
             comicsChapter.setName(element.text());
+            comicsChapter.setSort(worksChapterItem.indexOf(element) + 1);
             comicsChapter.setIndexUrl("http://www.iimanhua.cc" + element.getElementsByTag("a").get(0).attr("href"));
             comicsChapters.add(comicsChapter);
         }
@@ -149,14 +143,14 @@ public class IIMComicsReptileEvent implements ComicsReptileEvent {
 
     @Override
     public List<ComicsImage> getComicsImage(ComicsChapter comicsChapter) {
-        Document document;
+        String html;
         try {
-            document = Jsoup.connect(comicsChapter.getIndexUrl()).get();
-        } catch (IOException e) {
+            html = HttpUtil.get(comicsChapter.getIndexUrl(), 60000);
+        } catch (Exception e) {
             log.error("请求图片出错--->" + comicsChapter.getName());
             return new ArrayList<>();
         }
-        Map<Integer, String> pics = iimhComicsUtil.getPics(document.toString());
+        Map<Integer, String> pics = iimhComicsUtil.getPics(html);
         ArrayList<ComicsImage> comicsImages = new ArrayList<>();
         int sort = 1;
         for (Integer key : pics.keySet()) {
@@ -164,7 +158,7 @@ public class IIMComicsReptileEvent implements ComicsReptileEvent {
             comicsImage.setId(DoId());
             comicsImage.setComicsId(comicsChapter.getComicsId());
             comicsImage.setComicsChapterId(comicsChapter.getId());
-            comicsImage.setImageUrl("https://res.img.96youhuiquan.com" + pics.get(key));
+            comicsImage.setImageUrl("https://res.img.96youhuiquan.com/" + pics.get(key));
             comicsImage.setSort(key);
             sort++;
             comicsImages.add(comicsImage);

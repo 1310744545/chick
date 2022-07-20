@@ -1,8 +1,11 @@
 package com.chick.comics.utils;
 
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.chick.comics.enent.TencentComicsReptileEvent;
+import com.chick.comics.entity.ComicsChapter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -65,7 +68,7 @@ public class TencentComicsUtil {
         }
 
         if (StringUtils.isAnyBlank(data, nonce)) {
-            return null;
+            return new ArrayList<>();
         }
 
         //通过data和nonce计算出网站返回的json(其中包含图片)

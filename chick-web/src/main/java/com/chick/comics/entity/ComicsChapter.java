@@ -43,5 +43,7 @@ public class ComicsChapter extends BaseEntity implements Serializable {
      * 篇章地址
      */
     private String indexUrl;
+    private Integer sort;
+    private String localPath;
 
 }

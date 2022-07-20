@@ -1,6 +1,7 @@
 package com.chick.comics.utils;
 
 import cn.hutool.core.codec.Base64Decoder;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.log4j.Log4j2;

@@ -32,22 +32,30 @@ public class ExamFile extends BaseEntity implements Serializable {
     /**
      * 考试或答案id
      */
-    private String questionOrAnswerId;
+    private String otherId;
 
     /**
-     * 文件id
+     * 图片远程地址
      */
-    private String fileId;
+    private String otherUrl;
 
     /**
-     * question/answer 区别题目还是答案
+     * 图片本地地址
      */
-    private String type;
+    private String localUrl;
+
+    /**
+     * 图片本地地址
+     */
+    private String localPath;
 
     /**
      * 排序
      */
     private Integer sort;
+
+
+    private String type;
 
 
 }

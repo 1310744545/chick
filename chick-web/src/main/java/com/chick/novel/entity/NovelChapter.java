@@ -1,25 +1,23 @@
-package com.chick.exam.entity;
+package com.chick.novel.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-
-import com.chick.common.domin.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- *
+ * 小说章节
  * </p>
  *
  * @author xiaokexin
- * @since 2022-06-14
+ * @since 2022-07-11
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ExamAnswer extends BaseEntity implements Serializable {
+public class NovelChapter implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,29 +28,49 @@ public class ExamAnswer extends BaseEntity implements Serializable {
     private String id;
 
     /**
-     * 题目id
+     * 小说id
      */
-    private String questionId;
+    private String novelId;
 
     /**
-     * 答案内容
+     * 章节名
      */
     private String name;
 
     /**
+     * 篇章地址
+     */
+    private String indexUrl;
+
+    /**
      * 排序
      */
-    private String sort;
+    private Integer sort;
 
     /**
-     * 是否为正确答案0正确，1错误
+     * 是否逻辑删除 1是0否
      */
-    private Integer correct;
+    private String delFlag;
 
     /**
-     * 如果一个题目占有一个空，则为0，如果占多个空，则为对应空的次序，从1开始 1、2、3、4
+     * 创建者
      */
-    private Integer takeUpSort;
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 更新者
+     */
+    private String updateBy;
+
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
 
 
 }

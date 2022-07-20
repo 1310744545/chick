@@ -105,16 +105,7 @@ public class SoftwareUtil {
     }
 
     public static void main(String[] args) {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 6, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
-        for (int i = 0; i < 10; i++) {
-            System.out.println("任务数"+threadPoolExecutor.getTaskCount());
-            System.out.println("活跃数"+threadPoolExecutor.getActiveCount());
-            threadPoolExecutor.submit(() -> {
-                String a = "https://manhua.acimg.cn/manhua_detail/0/09_20_40_a7356ca75ca9d8a3a6837a14f86d1c010_119748505.jpg/0";
-                MultiPartThreadDownLoad multiPartThreadDownLoad = new MultiPartThreadDownLoad();
-                multiPartThreadDownLoad.MultiPartDownLoad(a, "D:\\comics\\aaa.jpg");
-            });
-        }
+        System.out.println(existByPath("D:\\comics"));
     }
 
     /**

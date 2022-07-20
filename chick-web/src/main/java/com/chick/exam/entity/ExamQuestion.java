@@ -1,8 +1,11 @@
 package com.chick.exam.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 import com.chick.common.domin.BaseEntity;
@@ -26,7 +29,7 @@ public class ExamQuestion extends BaseEntity implements Serializable {
     /**
      * 主键
      */
-      @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
     /**
@@ -45,7 +48,7 @@ public class ExamQuestion extends BaseEntity implements Serializable {
     private String subjectId;
 
     /**
-     * 科目id
+     * 问题类型id
      */
     private String questionTypeId;
 

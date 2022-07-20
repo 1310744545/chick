@@ -132,7 +132,11 @@ public class MultiPartThreadDownLoad {
         InputStream is = null;
         FileOutputStream fos = null;
         try {
-            is = HttpUtil.createGet(serverPath).timeout(20000).execute().bodyStream();
+            if (serverPath.contains("https")){
+                //设置https协议访问
+                System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,SSLv3");
+            }
+            is = HttpUtil.createGet(serverPath).timeout(600000).execute().bodyStream();
             FileUtil.mkParentDirs(localPath);
             fos = new FileOutputStream(localPath);
             byte[] buffer = new byte[102400];
@@ -145,12 +149,16 @@ public class MultiPartThreadDownLoad {
             e.printStackTrace();
         } finally {
             try {
-                is.close();
+                if (is != null){
+                    is.close();
+                }
             } catch (IOException e) {
                 log.error("is关闭报错");
             }
             try {
-                fos.close();
+                if (fos != null){
+                    fos.close();
+                }
             } catch (IOException e) {
                 log.error("fos关闭报错");
             }

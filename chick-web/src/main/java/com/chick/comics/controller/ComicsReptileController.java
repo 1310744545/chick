@@ -26,12 +26,17 @@ public class ComicsReptileController {
     private ComicsReptileService comicsReptileService;
 
     @GetMapping("/tencentComics")
-    public R TencentComics(boolean imageScan) {
-        return comicsReptileService.tencentComics(imageScan);
+    public R TencentComics(boolean imageScan, int pageNum) {
+        return comicsReptileService.tencentComics(imageScan, pageNum);
     }
 
     @GetMapping("/IIMHComics")
-    public R IIMHComics(boolean imageScan) {
-        return comicsReptileService.IIMHComics(imageScan);
+    public R IIMHComics(boolean imageScan, int pageNum, String letter) {
+        return comicsReptileService.IIMHComics(imageScan, pageNum, letter);
+    }
+
+    @GetMapping("/IIMHComicsByIndex")
+    public R IIMHComicsByIndex(boolean imageScan, int pageNum, String letter) {
+        return comicsReptileService.IIMHComicsByIndex(imageScan, pageNum, letter);
     }
 }

@@ -1,5 +1,6 @@
 package com.chick.comics.enent;
 
+import cn.hutool.http.HttpUtil;
 import com.chick.comics.entity.Comics;
 import com.chick.comics.entity.ComicsChapter;
 import com.chick.comics.entity.ComicsImage;
@@ -7,6 +8,7 @@ import com.chick.comics.utils.TencentComicsUtil;
 import com.chick.common.utils.RedisUtil;
 import com.chick.util.MultiPartThreadDownLoad;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,16 +36,17 @@ import static com.chick.common.utils.ChickUtil.DoId;
 @Log4j2
 public class TencentComicsReptileEvent implements ComicsReptileEvent {
 
-    protected static String source = "TencentComics";
+    public static String source = "TencentComics";
     protected static TencentComicsUtil tencentComicsUtil = new TencentComicsUtil();
-    private RedisUtil redisUtil;
 
     @Override
     public int getComicsPageTotal(String flag) {
         Document document = null;
+        String html;
         try {
-            document = Jsoup.connect("https://ac.qq.com/Comic/index").get();
-        } catch (IOException e) {
+            html = HttpUtil.get("https://ac.qq.com/Comic/index", 60000);
+            document = Jsoup.parse(html);
+        } catch (Exception e) {
             log.error("请求页面失败--> https://ac.qq.com/Comic/index");
             return 0;
         }
@@ -60,9 +63,11 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
     @Override
     public List<Comics> getComics(String flag, int pageNum) {
         Document document = null;
+        String html;
         try {
-            document = Jsoup.connect("https://ac.qq.com/Comic/all/page/" + pageNum).get();
-        } catch (IOException e) {
+            html = HttpUtil.get("https://ac.qq.com/Comic/all/page/" + pageNum, 60000);
+            document = Jsoup.parse(html);
+        } catch (Exception e) {
             log.error("腾讯漫画解析失败--->第" + pageNum + "页" + e);
             return new ArrayList<>();
         }
@@ -111,14 +116,21 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
     @Override
     public List<ComicsChapter> getComicsChapter(Comics comics) {
         Document document = null;
+        String html;
         try {
-            document = Jsoup.connect(comics.getIndexUrl()).get();
-        } catch (IOException e) {
+            html = HttpUtil.get(comics.getIndexUrl(), 60000);
+            document = Jsoup.parse(html);
+        } catch (Exception e) {
             log.error("getComicsChapter获取章节错误--->" + comics.getName());
             return new ArrayList<>();
         }
+        Elements work = document.getElementsByClass("works-intro-short");
+        if (ObjectUtils.isEmpty(work) || work.size() == 0){
+            // 漫画被删除
+            return new ArrayList<>();
+        }
         // 解析漫画是不能解析的
-        comics.setDescription(document.getElementsByClass("works-intro-short").get(0).text());
+        comics.setDescription(work.get(0).text());
 
         ArrayList<ComicsChapter> comicsChapters = new ArrayList<>();
         Elements worksChapterItem = document.getElementsByClass("works-chapter-item");
@@ -127,6 +139,7 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
             comicsChapter.setId(DoId());
             comicsChapter.setComicsId(comics.getId());
             comicsChapter.setName(element.text());
+            comicsChapter.setSort(worksChapterItem.indexOf(element) + 1);
             comicsChapter.setIndexUrl("https://ac.qq.com" + element.getElementsByTag("a").get(0).attr("href"));
             comicsChapters.add(comicsChapter);
         }
@@ -135,14 +148,14 @@ public class TencentComicsReptileEvent implements ComicsReptileEvent {
 
     @Override
     public List<ComicsImage> getComicsImage(ComicsChapter comicsChapter) {
-        Document document;
+        String html;
         try {
-            document = Jsoup.connect(comicsChapter.getIndexUrl()).get();
-        } catch (IOException e) {
+            html = HttpUtil.get(comicsChapter.getIndexUrl(), 60000);
+        } catch (Exception e) {
             log.error("请求图片出错--->" + comicsChapter.getName());
             return new ArrayList<>();
         }
-        List<String> pics = tencentComicsUtil.getPics(document.toString());
+        List<String> pics = tencentComicsUtil.getPics(html);
         ArrayList<ComicsImage> comicsImages = new ArrayList<>();
         int sort = 1;
         for (String url : pics) {

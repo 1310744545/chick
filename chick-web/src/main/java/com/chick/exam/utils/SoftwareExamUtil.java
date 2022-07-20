@@ -1,6 +1,12 @@
 package com.chick.exam.utils;
 
+import cn.hutool.http.HttpUtil;
 import org.apache.commons.collections4.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 
@@ -14,6 +20,8 @@ import java.util.HashMap;
 public class SoftwareExamUtil {
     public static HashMap<String, String> examDetailMap = new HashMap<>();
     public static HashMap<String, String> examTypeMap = new HashMap<>();
+
+    public static HashMap<String, String> examLevel = new HashMap<>();
 
     static {
         examDetailMap.put("1", "信息系统项目管理师");
@@ -38,16 +46,16 @@ public class SoftwareExamUtil {
         examDetailMap.put("20", "信息系统运行管理员");
 
         /**
-        缺失
-        subjectMap.put("", "软件过程能力评估师");
-        subjectMap.put("", "计算机辅助设计师");
-        subjectMap.put("", "计算机硬件工程师");
-        subjectMap.put("", "信息技术支持工程师");
-        subjectMap.put("", "多媒体应用制作技术员");
-        subjectMap.put("", "电子商务技术员");
-        subjectMap.put("", "信息系统运行管理员");
-        subjectMap.put("", "网页制作员");
-        **/
+         缺失
+         subjectMap.put("", "软件过程能力评估师");
+         subjectMap.put("", "计算机辅助设计师");
+         subjectMap.put("", "计算机硬件工程师");
+         subjectMap.put("", "信息技术支持工程师");
+         subjectMap.put("", "多媒体应用制作技术员");
+         subjectMap.put("", "电子商务技术员");
+         subjectMap.put("", "信息系统运行管理员");
+         subjectMap.put("", "网页制作员");
+         **/
     }
 
     static {
@@ -84,5 +92,46 @@ public class SoftwareExamUtil {
          subjectMap.put("", "网页制作员");
          **/
     }
+
+    static {
+        examLevel.put("信息系统项目管理师", "高级");
+        examLevel.put("系统集成项目管理工程师", "中级");
+        examLevel.put("系统分析师", "高级");
+        examLevel.put("系统架构设计师", "高级");
+        examLevel.put("网络规划设计师", "高级");
+        examLevel.put("软件设计师", "中级");
+        examLevel.put("网络工程师", "中级");
+        examLevel.put("信息系统监理师", "中级");
+        examLevel.put("信息系统管理工程师", "中级");
+        examLevel.put("数据库系统工程师", "中级");
+        examLevel.put("多媒体应用设计师", "中级");
+        examLevel.put("软件评测师", "中级");
+        examLevel.put("嵌入式系统设计师", "中级");
+        examLevel.put("电子商务设计师", "中级");
+        examLevel.put("程序员", "初级");
+        examLevel.put("网络管理员", "初级");
+        examLevel.put("信息处理技术员", "初级");
+        examLevel.put("信息安全工程师", "中级");
+        examLevel.put("系统规划与管理师", "高级");
+        examLevel.put("信息系统运行管理员", "初级");
+
+        /**
+         缺失
+         subjectMap.put("", "软件过程能力评估师");
+         subjectMap.put("", "计算机辅助设计师");
+         subjectMap.put("", "计算机硬件工程师");
+         subjectMap.put("", "信息技术支持工程师");
+         subjectMap.put("", "多媒体应用制作技术员");
+         subjectMap.put("", "电子商务技术员");
+         subjectMap.put("", "信息系统运行管理员");
+         subjectMap.put("", "网页制作员");
+         **/
+    }
+
     public static final String SOFTWARE_EXAM_NAME = "软考";
+
+    public static final String SOFTWARE_EXAM_DISSERTATION = "论文";
+    public static final String SOFTWARE_EXAM_CASE = "案例";
+    public static final String SOFTWARE_EXAM_COMPREHENSIVE = "综合知识";
+
 }
