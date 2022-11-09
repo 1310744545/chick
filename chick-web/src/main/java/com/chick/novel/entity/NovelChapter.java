@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.chick.common.domin.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +19,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class NovelChapter implements Serializable {
+public class NovelChapter extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +40,7 @@ public class NovelChapter implements Serializable {
     private String name;
 
     /**
-     * 篇章地址
+     * 篇章地址(id)
      */
     private String indexUrl;
 
@@ -48,29 +50,13 @@ public class NovelChapter implements Serializable {
     private Integer sort;
 
     /**
-     * 是否逻辑删除 1是0否
+     * 内容
      */
-    private String delFlag;
+    private byte[] content;
 
     /**
-     * 创建者
+     * 1、html 2、纯汉字
      */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateDate;
-
+    private String type;
 
 }

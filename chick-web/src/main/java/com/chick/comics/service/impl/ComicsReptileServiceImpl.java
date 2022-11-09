@@ -16,7 +16,6 @@ import com.chick.comics.service.ComicsReptileService;
 import com.chick.comics.utils.TencentComicsUtil;
 import com.chick.util.MultiPartThreadDownLoad;
 import com.chick.util.SoftwareUtil;
-import com.chick.util.WatermarkUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,9 +23,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -53,6 +52,7 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
     private static final Lock lock = new ReentrantLock();
 
     private static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(40, 40, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(8192), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
+    private static ThreadPoolExecutor threadPoolIIMC = new ThreadPoolExecutor(26, 26, 300, TimeUnit.MINUTES, new ArrayBlockingQueue<>(4), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
 
     @Override
     public R tencentComics(boolean imageScan, int pageNum) {
@@ -77,9 +77,29 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
 
     @Override
     public R IIMHComicsByIndex(boolean imageScan, int pageNum, String letter) {
+        String[] letters = letter.split(",");
         ComicsReptileEvent comicsReptileEvent = new IIMComicsReptileEvent();
-        comicsReptile(comicsReptileEvent, imageScan, IIMComicsReptileEvent.FILE_NAME, letter, pageNum);
-        return R.ok("成功");
+        for (String lat : letters) {
+            threadPoolIIMC.submit(() -> {
+                comicsReptile(comicsReptileEvent, imageScan, IIMComicsReptileEvent.FILE_NAME, lat, pageNum);
+            }, lat);
+        }
+
+        new Thread(() -> {
+            while (true){
+                log.info("活跃的线程数-->" + threadPoolIIMC.getActiveCount());
+                log.info("等待的线程数-->" + threadPoolIIMC.getQueue().size());
+                try {
+                    if (threadPoolIIMC.getActiveCount() == 0)
+                        Thread.interrupted();
+                    Thread.sleep(5000);
+                } catch (Exception e) {
+                    log.error("出错了e：{}", e.getMessage());
+                }
+            }
+        }).start();
+
+        return R.ok();
     }
 
     public R comicsReptile(ComicsReptileEvent comicsReptileEvent, boolean imageScan, String fileName, String flag, int pageNum) {
@@ -87,6 +107,7 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
         int comicsPageTotal = comicsReptileEvent.getComicsPageTotal(flag);
 
         for (int i = pageNum; i <= comicsPageTotal; i++) {
+            log.info("开始解析" + flag + "的漫画------第" + i + "页");
             // 解析漫画
             List<Comics> comicsList;
             try {
@@ -176,11 +197,8 @@ public class ComicsReptileServiceImpl implements ComicsReptileService {
                             }
                             threadPool.submit(() -> {
                                 try {
-                                    log.info("线程开始执行---    " + comicsImage.getImageLocalPath() + "---");
                                     // 下载图片
                                     MultiPartThreadDownLoad.OrdinaryDownLoad(comicsImage.getImageUrl(), comicsImage.getImageLocalPath());
-                                    // 清除水印
-                                    log.info("线程执行结束---    " + comicsImage.getImageLocalPath() + "--- ");
                                     lock.lock();
                                     comicsImageMapper.insert(comicsImage);
                                     log.info("图片插入数据库成功--" + comicsImage.getImageLocalPath() + "✌");

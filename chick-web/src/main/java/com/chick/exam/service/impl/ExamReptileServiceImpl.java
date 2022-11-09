@@ -65,26 +65,26 @@ public class ExamReptileServiceImpl implements ExamReptileService {
     private ExamAnswerMapper examAnswerMapper;
 
     @Override
-    public R rKPassReptile() {
+    public R rKPassReptile(Integer page) {
 
         //考试类别 软考
         Exam exam = examMapper.selectOne(Wrappers.<Exam>lambdaQuery()
                 .eq(Exam::getName, SoftwareExamUtil.SOFTWARE_EXAM_NAME));
         RKPassEvent rkPassEvent = new RKPassEvent();
-        examReptile(rkPassEvent, "", exam);
+        examReptile(rkPassEvent, "", exam, page);
 
         return R.ok();
     }
 
 
-    private R examReptile(ExamReptileEvent examReptileEvent, String cookie, Exam exam) {
+    private R examReptile(ExamReptileEvent examReptileEvent, String cookie, Exam exam, Integer page) {
         int examPageTotal = examReptileEvent.getExamPageTotal(cookie);
         if (examPageTotal == -1) {
             log.error("页数解析失败");
             return R.failed("解析失败");
         }
         // 遍历每一页
-        for (int i = 0; i < examPageTotal; i++) {
+        for (int i = page; i < examPageTotal; i++) {
 
             // 遍历每页中的每个考试详情
             List<ExamRealVO> examReals = examReptileEvent.getExamReals(i, cookie);
@@ -168,10 +168,13 @@ public class ExamReptileServiceImpl implements ExamReptileService {
 
                 //遍历所有题目
                 for (ExamQuestionVO examQuestionVO : examQuestions) {
-
+                    log.info("解析题目" + examQuestionVO.getName());
                     // 解析题目页
                     ExamQuestionDetailVO examQuestionDetail = examReptileEvent.getExamQuestionDetail(examQuestionVO.getUrl(), cookie + "_" + examRealVO.getName() + "_" + examSubjectSelect.getName() + "_" + examQuestionVO.getName() + "_" + examRealVO.getYear());
 
+                    if (ObjectUtils.isEmpty(examQuestionDetail)){
+                        continue;
+                    }
                     ExamQuestionType examQuestionType;
 
                     // 插入试题类型(所属知识点)
@@ -201,7 +204,8 @@ public class ExamReptileServiceImpl implements ExamReptileService {
 
                     // 插入问题
                     ExamQuestion examQuestionSelect = examQuestionMapper.selectOne(Wrappers.<ExamQuestion>lambdaQuery()
-                            .eq(ExamQuestion::getName, examQuestionDetail.getExamQuestion().getName()));
+                            .eq(ExamQuestion::getName, examQuestionDetail.getExamQuestion().getName())
+                            .eq(ExamQuestion::getDetailId, examDetailSelect.getId()));
                     if (ObjectUtils.isEmpty(examQuestionSelect)) {
                         examQuestionDetail.getExamQuestion().setExamId(exam.getId());
                         examQuestionDetail.getExamQuestion().setDetailId(examDetailSelect.getId());
@@ -216,7 +220,7 @@ public class ExamReptileServiceImpl implements ExamReptileService {
                         // 插入答案
                         for (ExamAnswer examAnswer : examQuestionDetail.getExamAnswers()) {
                             ExamAnswer examAnswerSelect = examAnswerMapper.selectOne(Wrappers.<ExamAnswer>lambdaQuery()
-                                    .eq(ExamAnswer::getName, examQuestionDetail.getExamQuestion().getName())
+                                    .eq(ExamAnswer::getName, examAnswer.getName())
                                     .eq(ExamAnswer::getQuestionId, examQuestionSelect.getId()));
                             if (ObjectUtils.isEmpty(examAnswerSelect)) {
                                 examAnswer.setQuestionId(examQuestionSelect.getId());
@@ -237,7 +241,7 @@ public class ExamReptileServiceImpl implements ExamReptileService {
                     ExamRealQuestion examRealQuestionSelect = examRealQuestionMapper.selectOne(Wrappers.<ExamRealQuestion>lambdaQuery()
                             .eq(ExamRealQuestion::getExamRealId, examRealSelect.getId())
                             .eq(ExamRealQuestion::getExamId, exam.getId())
-                            .eq(ExamRealQuestion::getName, examQuestionVO.getName()));
+                            .eq(ExamRealQuestion::getName, "第" + examQuestionDetail.getQuestionNum() + "题"));
                     if (ObjectUtils.isEmpty(examRealQuestionSelect)) {
                         ExamRealQuestion examRealQuestion = new ExamRealQuestion();
                         examRealQuestion.setId(DoId());
@@ -258,8 +262,10 @@ public class ExamReptileServiceImpl implements ExamReptileService {
                         if (ObjectUtils.isEmpty(examKnowledgeSelect)) {
                             examKnowledge.setExamId(exam.getId());
                             examKnowledgeMapper.insert(examKnowledge);
+                        } else {
+                            examKnowledge.setId(examKnowledgeSelect.getId());
+                            examKnowledge.setExamId(exam.getId());
                         }
-
                         //知识点与题目的关系插入
                         ExamQuestionKnowledge examQuestionKnowledgeSelect = examQuestionKnowledgeMapper.selectOne(Wrappers.<ExamQuestionKnowledge>lambdaQuery()
                                 .eq(ExamQuestionKnowledge::getKnowledgeId, examKnowledge.getId())
@@ -270,16 +276,15 @@ public class ExamReptileServiceImpl implements ExamReptileService {
                             examQuestionKnowledge.setQuestionId(examQuestionSelect.getId());
                             examQuestionKnowledgeMapper.insert(examQuestionKnowledge);
                         }
-
                     }
 
                     // 文件下载
                     for (ExamFile examFile : examQuestionDetail.getExamFiles()) {
-                        MultiPartThreadDownLoad.OrdinaryDownLoad(examFile.getOtherUrl(), examFile.getLocalPath());
                         // 文件插入
                         ExamFile examFileSelect = examFileMapper.selectOne(Wrappers.<ExamFile>lambdaQuery()
                                 .eq(ExamFile::getOtherUrl, examFile.getOtherUrl()));
                         if (ObjectUtils.isEmpty(examFileSelect)) {
+                            MultiPartThreadDownLoad.OrdinaryDownLoad(examFile.getOtherUrl(), examFile.getLocalPath());
                             examFileMapper.insert(examFile);
                         }
                     }

@@ -1,9 +1,12 @@
 package com.chick.novel.controller;
 
 
+import com.chick.controller.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -14,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-07-11
  */
 @RestController
-@RequestMapping("/novel-content")
-public class NovelContentController {
+@RequestMapping("/novelContent")
+public class NovelContentController extends BaseController {
 
 }
 

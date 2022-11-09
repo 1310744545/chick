@@ -1,19 +1,23 @@
 package com.chick.service.impl;
 
 
+import cn.hutool.core.util.RandomUtil;
 import com.aliyun.oss.OSSClient;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
+import com.chick.common.utils.RedisUtil;
 import com.chick.mapper.UserMapper;
 import com.chick.pojo.bo.UserInfoDetail;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
 import com.chick.pojo.vo.LoginUserVO;
+import com.chick.pojo.vo.RegisterEmailUserVO;
 import com.chick.pojo.vo.RegisterUserVO;
 import com.chick.service.IUserService;
+import com.chick.utils.EmailUtil;
 import com.chick.utils.JwtUtils;
 import com.chick.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +38,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -60,6 +65,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private String head;
     @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
+    private RedisUtil redisUtil;
 //    @Resource
 //    private AliyunOSSClientUtil aliyunOSSClientUtil;
 //    @Resource
@@ -168,6 +175,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
     }
 
+    @Override
+    public R registerEmail(RegisterEmailUserVO registerEmailUserVO) {
+        List<User> userCount = baseMapper.selectList(Wrappers.<User>lambdaQuery()
+                .eq(User::getEmail, registerEmailUserVO.getEmail()));
+        if (!ObjectUtils.isEmpty(userCount)) {
+            return R.failed("邮箱已注册或已被绑定");
+        }
+        String code = redisUtil.getString(CommonConstants.USER_CHAPTER_CODE_REGISTER + registerEmailUserVO.getEmail());
+        if (StringUtils.isBlank(code)) {
+            return R.failed("请发送验证码");
+        }
+        if (!code.equals(registerEmailUserVO.getCode())) {
+            return R.failed("验证码错误");
+        }
+        User user = new User();
+        user.setUserId(UUID.randomUUID().toString());
+        user.setUsername(CommonConstants.DEFAULT_USERNAME + UUID.randomUUID());
+        user.setPassword(passwordEncoder.encode(CommonConstants.DEFAULT_PASSWORD));
+        user.setEmail(registerEmailUserVO.getEmail());
+        int insert = baseMapper.insert(user);
+        if (insert > 0) {
+            return R.ok("注册成功");
+        } else {
+            return R.failed("注册失败,系统错误");
+        }
+    }
+
     /**
      * 退出登录
      */
@@ -253,5 +287,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return R.ok("更新成功");
         }
         return R.failed("更新失败");
+    }
+
+    @Override
+    public R sendEmailCodeRegister(String email) {
+        List<User> userCount = baseMapper.selectList(Wrappers.<User>lambdaQuery()
+                .eq(User::getEmail, email));
+        if (!ObjectUtils.isEmpty(userCount)) {
+            return R.failed("邮箱已注册或已被绑定");
+        }
+        String randomNumbers = RandomUtil.randomNumbers(6);
+        new Thread(() -> EmailUtil.sendVerificationCode(email, randomNumbers)).start();
+        redisUtil.set(CommonConstants.USER_CHAPTER_CODE_REGISTER + email, randomNumbers, 300);
+        return R.failed("发送成功");
+    }
+
+    @Override
+    public R sendEmailCodeLogin(String email) {
+        List<User> userCount = baseMapper.selectList(Wrappers.<User>lambdaQuery()
+                .eq(User::getEmail, email));
+        if (ObjectUtils.isEmpty(userCount)) {
+            return R.failed("邮箱未注册");
+        }
+        String randomNumbers = RandomUtil.randomNumbers(6);
+        new Thread(() -> EmailUtil.sendVerificationCode(email, randomNumbers)).start();
+        redisUtil.set(CommonConstants.USER_CHAPTER_CODE_LOGIN + email, randomNumbers, 300);
+        return R.ok("发送成功");
     }
 }

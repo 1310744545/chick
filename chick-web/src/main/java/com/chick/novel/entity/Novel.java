@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.chick.common.domin.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +19,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Novel implements Serializable {
+public class Novel extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +33,11 @@ public class Novel implements Serializable {
      * 小说名
      */
     private String name;
+
+    /**
+     * 首页地址
+     */
+    private String indexUrl;
 
     /**
      * 封面地址
@@ -48,39 +55,23 @@ public class Novel implements Serializable {
     private String author;
 
     /**
+     * 来源
+     */
+    private String source;
+
+    /**
      * 类型
      */
     private String type;
 
     /**
+     * 字数
+     */
+    private String wordCount;
+
+    /**
      * 描述
      */
-    private String describe;
-
-    /**
-     * 是否逻辑删除 1是0否
-     */
-    private String delFlag;
-
-    /**
-     * 创建者
-     */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateDate;
-
+    private String describtion;
 
 }

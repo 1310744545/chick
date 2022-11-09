@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface NovelChapterMapper extends BaseMapper<NovelChapter> {
 
+    int insertCompress(NovelChapter novelChapter);
+
 }

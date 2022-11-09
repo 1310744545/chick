@@ -122,6 +122,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
 
             // 查询每个知识点分类开始
             // 查询该考试详情下有多少知识点分类
+            /**
             List<ExamQuestionType> examQuestionTypes = examQuestionTypeMapper.selectList(Wrappers.<ExamQuestionType>lambdaQuery()
                     .eq(ExamQuestionType::getDetailId, detailId)
                     .eq(ExamQuestionType::getSubjectId, examSubject.getId())
@@ -149,6 +150,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
                 examQuestionTypeDetailVO.setAnsweredQuestion(answeredTypeCount);
                 examQuestionTypeDetailVOS.add(examQuestionTypeDetailVO);
             }
+             **/
             HashMap<String, Object> resultMap = new HashMap<>();
             resultMap.put("questionCount", ObjectUtils.isEmpty(questionCount) ? 0 : questionCount);
             resultMap.put("answered", ObjectUtils.isEmpty(answeredCount) ? 0 : answeredCount);
@@ -156,7 +158,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
             resultMap.put("rateStart", 0);
             resultMap.put("rateEnd", ObjectUtils.isEmpty(answeredCount) ? 0 : ObjectUtils.isEmpty(questionCount) ? 0 : new BigDecimal((Float.valueOf(answeredCount) * 100) / Float.valueOf(questionCount)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             resultMap.put("examSubject", examSubject);
-            resultMap.put("examQuestionTypeDetailVOS", examQuestionTypeDetailVOS);
+            //resultMap.put("examQuestionTypeDetailVOS", examQuestionTypeDetailVOS);
             resultList.add(resultMap);
         }
         return R.ok(resultList);

@@ -5,6 +5,7 @@ import com.chick.base.R;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
 import com.chick.pojo.vo.LoginUserVO;
+import com.chick.pojo.vo.RegisterEmailUserVO;
 import com.chick.pojo.vo.RegisterUserVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,6 +62,14 @@ public interface IUserService extends IService<User> {
     R register(RegisterUserVO registerUserVO);
 
     /**
+     * 邮箱注册
+     *
+     * @param registerEmailUserVO 注册人信息
+     * @return
+     */
+    R registerEmail(RegisterEmailUserVO registerEmailUserVO);
+
+    /**
      * 退出登录
      *
      * @return
@@ -99,4 +108,8 @@ public interface IUserService extends IService<User> {
      * @return
      */
     R updateUser(String userId, String sex, String phone, String name, String email, String birthday);
+
+
+    R sendEmailCodeRegister(String email);
+    R sendEmailCodeLogin(String email);
 }

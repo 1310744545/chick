@@ -50,6 +50,7 @@
         <google.zxing.core.version>3.1.0</google.zxing.core.version>
         <google.zxing.javase.version>3.1.0</google.zxing.javase.version>
         <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
+        <activiti.version>7.1.0.M6</activiti.version>
     </properties>
 
     <dependencies>
@@ -269,12 +270,27 @@
             <version>${junit.platform.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!--测试相关 end-->
+
         <!--WebSocket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        <!--测试相关 end-->
+
+        <!-- Activiti -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>${activiti.version}</version>
+        </dependency>
+
     </dependencies>
     <!--    <build>-->
     <!--        <plugins>-->

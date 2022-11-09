@@ -11,5 +11,5 @@ import com.chick.base.R;
  */
 public interface ExamReptileService {
 
-    R rKPassReptile();
+    R rKPassReptile(Integer page);
 }

@@ -23,7 +23,7 @@ public class ExamReptileController {
     private ExamReptileService examReptileService;
 
     @GetMapping("rKPassReptile")
-    public R rKPassReptile(){
-        return examReptileService.rKPassReptile();
+    public R rKPassReptile(Integer page){
+        return examReptileService.rKPassReptile(page);
     }
 }

@@ -88,4 +88,14 @@ public interface CommonConstants {
     String MENU_TYPE_BACKSTAGE = "1";
     String MENU_TYPE_INTERFACE_TYPE = "2";
     String MENU_TYPE_INTERFACE = "3";
+
+    String USER_CHAPTER_CODE_REGISTER = "user:verification:code:register:";
+    String USER_CHAPTER_CODE_LOGIN = "user:verification:code:login:";
+
+
+    /**
+     * 1、其他方式注册默认的用户名密码
+     */
+    String DEFAULT_USERNAME = "xkx_default_uid_";
+    String DEFAULT_PASSWORD = "cRJWl*:kwxrslET'Kf3-7Y29mR56Gf";
 }

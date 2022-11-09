@@ -1,5 +1,8 @@
 package com.chick.novel.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.chick.base.R;
+import com.chick.exam.entity.Exam;
 import com.chick.novel.entity.Novel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface NovelService extends IService<Novel> {
 
+    R get(Page<Novel> validPage, String type, String keyword);
+
+    R getThirdPart(Page<Novel> validPage, String thirdPartType, String type, String keyword);
 }

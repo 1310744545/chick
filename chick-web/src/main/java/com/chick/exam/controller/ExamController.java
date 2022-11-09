@@ -46,7 +46,6 @@ public class ExamController extends BaseController {
         if (StringUtils.isNotBlank(keyword) && keyword.length() > CommonConstants.MAX_NAME_LENGTH) {
             return R.failed("关键字过长");
         }
-
         return examService.getExamList(PageUtils.validPage(current, size), type, keyword);
     }
 

@@ -4,8 +4,10 @@ package com.chick.controller;
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
 import com.chick.pojo.vo.LoginUserVO;
+import com.chick.pojo.vo.RegisterEmailUserVO;
 import com.chick.pojo.vo.RegisterUserVO;
 import com.chick.service.IUserService;
+import com.chick.utils.EmailUtil;
 import com.chick.utils.JwtUtils;
 import com.chick.utils.SecurityUtils;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -50,9 +52,6 @@ public class UserController extends BaseController {
 
     /**
      * 登录
-     * @param username 用户名
-     * @param password 密码
-     * @param code 验证码
      * @param request 请求头
      * @return
      */
@@ -77,11 +76,11 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 注册
+     * 用户名密码注册
      * @param registerUserVO 注册人信息
      * @return
      */
-    @ApiOperation(value = "注册", httpMethod = "POST")
+    @ApiOperation(value = "用户名密码注册", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
@@ -98,6 +97,23 @@ public class UserController extends BaseController {
             return R.failed("验证码不能为空");
         }
         return userService.register(registerUserVO);
+    }
+
+    /**
+     * 邮箱注册
+     * @param registerEmailUserVO 注册人信息
+     * @return
+     */
+    @ApiOperation(value = "邮箱注册", httpMethod = "POST")
+    @PostMapping("/registerEmail")
+    public R registerEmail(@RequestBody RegisterEmailUserVO registerEmailUserVO) {
+        if (ObjectUtils.isEmpty(registerEmailUserVO)){
+            return R.failed("系统错误");
+        }
+        if (StringUtils.isAnyBlank(registerEmailUserVO.getEmail(), registerEmailUserVO.getCode())) {
+            return R.failed("邮件或验证码不能为空");
+        }
+        return userService.registerEmail(registerEmailUserVO);
     }
 
     /**
@@ -119,7 +135,6 @@ public class UserController extends BaseController {
     @ApiOperation(value = "验证码", httpMethod = "GET")
     @GetMapping("/captcha")
     public R captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        byte[] captcha;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> result = new HashMap<>();
         try {
@@ -137,16 +152,6 @@ public class UserController extends BaseController {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return R.failed();
         }
-
-//        captcha = out.toByteArray();
-//        response.setHeader("Cache-Control", "no-store");
-//        response.setHeader("Pragma", "no-cache");
-//        response.setDateHeader("Expires", 0);
-//        response.setContentType("image/jpeg");
-//        ServletOutputStream sout = response.getOutputStream();
-//        sout.write(captcha);
-//        sout.flush();
-//        sout.close();
     }
 
     /**
@@ -189,5 +194,22 @@ public class UserController extends BaseController {
             return R.failed("无权操作");
         }
         return userService.updateUser(userId, sex, phone, name, email, birthday);
+    }
+
+
+    @GetMapping("/sendEmailCodeRegister")
+    public R sendEmailCodeRegister(String email){
+        if (StringUtils.isBlank(email)){
+            return R.failed("邮件为空");
+        }
+        return userService.sendEmailCodeRegister(email);
+    }
+
+    @GetMapping("/sendEmailCodeLogin")
+    public R sendEmailCodeLogin(String email){
+        if (StringUtils.isBlank(email)){
+            return R.failed("邮件为空");
+        }
+        return userService.sendEmailCodeLogin(email);
     }
 }
