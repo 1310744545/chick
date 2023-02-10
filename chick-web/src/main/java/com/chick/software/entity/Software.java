@@ -64,6 +64,10 @@ public class Software extends BaseEntity implements Serializable {
 
     private String giteeUrl;
 
+    private String type;
+
+    private String imageUrl;
+
     @TableField(exist = false)
     private List<SoftwareDetail> softwareDetails;
 
