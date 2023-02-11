@@ -25,7 +25,6 @@ import javax.annotation.Resource;
 @Service
 public class ExamRealServiceImpl extends ServiceImpl<ExamRealMapper, ExamReal> implements ExamRealService {
 
-    @Resource
     @Override
     public R getRealListByExamIdSubjectId(Page<ExamReal> validPage, String keyword, String delFlag, String examId, String subjectId) {
         LambdaQueryWrapper<ExamReal> wrapper = Wrappers.<ExamReal>lambdaQuery()
@@ -42,6 +41,8 @@ public class ExamRealServiceImpl extends ServiceImpl<ExamRealMapper, ExamReal> i
         if (StringUtils.isNotBlank(keyword)) {
             wrapper.and(wr -> wr.like(ExamReal::getYear, keyword));
         }
+        // 按年份排序
+        wrapper.orderByDesc(ExamReal::getYear);
         return R.ok(baseMapper.selectPage(validPage, wrapper));
     }
 }

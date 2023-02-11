@@ -98,4 +98,11 @@ public interface CommonConstants {
      */
     String DEFAULT_USERNAME = "xkx_default_uid_";
     String DEFAULT_PASSWORD = "cRJWl*:kwxrslET'Kf3-7Y29mR56Gf";
+
+    /**
+     * 考试记录类型
+     */
+    String REAL = "1";
+    String SIMULATION_TEST = "2";
+    String INTELLIGENT_EXERCISE = "3";
 }

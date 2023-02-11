@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xiaokexin
@@ -50,7 +50,7 @@ public class ExamRealQuestion implements Serializable {
     /**
      * 排序
      */
-    private String sort;
+    private Integer sort;
 
     /**
      * 是否逻辑删除 1是0否

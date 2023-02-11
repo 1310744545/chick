@@ -127,5 +127,22 @@ public class ExamQuestionController extends BaseController {
         }
         return examQuestionService.getExamSubjectByExamId(examId, detailId);
     }
+
+
+    /**
+     * @Author xkx
+     * @Description 通过questionId获取题目等
+     * @Date 2022-06-16 17:28
+     * @Param [examId]
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getQuestionByQuestionId")
+    public R getQuestionByQuestionId(String questionId){
+        if (StringUtils.isBlank(questionId)) {
+            return R.failed("问题id为空");
+        }
+        return examQuestionService.getQuestionByQuestionId(questionId);
+    }
+
 }
 

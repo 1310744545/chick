@@ -6,12 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
 import com.chick.exam.entity.*;
-import com.chick.exam.mapper.ExamDetailMapper;
-import com.chick.exam.mapper.ExamQuestionMapper;
-import com.chick.exam.mapper.ExamSubjectMapper;
-import com.chick.exam.mapper.ExamTypeMapper;
+import com.chick.exam.mapper.*;
 import com.chick.exam.service.ExamQuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chick.exam.vo.ExamQuestionAnswerVO;
 import com.chick.exam.vo.ExamTypeDetailVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -39,6 +37,8 @@ public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, Exa
     private ExamDetailMapper examDetailMapper;
     @Resource
     private ExamSubjectMapper examSubjectMapper;
+    @Resource
+    private ExamAnswerMapper examAnswerMapper;
 
     @Override
     public R getList(Page<ExamQuestion> validPage, String keyword, String delFlag, String examId, String detailId, String subjectId) {
@@ -109,5 +109,16 @@ public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, Exa
                 .eq(ExamSubject::getExamId, examId)
                 .eq(ExamSubject::getDetailId, getExamSubjectByExamId));
         return R.ok(examSubjects);
+    }
+
+    @Override
+    public R getQuestionByQuestionId(String questionId) {
+        ExamQuestion examQuestion = baseMapper.selectOne(Wrappers.<ExamQuestion>lambdaQuery().eq(ExamQuestion::getId, questionId));
+        List<ExamAnswer> examAnswers = examAnswerMapper.selectList(Wrappers.<ExamAnswer>lambdaQuery().eq(ExamAnswer::getQuestionId, questionId)
+                .orderByAsc(ExamAnswer::getSort));
+        ExamQuestionAnswerVO examQuestionAnswerVO = new ExamQuestionAnswerVO();
+        examQuestionAnswerVO.setExamQuestion(examQuestion);
+        examQuestionAnswerVO.setExamAnswers(examAnswers);
+        return R.ok(examQuestionAnswerVO);
     }
 }

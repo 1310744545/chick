@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-15
  */
 @RestController
-@RequestMapping("/exam-answer-questions")
+@RequestMapping("/examAnswerQuestions")
 public class ExamAnswerQuestionsController extends BaseController {
 
 }

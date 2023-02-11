@@ -203,29 +203,30 @@ public class ExamReptileServiceImpl implements ExamReptileService {
 
 
                     // 插入问题
-                    ExamQuestion examQuestionSelect = examQuestionMapper.selectOne(Wrappers.<ExamQuestion>lambdaQuery()
-                            .eq(ExamQuestion::getName, examQuestionDetail.getExamQuestion().getName())
-                            .eq(ExamQuestion::getDetailId, examDetailSelect.getId()));
-                    if (ObjectUtils.isEmpty(examQuestionSelect)) {
+                    //ExamQuestion examQuestionSelect = examQuestionMapper.selectOne(Wrappers.<ExamQuestion>lambdaQuery()
+                    //        .eq(ExamQuestion::getName, examQuestionDetail.getExamQuestion().getName())
+                    //        .eq(ExamQuestion::getDetailId, examDetailSelect.getId()));
+                    //if (ObjectUtils.isEmpty(examQuestionSelect)) {
                         examQuestionDetail.getExamQuestion().setExamId(exam.getId());
                         examQuestionDetail.getExamQuestion().setDetailId(examDetailSelect.getId());
                         examQuestionDetail.getExamQuestion().setQuestionTypeId(examQuestionType.getId());
                         examQuestionDetail.getExamQuestion().setSubjectId(examSubjectSelect.getId());
-                        examQuestionSelect = examQuestionDetail.getExamQuestion();
+                        //examQuestionSelect = examQuestionDetail.getExamQuestion();
                         examQuestionMapper.insert(examQuestionDetail.getExamQuestion());
-                    }
+                    //}
 
                     // 综合 （选择题）
                     if (SoftwareExamUtil.SOFTWARE_EXAM_COMPREHENSIVE.equals(examSubjectSelect.getName())) {
                         // 插入答案
                         for (ExamAnswer examAnswer : examQuestionDetail.getExamAnswers()) {
-                            ExamAnswer examAnswerSelect = examAnswerMapper.selectOne(Wrappers.<ExamAnswer>lambdaQuery()
-                                    .eq(ExamAnswer::getName, examAnswer.getName())
-                                    .eq(ExamAnswer::getQuestionId, examQuestionSelect.getId()));
-                            if (ObjectUtils.isEmpty(examAnswerSelect)) {
-                                examAnswer.setQuestionId(examQuestionSelect.getId());
+                            //ExamAnswer examAnswerSelect = examAnswerMapper.selectOne(Wrappers.<ExamAnswer>lambdaQuery()
+                                    //.eq(ExamAnswer::getName, examAnswer.getName())
+                                    //.eq(ExamAnswer::getQuestionId, examQuestionSelect.getId()));
+                            //if (ObjectUtils.isEmpty(examAnswerSelect)) {
+                                //examAnswer.setQuestionId(examQuestionSelect.getId());
+                                examAnswer.setQuestionId(examQuestionDetail.getExamQuestion().getId());
                                 examAnswerMapper.insert(examAnswer);
-                            }
+                            //}
                         }
                     }
                     // 案例
@@ -247,9 +248,10 @@ public class ExamReptileServiceImpl implements ExamReptileService {
                         examRealQuestion.setId(DoId());
                         examRealQuestion.setExamId(exam.getId());
                         examRealQuestion.setExamRealId(examRealSelect.getId());
-                        examRealQuestion.setSort(examQuestionDetail.getQuestionNum());
+                        examRealQuestion.setSort(Integer.parseInt(examQuestionDetail.getQuestionNum().split("~")[0]));
                         examRealQuestion.setName("第" + examQuestionDetail.getQuestionNum() + "题");
-                        examRealQuestion.setExamQuestionId(examQuestionSelect.getId());
+                        //examRealQuestion.setExamQuestionId(examQuestionSelect.getId());
+                        examRealQuestion.setExamQuestionId(examQuestionDetail.getExamQuestion().getId());
                         examRealQuestionMapper.insert(examRealQuestion);
                     }
 
@@ -269,11 +271,13 @@ public class ExamReptileServiceImpl implements ExamReptileService {
                         //知识点与题目的关系插入
                         ExamQuestionKnowledge examQuestionKnowledgeSelect = examQuestionKnowledgeMapper.selectOne(Wrappers.<ExamQuestionKnowledge>lambdaQuery()
                                 .eq(ExamQuestionKnowledge::getKnowledgeId, examKnowledge.getId())
-                                .eq(ExamQuestionKnowledge::getQuestionId, examQuestionSelect.getId()));
+                                //.eq(ExamQuestionKnowledge::getQuestionId, examQuestionSelect.getId()));
+                                .eq(ExamQuestionKnowledge::getQuestionId, examQuestionDetail.getExamQuestion().getId()));
                         if (ObjectUtils.isEmpty(examQuestionKnowledgeSelect)) {
                             ExamQuestionKnowledge examQuestionKnowledge = new ExamQuestionKnowledge();
                             examQuestionKnowledge.setKnowledgeId(examKnowledge.getId());
-                            examQuestionKnowledge.setQuestionId(examQuestionSelect.getId());
+                            //examQuestionKnowledge.setQuestionId(examQuestionSelect.getId());
+                            examQuestionKnowledge.setQuestionId(examQuestionDetail.getExamQuestion().getId());
                             examQuestionKnowledgeMapper.insert(examQuestionKnowledge);
                         }
                     }
