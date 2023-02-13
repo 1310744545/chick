@@ -1,10 +1,13 @@
 package com.chick.exam.controller;
 
 
+import com.chick.base.CommonConstants;
 import com.chick.base.R;
+import com.chick.controller.BaseController;
 import com.chick.exam.entity.ExamRecord;
 import com.chick.exam.service.ExamRealQuestionService;
 import com.chick.exam.service.ExamRecordService;
+import com.chick.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +26,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/examRecord")
-public class ExamRecordController {
+public class ExamRecordController extends BaseController {
     @Resource
     private ExamRecordService examRecordService;
 
@@ -40,6 +43,24 @@ public class ExamRecordController {
             return R.failed("id不能为空");
         }
         return examRecordService.getRecordById(id);
+    }
+
+    /**
+     * @Author xkx
+     * @Description 查询真题
+     * @Date 2023-02-10 14:16
+     * @Param [current, size, keyword, delFlag, examId, subjectId]
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getExaminationRecord")
+    public R getExaminationRecord(Integer current, Integer size, String keyword, String delFlag, String examId,String subjectId,String detailId) {
+        if (StringUtils.isNotBlank(keyword) && keyword.length() > CommonConstants.MAX_NAME_LENGTH) {
+            return R.failed("关键字过长");
+        }
+        if (!StringUtils.isNotBlank(delFlag)) {
+            return R.failed("是否删除标记为空");
+        }
+        return examRecordService.getExaminationRecord(PageUtils.validPage(current, size), keyword, delFlag, examId, subjectId, detailId, getUserId());
     }
 }
 

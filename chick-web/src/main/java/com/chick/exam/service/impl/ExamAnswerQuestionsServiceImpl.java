@@ -11,13 +11,14 @@ import com.chick.exam.mapper.ExamRecordMapper;
 import com.chick.exam.service.ExamAnswerQuestionsService;
 import com.chick.exam.vo.DoAnswerVO;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author xiaokexin
@@ -30,6 +31,7 @@ public class ExamAnswerQuestionsServiceImpl extends ServiceImpl<ExamAnswerQuesti
     private ExamRecordMapper examRecordMapper;
     @Resource
     private ExamAnswerQuestionsMapper examAnswerQuestionsMapper;
+
     @Override
     public R doAnswer(DoAnswerVO doAnswerVO, String userId) {
         // 查询做题记录
@@ -41,15 +43,15 @@ public class ExamAnswerQuestionsServiceImpl extends ServiceImpl<ExamAnswerQuesti
                 .eq(ExamAnswerQuestions::getDetailId, doAnswerVO.getDetailId())
                 .eq(ExamAnswerQuestions::getSubjectId, doAnswerVO.getSubjectId())
                 .eq(ExamAnswerQuestions::getExamId, doAnswerVO.getExamId()));
-        if (examRecord.getDoQuestionId().contains(doAnswerVO.getQuestionId()) && ObjectUtils.isNotEmpty(examAnswerQuestions.getAnswered()) && CommonConstants.ANSWERED.equals(examAnswerQuestions.getAnswered())){
+        if (examRecord.getDoQuestionId().contains(doAnswerVO.getQuestionId()) && ObjectUtils.isNotEmpty(examAnswerQuestions.getAnswered()) && CommonConstants.ANSWERED.equals(examAnswerQuestions.getAnswered())) {
             return R.failed("请勿重复作答");
         }
         // 作答
         // 更新记录中的已做题
-        examRecord.setDoQuestionId(examRecord.getDoQuestionId() + "," + doAnswerVO.getQuestionId());
+        examRecord.setDoQuestionId(StringUtils.isBlank(examRecord.getDoQuestionId()) ? doAnswerVO.getQuestionId() : "," + doAnswerVO.getQuestionId());
         examRecordMapper.updateById(examRecord);
         // 插入或更新做题情况
-        if (ObjectUtils.isNotEmpty(examAnswerQuestions)){
+        if (ObjectUtils.isNotEmpty(examAnswerQuestions)) {
             examAnswerQuestions.setAnswered(CommonConstants.ANSWERED);
             examAnswerQuestions.setIsRight(doAnswerVO.getIsRight());
             examAnswerQuestionsMapper.updateById(examAnswerQuestions);
@@ -67,8 +69,7 @@ public class ExamAnswerQuestionsServiceImpl extends ServiceImpl<ExamAnswerQuesti
         examRecord.setDoQuestionId("");
         examRecordMapper.updateById(examRecord);
         // 清理答题数据
-        examAnswerQuestionsMapper.delete(Wrappers.<ExamAnswerQuestions>lambdaQuery()
-                .eq(ExamAnswerQuestions::getRecordId,recordId));
+        examAnswerQuestionsMapper.deleteByRecordId(recordId);
         return R.ok("清理成功");
     }
 }

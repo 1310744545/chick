@@ -13,4 +13,5 @@ import com.chick.exam.entity.ExamAnswerQuestions;
  */
 public interface ExamAnswerQuestionsMapper extends BaseMapper<ExamAnswerQuestions> {
 
+    int deleteByRecordId(String recordId);
 }

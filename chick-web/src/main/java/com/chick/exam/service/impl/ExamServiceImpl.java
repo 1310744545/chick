@@ -120,7 +120,8 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
                     .eq(ExamAnswerQuestions::getUserId, userId)
                     .eq(ExamAnswerQuestions::getDetailId, detailId)
                     .eq(ExamAnswerQuestions::getSubjectId, examSubject.getId())
-                    .eq(ExamAnswerQuestions::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+                    //.eq(ExamAnswerQuestions::getDelFlag, CommonConstants.UN_DELETE_FLAG)
+            );
             // 查询做正确的题数
             Integer rightAnsweredCount = examAnswerQuestionsMapper.selectCount(Wrappers.<ExamAnswerQuestions>query()
                     .select("distinct question_id").lambda()
@@ -129,7 +130,8 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
                     .eq(ExamAnswerQuestions::getDetailId, detailId)
                     .eq(ExamAnswerQuestions::getSubjectId, examSubject.getId())
                     .eq(ExamAnswerQuestions::getIsRight, CommonConstants.EXAM_ANSWER_RIGHT)
-                    .eq(ExamAnswerQuestions::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+                    //.eq(ExamAnswerQuestions::getDelFlag, CommonConstants.UN_DELETE_FLAG)
+            );
 
             // 查询每个知识点分类开始
             // 查询该考试详情下有多少知识点分类
