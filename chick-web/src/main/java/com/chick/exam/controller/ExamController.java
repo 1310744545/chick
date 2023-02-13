@@ -143,6 +143,13 @@ public class ExamController extends BaseController {
         return examService.deleteOrRenew(exam);
     }
 
+    /**
+    * @Author xkx
+    * @Description  
+    * @Date 2023-02-13 22:52
+    * @Param []
+    * @return com.chick.base.R
+    **/
     @GetMapping("/checkFile")
     public R checkFile() {
         return examService.checkFile();
