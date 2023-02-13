@@ -45,12 +45,12 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
     @Override
     public R getExaminationRecord(Page<ExamRecordVO> validPage, String keyword, String delFlag, String examId, String subjectId, String detailId, String userId) {
         IPage<ExamRecordVO> examRecordVOS = examRecordMapper.selectExamRecord(validPage, examId, subjectId, detailId, userId);
-//        List<ExamRecord> examRecords = baseMapper.selectList(Wrappers.<ExamRecord>lambdaQuery()
-//                .eq(ExamRecord::getExamId, examId)
-//                .eq(ExamRecord::getDetailId, detailId)
-//                .eq(ExamRecord::getSubjectId, subjectId)
-//                .eq(ExamRecord::getUserId, userId)
-//                .eq(ExamRecord::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+        //List<ExamRecord> examRecords = baseMapper.selectList(Wrappers.<ExamRecord>lambdaQuery()
+        //        .eq(ExamRecord::getExamId, examId)
+        //        .eq(ExamRecord::getDetailId, detailId)
+        //        .eq(ExamRecord::getSubjectId, subjectId)
+        //        .eq(ExamRecord::getUserId, userId)
+        //        .eq(ExamRecord::getDelFlag, CommonConstants.UN_DELETE_FLAG));
         for (ExamRecordVO examRecord : examRecordVOS.getRecords()){
             // 这里先不管智能和模拟，到时候再改,这里也是
             examRecord.setCountDo(StringUtils.isBlank(examRecord.getDoQuestion()) ? 0 : examRecord.getDoQuestion().split(",").length);
