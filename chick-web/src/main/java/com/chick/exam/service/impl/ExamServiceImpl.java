@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chick.exam.vo.ExamQuestionTypeDetailVO;
 import com.chick.exam.vo.ExamTypeDetailVO;
 import com.chick.tools.entity.Tools;
+import com.chick.util.MultiPartThreadDownLoad;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,16 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
     private ExamAnswerQuestionsMapper examAnswerQuestionsMapper;
     @Resource
     private ExamQuestionTypeMapper examQuestionTypeMapper;
+    @Resource
+    private ExamAnswerMapper examAnswerMapper;
+    @Resource
+    private ExamFileMapper examFileMapper;
+    @Resource
+    private ExamKnowledgeMapper examKnowledgeMapper;
+    @Resource
+    private ExamRealQuestionMapper examRealQuestionMapper;
+    @Resource
+    private ExamRealMapper examRealMapper;
 
     @Override
     public R getExamList(Page<Exam> validPage, String type, String keyword) {
@@ -123,33 +134,33 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
             // 查询每个知识点分类开始
             // 查询该考试详情下有多少知识点分类
             /**
-            List<ExamQuestionType> examQuestionTypes = examQuestionTypeMapper.selectList(Wrappers.<ExamQuestionType>lambdaQuery()
-                    .eq(ExamQuestionType::getDetailId, detailId)
-                    .eq(ExamQuestionType::getSubjectId, examSubject.getId())
-                    .eq(ExamQuestionType::getDelFlag, CommonConstants.UN_DELETE_FLAG));
-            ArrayList<ExamQuestionTypeDetailVO> examQuestionTypeDetailVOS = new ArrayList<>();
-            for (ExamQuestionType examQuestionType : examQuestionTypes) {
-                // 知识点分类下共有多少道题
-                Integer questionTypeCount = examQuestionMapper.selectCount(Wrappers.<ExamQuestion>lambdaQuery()
-                        .eq(ExamQuestion::getSubjectId, examSubject.getId())
-                        .eq(ExamQuestion::getQuestionTypeId, examQuestionType.getId())
-                        .eq(ExamQuestion::getDelFlag, CommonConstants.UN_DELETE_FLAG));
-                // 知识点分类下做了多少道题
-                Integer answeredTypeCount = examAnswerQuestionsMapper.selectCount(Wrappers.<ExamAnswerQuestions>query()
-                        .select("distinct question_id").lambda()
-                        .eq(ExamAnswerQuestions::getExamId, examSubject.getExamId())
-                        .eq(ExamAnswerQuestions::getUserId, userId)
-                        .eq(ExamAnswerQuestions::getDetailId, detailId)
-                        .eq(ExamAnswerQuestions::getSubjectId, examSubject.getId())
-                        .eq(ExamAnswerQuestions::getQuestionTypeId, examQuestionType.getId())
-                        .eq(ExamAnswerQuestions::getDelFlag, CommonConstants.UN_DELETE_FLAG));
-                ExamQuestionTypeDetailVO examQuestionTypeDetailVO = new ExamQuestionTypeDetailVO();
-                examQuestionTypeDetailVO.setId(examQuestionType.getId());
-                examQuestionTypeDetailVO.setName(examQuestionType.getName());
-                examQuestionTypeDetailVO.setAllQuestion(questionTypeCount);
-                examQuestionTypeDetailVO.setAnsweredQuestion(answeredTypeCount);
-                examQuestionTypeDetailVOS.add(examQuestionTypeDetailVO);
-            }
+             List<ExamQuestionType> examQuestionTypes = examQuestionTypeMapper.selectList(Wrappers.<ExamQuestionType>lambdaQuery()
+             .eq(ExamQuestionType::getDetailId, detailId)
+             .eq(ExamQuestionType::getSubjectId, examSubject.getId())
+             .eq(ExamQuestionType::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+             ArrayList<ExamQuestionTypeDetailVO> examQuestionTypeDetailVOS = new ArrayList<>();
+             for (ExamQuestionType examQuestionType : examQuestionTypes) {
+             // 知识点分类下共有多少道题
+             Integer questionTypeCount = examQuestionMapper.selectCount(Wrappers.<ExamQuestion>lambdaQuery()
+             .eq(ExamQuestion::getSubjectId, examSubject.getId())
+             .eq(ExamQuestion::getQuestionTypeId, examQuestionType.getId())
+             .eq(ExamQuestion::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+             // 知识点分类下做了多少道题
+             Integer answeredTypeCount = examAnswerQuestionsMapper.selectCount(Wrappers.<ExamAnswerQuestions>query()
+             .select("distinct question_id").lambda()
+             .eq(ExamAnswerQuestions::getExamId, examSubject.getExamId())
+             .eq(ExamAnswerQuestions::getUserId, userId)
+             .eq(ExamAnswerQuestions::getDetailId, detailId)
+             .eq(ExamAnswerQuestions::getSubjectId, examSubject.getId())
+             .eq(ExamAnswerQuestions::getQuestionTypeId, examQuestionType.getId())
+             .eq(ExamAnswerQuestions::getDelFlag, CommonConstants.UN_DELETE_FLAG));
+             ExamQuestionTypeDetailVO examQuestionTypeDetailVO = new ExamQuestionTypeDetailVO();
+             examQuestionTypeDetailVO.setId(examQuestionType.getId());
+             examQuestionTypeDetailVO.setName(examQuestionType.getName());
+             examQuestionTypeDetailVO.setAllQuestion(questionTypeCount);
+             examQuestionTypeDetailVO.setAnsweredQuestion(answeredTypeCount);
+             examQuestionTypeDetailVOS.add(examQuestionTypeDetailVO);
+             }
              **/
             HashMap<String, Object> resultMap = new HashMap<>();
             resultMap.put("questionCount", ObjectUtils.isEmpty(questionCount) ? 0 : questionCount);
@@ -208,5 +219,84 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
             return R.ok("更新成功");
         }
         return R.failed("更新失败");
+    }
+
+    @Override
+    public R checkFile() {
+        /** //修改已有文件连接
+         List<ExamQuestion> examQuestions = examQuestionMapper.selectList(Wrappers.<ExamQuestion>lambdaQuery().like(ExamQuestion::getName, "<img"));
+         List<ExamQuestion> examQuestionsParse = examQuestionMapper.selectList(Wrappers.<ExamQuestion>lambdaQuery().like(ExamQuestion::getParse, "<img"));
+         List<ExamAnswer> examAnswers = examAnswerMapper.selectList(Wrappers.<ExamAnswer>lambdaQuery().like(ExamAnswer::getName, "<img"));
+         List<ExamKnowledge> examKnowledges = examKnowledgeMapper.selectList(Wrappers.<ExamKnowledge>lambdaQuery().like(ExamKnowledge::getKnowledge, "<img"));
+         for (ExamQuestion examQuestion : examQuestions){
+         List<ExamFile> examFiles = examFileMapper.selectList(Wrappers.<ExamFile>lambdaQuery()
+         .eq(ExamFile::getOtherId, examQuestion.getId()));
+         for (ExamFile examFile : examFiles){
+         String newUrl = examFile.getLocalPath().replace("E:", "http://124.221.239.221/file").replace("\\", "/");
+         examQuestion.setName(examQuestion.getName().replace(examFile.getLocalUrl(), newUrl));
+         }
+         examQuestionMapper.updateById(examQuestion);
+         }
+         for (ExamQuestion examQuestion : examQuestionsParse){
+         List<ExamFile> examFiles = examFileMapper.selectList(Wrappers.<ExamFile>lambdaQuery()
+         .eq(ExamFile::getOtherId, examQuestion.getId()));
+         for (ExamFile examFile : examFiles){
+         String newUrl = examFile.getLocalPath().replace("E:", "http://124.221.239.221/file").replace("\\", "/");
+         examQuestion.setParse(examQuestion.getParse().replace(examFile.getLocalUrl(), newUrl));
+         }
+         examQuestionMapper.updateById(examQuestion);
+         }
+         for (ExamAnswer examAnswer : examAnswers){
+         List<ExamFile> examFiles = examFileMapper.selectList(Wrappers.<ExamFile>lambdaQuery()
+         .eq(ExamFile::getOtherId, examAnswer.getId()));
+         for (ExamFile examFile : examFiles){
+         String newUrl = examFile.getLocalPath().replace("E:", "http://124.221.239.221/file").replace("\\", "/");
+         examAnswer.setName(examAnswer.getName().replace(examFile.getLocalUrl(), newUrl));
+         }
+         examAnswerMapper.updateById(examAnswer);
+         }
+         for (ExamKnowledge examKnowledge : examKnowledges){
+         List<ExamFile> examFiles = examFileMapper.selectList(Wrappers.<ExamFile>lambdaQuery()
+         .eq(ExamFile::getOtherId, examKnowledge.getId()));
+         for (ExamFile examFile : examFiles){
+         String newUrl = examFile.getLocalPath().replace("E:", "http://124.221.239.221/file").replace("\\", "/");
+         examKnowledge.setKnowledge(examKnowledge.getKnowledge().replace(examFile.getLocalUrl(), newUrl));
+         }
+         examKnowledgeMapper.updateById(examKnowledge);
+         }
+         **/
+        ////List<ExamQuestion> examQuestionsHref = examQuestionMapper.selectList(Wrappers.<ExamQuestion>lambdaQuery().like(ExamQuestion::getName, "href=\"http://www.rkpass.cn"));
+        ////List<ExamQuestion> examQuestionsRec = examQuestionMapper.selectList(Wrappers.<ExamQuestion>lambdaQuery().like(ExamQuestion::getName, "src=\"http://www.rkpass.cn"));
+        ////List<ExamQuestion> examQuestionsParseHref = examQuestionMapper.selectList(Wrappers.<ExamQuestion>lambdaQuery().like(ExamQuestion::getParse, "href=\"http://www.rkpass.cn"));
+        ////List<ExamQuestion> examQuestionsParseRec = examQuestionMapper.selectList(Wrappers.<ExamQuestion>lambdaQuery().like(ExamQuestion::getParse, "src=\"http://www.rkpass.cn"));
+        ////List<ExamAnswer> examAnswersHref = examAnswerMapper.selectList(Wrappers.<ExamAnswer>lambdaQuery().like(ExamAnswer::getName, "href=\"http://www.rkpass.cn"));
+        ////List<ExamAnswer> examAnswersRec = examAnswerMapper.selectList(Wrappers.<ExamAnswer>lambdaQuery().like(ExamAnswer::getName, "src=\"http://www.rkpass.cn"));
+        ////List<ExamKnowledge> examKnowledgesHref = examKnowledgeMapper.selectList(Wrappers.<ExamKnowledge>lambdaQuery().like(ExamKnowledge::getKnowledge, "href=\"http://www.rkpass.cn"));
+        List<ExamKnowledge> examKnowledgesRec = examKnowledgeMapper.selectList(Wrappers.<ExamKnowledge>lambdaQuery().like(ExamKnowledge::getKnowledge, "src=\"http://www.rkpass.cn"));
+        int i = 1;
+        for (ExamKnowledge knowledge : examKnowledgesRec) {
+            System.out.println("处理第" + i + "个");
+            String fileUrl = "http://www.rkpass.cn" + knowledge.getKnowledge().split("src=\"http://www.rkpass.cn")[1].split("\"")[0];
+            ExamFile examFile = new ExamFile();
+            examFile.setOtherId(knowledge.getId());
+            examFile.setId(DoId());
+            examFile.setOtherUrl(fileUrl);
+            examFile.setType("2");
+            String id = DoId();
+            examFile.setLocalUrl("http://124.221.239.221/file/exam/software/" + "软考" + "/" + id + ".jpg");
+            examFile.setLocalPath("E:\\exam\\software\\" + "软考" + "\\" + id + ".jpg");
+            // 文件下载
+            // 文件插入
+            MultiPartThreadDownLoad.OrdinaryDownLoad(examFile.getOtherUrl(), examFile.getLocalPath());
+            examFileMapper.insert(examFile);
+
+            knowledge.setKnowledge(knowledge.getKnowledge().replace(examFile.getOtherUrl(), examFile.getLocalUrl()));
+            //examQuestionMapper.updateById(examQuestion);
+            //examAnswerMapper.updateById(answer);
+            examKnowledgeMapper.updateById(knowledge);
+
+            i++;
+        }
+        return null;
     }
 }

@@ -62,7 +62,7 @@ public class RKPassEvent implements ExamReptileEvent {
     public List<ExamRealVO> getExamReals(int pageNum, String cookie) {
         Document document = null;
         try {
-            document = Jsoup.parse(HttpUtil.createGet("http://www.rkpass.cn//tk_index.jsp?CurrentPage=" + pageNum)
+            document = Jsoup.parse(HttpUtil.createGet("http://www.rkpass.cn//tk_index.jsp?CurrentPage=" + pageNum).timeout(9999999)
                     .header("Cookie", cookie).execute().toString());
         } catch (Exception e) {
             log.error("请求考试页失败");
@@ -88,7 +88,7 @@ public class RKPassEvent implements ExamReptileEvent {
     public List<ExamQuestionVO> getExamQuestions(String url, String cookie) {
         Document document = null;
         try {
-            document = Jsoup.parse(HttpUtil.createGet(url)
+            document = Jsoup.parse(HttpUtil.createGet(url).timeout(9999999)
                     .header("Cookie", cookie).execute().toString());
         } catch (Exception e) {
             log.error("请求试题集合页失败");
@@ -117,7 +117,7 @@ public class RKPassEvent implements ExamReptileEvent {
     public ExamQuestionDetailVO getExamQuestionDetail(String url, String cookie) {
         Document document = null;
         try {
-            document = Jsoup.parse(HttpUtil.createGet(url)
+            document = Jsoup.parse(HttpUtil.createGet(url).timeout(99999999)
                     .header("Cookie", cookie.split("_")[0]).execute().toString());
         } catch (Exception e) {
             log.error("请求试题页失败");
@@ -145,7 +145,7 @@ public class RKPassEvent implements ExamReptileEvent {
         String tixing = s1.split("_")[3].replace(".html","");
         String paperId = s1.split("_")[1];
         String tihao = s1.split("_")[2];
-        String parseHtml = HttpUtil.get("http://www.rkpass.cn//tk_jiexi.jsp?product_id=" + productId + "&tixing=" + tixing + "&answer=A&paper_id=" + paperId + "&tihao=" + tihao + "&usertklevel=tkmianfei&cache=false");
+        String parseHtml = HttpUtil.get("http://www.rkpass.cn//tk_jiexi.jsp?product_id=" + productId + "&tixing=" + tixing + "&answer=A&paper_id=" + paperId + "&tihao=" + tihao + "&usertklevel=tkmianfei&cache=false", 999999);
         Document parseDocument = Jsoup.parse(parseHtml);
         Elements parses = parseDocument.getElementsByClass("shiwu_text_v2");
         Elements parseAnswerHtml = parseDocument.getElementsByClass("shisi_text");
@@ -173,47 +173,47 @@ public class RKPassEvent implements ExamReptileEvent {
 
         // 判断是否是一个题多个空
         if (SoftwareExamUtil.SOFTWARE_EXAM_COMPREHENSIVE.equals(cookie.split("_")[2])) {
-            ArrayList<String> stringArrayList = new ArrayList<>();
-            if (StringUtils.substringsBetween(questionHtml, "（", "）") != null) {
-                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "（", "）")));
-            }
-            if (StringUtils.substringsBetween(questionHtml, "(", "）") != null) {
-                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "(", "）")));
-            }
-            if (StringUtils.substringsBetween(questionHtml, "（", ")") != null) {
-                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "（", ")")));
-            }
-            if (StringUtils.substringsBetween(questionHtml, "(", ")") != null) {
-                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "(", ")")));
-            }
+//            ArrayList<String> stringArrayList = new ArrayList<>();
+//            if (StringUtils.substringsBetween(questionHtml, "（", "）") != null) {
+//                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "（", "）")));
+//            }
+//            if (StringUtils.substringsBetween(questionHtml, "(", "）") != null) {
+//                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "(", "）")));
+//            }
+//            if (StringUtils.substringsBetween(questionHtml, "（", ")") != null) {
+//                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "（", ")")));
+//            }
+//            if (StringUtils.substringsBetween(questionHtml, "(", ")") != null) {
+//                stringArrayList.addAll(Arrays.asList(StringUtils.substringsBetween(questionHtml, "(", ")")));
+//            }
 
             int flag = 0;
-            StringJoiner questionNum = new StringJoiner("~");
-            ArrayList<String> questionList = new ArrayList<>();
-            String endStr = "";
-            if (ObjectUtils.isNotEmpty(stringArrayList) && stringArrayList.size() > 0) {
-                for (String s : stringArrayList) {
-                    try {
-                        int i = Integer.parseInt(s);
-                        questionList.add(i + "");
-                        if (flag == 0) {
-                            questionNum.add(s);
-                        } else {
-                            endStr = s;
-                        }
-                        flag++;
-                    } catch (Exception e) {
-                    }
-                }
-            }
-            if (flag > 1) {
-                questionNum.add(endStr);
-                examQuestionDetailVO.setQuestionNum(questionNum.toString());
-                examQuestion.setTakeUp(flag);
-            } else {
+//            StringJoiner questionNum = new StringJoiner("~");
+//            ArrayList<String> questionList = new ArrayList<>();
+//            String endStr = "";
+//            if (ObjectUtils.isNotEmpty(stringArrayList) && stringArrayList.size() > 0) {
+//                for (String s : stringArrayList) {
+//                    try {
+//                        int i = Integer.parseInt(s);
+//                        questionList.add(i + "");
+//                        if (flag == 0) {
+//                            questionNum.add(s);
+//                        } else {
+//                            endStr = s;
+//                        }
+//                        flag++;
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            }
+//            if (flag > 1) {
+                //questionNum.add(endStr);
+                //examQuestionDetailVO.setQuestionNum(questionNum.toString());
+                //examQuestion.setTakeUp(flag);
+//            } else {
                 examQuestionDetailVO.setQuestionNum(document.getElementsByClass("word_title_v2").get(0).text().replace("第", "").replace("题", ""));
                 examQuestion.setTakeUp(1);
-            }
+//            }
             examQuestion.setType("QUESTION_01");
 
             // 答案
@@ -239,8 +239,9 @@ public class RKPassEvent implements ExamReptileEvent {
                     examFile.setOtherId(examAnswer.getId());
                     examFile.setType("2");
                     examFile.setOtherUrl(img.attr("src"));
-                    examFile.setLocalPath("E:\\exam\\software\\" + cookie.split("_")[1] + "\\" + cookie.split("_")[2] + "\\" + cookie.split("_")[3] + "\\" + DoId() + ".jpg");
-                    examFile.setLocalUrl("http://www.xkxxkx.cn/image/exam/software/" + cookie.split("_")[1] + "/" + cookie.split("_")[2] + "/" + cookie.split("_")[3] + DoId() + ".jpg");
+                    String doId = DoId();
+                    examFile.setLocalPath("E:\\exam\\software\\" + cookie.split("_")[1] + "\\" + cookie.split("_")[2] + "\\" + cookie.split("_")[3] + "\\" + doId + ".jpg");
+                    examFile.setLocalUrl("http://124.221.239.221/file/exam/software/" + cookie.split("_")[1] + "/" + cookie.split("_")[2] + "/" + cookie.split("_")[3] + "/" + doId + ".jpg");
                     String replaceImg = img.toString().replace(examFile.getOtherUrl(), examFile.getLocalUrl());
                     answerStr = answerStr.replace(a.toString(), replaceImg);
                     examFiles.add(examFile);
@@ -249,9 +250,9 @@ public class RKPassEvent implements ExamReptileEvent {
                 examAnswer.setName(answerStr);
                 examAnswer.setSort(sort + "");
                 examAnswer.setCorrect(1); // 先设置为错误答案
-                Collections.sort(questionList);
-                int i = questionList.indexOf(document.getElementsByClass("word_title_v2").get(0).text().replace("第", "").replace("题", ""));
-                examAnswer.setTakeUpSort(i == -1 ? 0 : (i + 1)); // 先设置只有一个空
+                //Collections.sort(questionList);
+                //int i = questionList.indexOf(document.getElementsByClass("word_title_v2").get(0).text().replace("第", "").replace("题", ""));
+                //examAnswer.setTakeUpSort(i == -1 ? 0 : (i + 1)); // 先设置只有一个空
                 examAnswers.add(examAnswer);
                 sort++;
             }
@@ -285,7 +286,7 @@ public class RKPassEvent implements ExamReptileEvent {
             examFile.setOtherUrl(img.attr("src"));
             examFile.setType("1");
             examFile.setLocalPath("E:\\exam\\software\\" + cookie.split("_")[1] + "\\" + cookie.split("_")[2] + "\\" + cookie.split("_")[3] + "\\" + DoId() + ".jpg");
-            examFile.setLocalUrl("http://www.xkxxkx.cn/image/exam/software/" + cookie.split("_")[1] + "/" + cookie.split("_")[2] + "/" + cookie.split("_")[3] + DoId() + ".jpg");
+            examFile.setLocalUrl("http://124.221.239.221/file/exam/software/" + cookie.split("_")[1] + "/" + cookie.split("_")[2] + "/" + cookie.split("_")[3] + DoId() + ".jpg");
             String replaceImg = img.toString().replace(examFile.getOtherUrl(), examFile.getLocalUrl());
             questionHtml = questionHtml.replace(a.toString(), replaceImg);
             examFiles.add(examFile);
@@ -340,7 +341,7 @@ public class RKPassEvent implements ExamReptileEvent {
                             examFile.setType("3");
                             examFile.setOtherUrl(img.attr("src"));
                             examFile.setLocalPath("E:\\exam\\software\\" + cookie.split("_")[1] + "\\" + cookie.split("_")[2] + "\\" + cookie.split("_")[3] + "\\" + DoId() + ".jpg");
-                            examFile.setLocalUrl("http://www.xkxxkx.cn/image/exam/software/" + cookie.split("_")[1] + "/" + cookie.split("_")[2] + "/" + cookie.split("_")[3] + DoId() + ".jpg");
+                            examFile.setLocalUrl("http://124.221.239.221/file/exam/software/" + cookie.split("_")[1] + "/" + cookie.split("_")[2] + "/" + cookie.split("_")[3] + DoId() + ".jpg");
                             String replaceImg = img.toString().replace(examFile.getOtherUrl(), examFile.getLocalUrl());
                             knowledgeStr = knowledgeStr.replace(a.toString(), replaceImg);
                             examFiles.add(examFile);

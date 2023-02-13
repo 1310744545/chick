@@ -55,4 +55,5 @@ public interface ExamService extends IService<Exam> {
      * @return R
      */
     R update(Exam exam);
+    R checkFile();
 }

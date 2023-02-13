@@ -75,7 +75,7 @@ public interface CommonConstants {
     /**
      * 运营管理
      */
-    String ROLE_ADMIN = "ROLE_ADMIN";
+    //String ROLE_ADMIN = "ROLE_ADMIN";
     String HAS_ROLE_ADMIN = "hasRole('ROLE_ADMIN')";
 
 
@@ -105,4 +105,18 @@ public interface CommonConstants {
     String REAL = "1";
     String SIMULATION_TEST = "2";
     String INTELLIGENT_EXERCISE = "3";
+
+    /**
+     * 是否作答
+     */
+    String ANSWERED = "0";
+    String UN_ANSWERED = "1";
+
+    /**
+     * 角色类型
+     */
+    String ROLE_COMMON = "4";
+    String ROLE_VIP = "3";
+    String ROLE_MANAGER = "2";
+    String ROLE_ADMIN = "1";
 }

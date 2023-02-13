@@ -3,6 +3,7 @@ package com.chick.controller;
 
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
+import com.chick.pojo.vo.EmailUserVO;
 import com.chick.pojo.vo.LoginUserVO;
 import com.chick.pojo.vo.RegisterEmailUserVO;
 import com.chick.pojo.vo.RegisterUserVO;
@@ -73,6 +74,32 @@ public class UserController extends BaseController {
             return R.failed("验证码不能为空");
         }
         return userService.login(loginUserVO, request);
+    }
+
+    /**
+    * @Author xkx
+    * @Description 邮箱登录
+    * @Date 2023-02-12 21:34
+    * @Param [loginUserVO, request]
+    * @return com.chick.base.R
+    **/
+    @ApiOperation(value = "登录", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "用户名", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query")
+    })
+    @PostMapping("/loginByEmail")
+    public R loginByEmail(@RequestBody EmailUserVO emailUserVO, HttpServletRequest request) {
+        if (ObjectUtils.isEmpty(emailUserVO)){
+            return R.failed("系统错误");
+        }
+        if (StringUtils.isAnyBlank(emailUserVO.getEmail())) {
+            return R.failed("用户名和密码不能为空");
+        }
+        if (StringUtils.isAnyBlank(emailUserVO.getCode())) {
+            return R.failed("验证码不能为空");
+        }
+        return userService.loginByEmail(emailUserVO, request);
     }
 
     /**

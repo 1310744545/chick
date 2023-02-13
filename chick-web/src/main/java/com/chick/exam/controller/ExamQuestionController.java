@@ -137,11 +137,14 @@ public class ExamQuestionController extends BaseController {
      * @return com.chick.base.R
      **/
     @GetMapping("/getQuestionByQuestionId")
-    public R getQuestionByQuestionId(String questionId){
+    public R getQuestionByQuestionId(String recordId, String questionId){
+        if (StringUtils.isBlank(recordId)) {
+            return R.failed("记录id为空");
+        }
         if (StringUtils.isBlank(questionId)) {
             return R.failed("问题id为空");
         }
-        return examQuestionService.getQuestionByQuestionId(questionId);
+        return examQuestionService.getQuestionByQuestionId(questionId, recordId);
     }
 
 }

@@ -142,5 +142,11 @@ public class ExamController extends BaseController {
         }
         return examService.deleteOrRenew(exam);
     }
+
+    @GetMapping("/checkFile")
+    public R checkFile() {
+        return examService.checkFile();
+    }
+
 }
 

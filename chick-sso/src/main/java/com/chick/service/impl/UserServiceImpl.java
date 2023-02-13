@@ -10,9 +10,12 @@ import com.chick.base.CommonConstants;
 import com.chick.base.R;
 import com.chick.common.utils.RedisUtil;
 import com.chick.mapper.UserMapper;
+import com.chick.mapper.UserRoleMapper;
 import com.chick.pojo.bo.UserInfoDetail;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
+import com.chick.pojo.entity.UserRole;
+import com.chick.pojo.vo.EmailUserVO;
 import com.chick.pojo.vo.LoginUserVO;
 import com.chick.pojo.vo.RegisterEmailUserVO;
 import com.chick.pojo.vo.RegisterUserVO;
@@ -67,6 +70,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private PasswordEncoder passwordEncoder;
     @Resource
     private RedisUtil redisUtil;
+    @Resource
+    private UserRoleMapper userRoleMapper;
 //    @Resource
 //    private AliyunOSSClientUtil aliyunOSSClientUtil;
 //    @Resource
@@ -155,6 +160,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public R loginByEmail(EmailUserVO emailUserVO, HttpServletRequest request) {
+        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getEmail, emailUserVO.getEmail()));
+        if (ObjectUtils.isEmpty(user)){
+            return R.failed("邮箱未注册");
+        }
+        String code = redisUtil.getString(CommonConstants.USER_CHAPTER_CODE_LOGIN + emailUserVO.getEmail());
+        if (StringUtils.isEmpty(code)){
+            return R.failed("验证码为空或已失效，请重新发送");
+        }
+        if (!code.equals(emailUserVO.getCode())){
+            return R.failed("验证码错误");
+        }
+        if (CommonConstants.UN_ENABLED_FLAG.equals(user.getEnabledFlag())){
+            return R.failed("账户已被锁定");
+        }
+        if (CommonConstants.UNLOCK_FLAG.equals(user.getLockFlag())){
+            return R.failed("账户已被锁定");
+        }
+        //通过自己的UserDetailService获取用户信息
+        UserDetails userDetails = userDetailService.loadUserByUsername(user.getUsername());
+        //生成token
+        String token = jwtUtils.generateToken((UserInfoDetail) userDetails);
+
+        HashMap<String, String> tokenCarry = new HashMap<>();
+        tokenCarry.put("head", head);
+        tokenCarry.put("token", token);
+        return R.ok(tokenCarry, "登陆成功");
+    }
+
+    @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public R register(RegisterUserVO registerUserVO) {
         List<User> userCount = baseMapper.selectList(Wrappers.<User>lambdaQuery()
@@ -167,7 +203,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setUserId(UUID.randomUUID().toString());
         user.setUsername(registerUserVO.getUsername());
         user.setPassword(encode);
+        // 插入用户
         int insert = baseMapper.insert(user);
+        // 插入角色
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getUserId());
+        userRole.setRoleId(CommonConstants.ROLE_COMMON);
+        userRoleMapper.insert(userRole);
         if (insert > 0) {
             return R.ok("注册成功");
         } else {
@@ -189,12 +231,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!code.equals(registerEmailUserVO.getCode())) {
             return R.failed("验证码错误");
         }
+        // 插入用户
         User user = new User();
         user.setUserId(UUID.randomUUID().toString());
         user.setUsername(CommonConstants.DEFAULT_USERNAME + UUID.randomUUID());
         user.setPassword(passwordEncoder.encode(CommonConstants.DEFAULT_PASSWORD));
         user.setEmail(registerEmailUserVO.getEmail());
         int insert = baseMapper.insert(user);
+        // 插入角色
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getUserId());
+        userRole.setRoleId(CommonConstants.ROLE_COMMON);
+        userRoleMapper.insert(userRole);
         if (insert > 0) {
             return R.ok("注册成功");
         } else {
@@ -299,7 +347,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String randomNumbers = RandomUtil.randomNumbers(6);
         new Thread(() -> EmailUtil.sendVerificationCode(email, randomNumbers)).start();
         redisUtil.set(CommonConstants.USER_CHAPTER_CODE_REGISTER + email, randomNumbers, 300);
-        return R.failed("发送成功");
+        return R.ok("发送成功");
     }
 
     @Override

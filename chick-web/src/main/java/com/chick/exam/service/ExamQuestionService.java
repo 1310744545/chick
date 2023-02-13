@@ -61,5 +61,5 @@ public interface ExamQuestionService extends IService<ExamQuestion> {
 
 
 
-    R getQuestionByQuestionId(String questionId);
+    R getQuestionByQuestionId(String questionId, String recordId);
 }

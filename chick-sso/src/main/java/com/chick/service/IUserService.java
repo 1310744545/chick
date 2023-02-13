@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.chick.base.R;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
+import com.chick.pojo.vo.EmailUserVO;
 import com.chick.pojo.vo.LoginUserVO;
 import com.chick.pojo.vo.RegisterEmailUserVO;
 import com.chick.pojo.vo.RegisterUserVO;
@@ -47,11 +48,20 @@ public interface IUserService extends IService<User> {
     /**
      * 用户登录
      *
-     * @param loginUserVO 登录用户
+     * @param loginUserVO 登录用户(用户名密码)
      * @param request
      * @return
      */
     R login(LoginUserVO loginUserVO, HttpServletRequest request);
+    /**
+     * 用户登录
+     *
+     * @param emailUserVO 登录用户
+     * @param request
+     * @return
+     */
+
+    R loginByEmail(EmailUserVO emailUserVO, HttpServletRequest request);
 
     /**
      * 用户注册

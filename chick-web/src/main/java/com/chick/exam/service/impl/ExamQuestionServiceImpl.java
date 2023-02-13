@@ -39,6 +39,12 @@ public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, Exa
     private ExamSubjectMapper examSubjectMapper;
     @Resource
     private ExamAnswerMapper examAnswerMapper;
+    @Resource
+    private ExamRecordMapper examRecordMapper;
+    @Resource
+    private ExamAnswerQuestionsMapper examAnswerQuestionsMapper;
+    @Resource
+    private ExamFileMapper examFileMapper;
 
     @Override
     public R getList(Page<ExamQuestion> validPage, String keyword, String delFlag, String examId, String detailId, String subjectId) {
@@ -112,13 +118,54 @@ public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, Exa
     }
 
     @Override
-    public R getQuestionByQuestionId(String questionId) {
+    public R getQuestionByQuestionId(String questionId, String recordId) {
+        ExamQuestionAnswerVO examQuestionAnswerVO = new ExamQuestionAnswerVO(false);
+        // 查询题目
         ExamQuestion examQuestion = baseMapper.selectOne(Wrappers.<ExamQuestion>lambdaQuery().eq(ExamQuestion::getId, questionId));
+        // 处理题目中的图片
+        //checkQuestionRealUrl(examQuestion);
+        // 查询答案
         List<ExamAnswer> examAnswers = examAnswerMapper.selectList(Wrappers.<ExamAnswer>lambdaQuery().eq(ExamAnswer::getQuestionId, questionId)
                 .orderByAsc(ExamAnswer::getSort));
-        ExamQuestionAnswerVO examQuestionAnswerVO = new ExamQuestionAnswerVO();
+        // 处理答案中的图片
+        //checkAnswersRealUrl(examAnswers);
+        // 查询记录
+        ExamRecord examRecord = examRecordMapper.selectOne(Wrappers.<ExamRecord>lambdaQuery().eq(ExamRecord::getId, recordId));
+        if (StringUtils.isNotBlank(examRecord.getDoQuestionId()) && examRecord.getDoQuestionId().contains(questionId)){
+            // 题目已做，查询答题情况
+            ExamAnswerQuestions examAnswerQuestions = examAnswerQuestionsMapper.selectOne(Wrappers.<ExamAnswerQuestions>lambdaQuery()
+                    .eq(ExamAnswerQuestions::getQuestionId, questionId)
+                    .eq(ExamAnswerQuestions::getRecordId, recordId));
+            examQuestionAnswerVO.setExamAnswerQuestions(examAnswerQuestions);
+            examQuestionAnswerVO.setAnswered(true);
+        }
         examQuestionAnswerVO.setExamQuestion(examQuestion);
         examQuestionAnswerVO.setExamAnswers(examAnswers);
         return R.ok(examQuestionAnswerVO);
     }
+
+    private void checkQuestionRealUrl(ExamQuestion examQuestion){
+        if (examQuestion.getName().contains("<img")){
+            List<ExamFile> examFiles = examFileMapper.selectList(Wrappers.<ExamFile>lambdaQuery()
+                    .eq(ExamFile::getOtherId, examQuestion.getId()));
+            for (ExamFile examFile : examFiles){
+                examFile.setLocalPath(examFile.getLocalPath().replace("E:","http://124.221.239.221/file").replace("\\", "/"));
+                examQuestion.setName(examQuestion.getName().replace(examFile.getLocalUrl(),examFile.getLocalPath()));
+            }
+        }
+    }
+
+    private void checkAnswersRealUrl(List<ExamAnswer> examAnswers){
+        for (ExamAnswer examAnswer : examAnswers){
+            if (examAnswer.getName().contains("<img")){
+                List<ExamFile> examFiles = examFileMapper.selectList(Wrappers.<ExamFile>lambdaQuery()
+                        .eq(ExamFile::getOtherId, examAnswer.getId()));
+                for (ExamFile examFile : examFiles){
+                    examFile.setLocalPath(examFile.getLocalPath().replace("E:","http://124.221.239.221/file").replace("\\", "/"));
+                    examAnswer.setName(examAnswer.getName().replace(examFile.getLocalUrl(),examFile.getLocalPath()));
+                }
+            }
+        }
+    }
+
 }
