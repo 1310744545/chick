@@ -27,8 +27,9 @@ public class NovelController extends BaseController {
 
     @Autowired
     private NovelService novelService;
+
     @GetMapping("")
-    public R get(String type, String keyword, Integer current, Integer size){
+    public R get(String type, String keyword, Integer current, Integer size) {
         if (StringUtils.isNotBlank(keyword) && keyword.length() > CommonConstants.MAX_NAME_LENGTH) {
             return R.failed("关键字过长");
         }
@@ -36,7 +37,7 @@ public class NovelController extends BaseController {
     }
 
     @GetMapping("/thirdPart")
-    public R getThirdPart(String type, String keyword, String thirdPartType, Integer current, Integer size){
+    public R getThirdPart(String type, String keyword, String thirdPartType, Integer current, Integer size) {
         if (StringUtils.isNotBlank(keyword) && keyword.length() > CommonConstants.MAX_NAME_LENGTH) {
             return R.failed("关键字过长");
         }

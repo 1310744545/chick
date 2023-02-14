@@ -29,8 +29,9 @@ public class NovelChapterController extends BaseController {
 
     @Autowired
     private NovelChapterService novelChapterService;
+
     @GetMapping("")
-    public R get(String novelId, String keyword, Integer current, Integer size){
+    public R get(String novelId, String keyword, Integer current, Integer size) {
         if (StringUtils.isBlank(novelId)) {
             return R.failed("小说id为空");
         }
@@ -41,7 +42,7 @@ public class NovelChapterController extends BaseController {
     }
 
     @GetMapping("/getThirdPartChapter")
-    public R getThirdPartChapter(String bookId){
+    public R getThirdPartChapter(String bookId) {
         if (StringUtils.isBlank(bookId)) {
             return R.failed("小说id为空");
         }
@@ -49,7 +50,7 @@ public class NovelChapterController extends BaseController {
     }
 
     @GetMapping("/getContent")
-    public R getContent(String novelChapterId){
+    public R getContent(String novelChapterId) {
         if (StringUtils.isBlank(novelChapterId)) {
             return R.failed("小说id为空");
         }
@@ -57,7 +58,7 @@ public class NovelChapterController extends BaseController {
     }
 
     @GetMapping("/getThirdPartContent")
-    public R getThirdPartContent(String bookId, String chapterId){
+    public R getThirdPartContent(String bookId, String chapterId) {
         if (StringUtils.isBlank(bookId)) {
             return R.failed("小说id为空");
         }
