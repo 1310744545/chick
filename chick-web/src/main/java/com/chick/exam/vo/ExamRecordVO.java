@@ -21,5 +21,6 @@ public class ExamRecordVO {
     private Integer countDo;
     private String allQuestion;
     private String doQuestion;
+    private Date createDate;
     private Date updateDate;
 }

@@ -48,7 +48,7 @@ public class ExamAnswerQuestionsServiceImpl extends ServiceImpl<ExamAnswerQuesti
         }
         // 作答
         // 更新记录中的已做题
-        examRecord.setDoQuestionId(StringUtils.isBlank(examRecord.getDoQuestionId()) ? doAnswerVO.getQuestionId() : "," + doAnswerVO.getQuestionId());
+        examRecord.setDoQuestionId(StringUtils.isBlank(examRecord.getDoQuestionId()) ? doAnswerVO.getQuestionId() : examRecord.getDoQuestionId() + "," + doAnswerVO.getQuestionId());
         examRecordMapper.updateById(examRecord);
         // 插入或更新做题情况
         if (ObjectUtils.isNotEmpty(examAnswerQuestions)) {

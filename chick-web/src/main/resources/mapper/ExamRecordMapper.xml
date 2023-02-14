@@ -10,11 +10,13 @@
             (select count(1) from exam_real_question where exam_real_id = real_id) as countAll,
             all_question_id as allQuestion,
             do_question_id as doQuestion,
-            update_date as updateDate
+            update_date as updateDate,
+            create_date as createDate
         from exam_record
         where user_id = #{userId}
         and exam_id = #{examId}
         and detail_id = #{detailId}
         and subject_id = #{subjectId}
+        order by create_date desc
     </select>
 </mapper>
