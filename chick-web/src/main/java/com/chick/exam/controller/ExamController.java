@@ -35,14 +35,14 @@ public class ExamController extends BaseController {
     private ExamService examService;
 
     /**
-    * @Author xkx
-    * @Description 获取考试列表
-    * @Date 2022-06-16 17:28
-    * @Param [type, keyword, current, size]
-    * @return com.chick.base.R
-    **/
+     * @return com.chick.base.R
+     * @Author xkx
+     * @Description 获取考试列表
+     * @Date 2022-06-16 17:28
+     * @Param [type, keyword, current, size]
+     **/
     @GetMapping("/getExamList")
-    public R getExamList(String type, String keyword, Integer current, Integer size){
+    public R getExamList(String type, String keyword, Integer current, Integer size) {
         if (StringUtils.isNotBlank(keyword) && keyword.length() > CommonConstants.MAX_NAME_LENGTH) {
             return R.failed("关键字过长");
         }
@@ -50,14 +50,14 @@ public class ExamController extends BaseController {
     }
 
     /**
-    * @Author xkx
-    * @Description 通过考试id获取考试详情
-    * @Date 2022-06-16 17:28
-    * @Param [examId]
-    * @return com.chick.base.R
-    **/
+     * @return com.chick.base.R
+     * @Author xkx
+     * @Description 通过考试id获取考试详情
+     * @Date 2022-06-16 17:28
+     * @Param [examId]
+     **/
     @GetMapping("/getExamDetailByExamId")
-    public R getExamDetailByExamId(String examId){
+    public R getExamDetailByExamId(String examId) {
         if (StringUtils.isBlank(examId)) {
             return R.failed("考试id为空");
         }
@@ -65,14 +65,14 @@ public class ExamController extends BaseController {
     }
 
     /**
-    * @Author xkx
-    * @Description 通过考试详情id和userId获取用户的刷题情况
-    * @Date 2022-06-16 17:27
-    * @Param [detailId]
-    * @return com.chick.base.R
-    **/
+     * @return com.chick.base.R
+     * @Author xkx
+     * @Description 通过考试详情id和userId获取用户的刷题情况
+     * @Date 2022-06-16 17:27
+     * @Param [detailId]
+     **/
     @GetMapping("/getExamAnswerHappeningByUserAndDetailId")
-    public R getExamAnswerHappeningByUserAndDetailId(String detailId){
+    public R getExamAnswerHappeningByUserAndDetailId(String detailId) {
         if (StringUtils.isBlank(detailId)) {
             return R.failed("详情id为空");
         }
@@ -80,12 +80,12 @@ public class ExamController extends BaseController {
     }
 
     /**
-    * @Author xkx
-    * @Description 查询考试
-    * @Date 2022-06-16 17:29
-    * @Param [current, size, keyword, delFlag, type]
-    * @return com.chick.base.R<com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.chick.tools.vo.ToolsVO>>
-    **/
+     * @return com.chick.base.R<com.baomidou.mybatisplus.extension.plugins.pagination.Page < com.chick.tools.vo.ToolsVO>>
+     * @Author xkx
+     * @Description 查询考试
+     * @Date 2022-06-16 17:29
+     * @Param [current, size, keyword, delFlag, type]
+     **/
     @GetMapping("/list")
     public R<Page<Exam>> list(Integer current, Integer size, String keyword, String delFlag, String type) {
         if (StringUtils.isNotBlank(keyword) && keyword.length() > CommonConstants.MAX_NAME_LENGTH) {
@@ -98,30 +98,30 @@ public class ExamController extends BaseController {
     }
 
     /**
+     * @return com.chick.base.R
      * @Author xkx
      * @Description 保存
      * @Date 2022-06-16 17:29
      * @Param [toolId, delFlag]
-     * @return com.chick.base.R
      **/
     @PostMapping("/saveExam")
     public R saveExam(@RequestBody Exam exam) {
-        if (ObjectUtils.isEmpty(exam)){
+        if (ObjectUtils.isEmpty(exam)) {
             return R.failed("考试为空");
         }
         return examService.saveExam(exam);
     }
 
     /**
+     * @return com.chick.base.R
      * @Author xkx
      * @Description 更新
      * @Date 2022-06-16 17:29
      * @Param [toolId, delFlag]
-     * @return com.chick.base.R
      **/
     @PostMapping("/update")
     public R update(@RequestBody Exam exam) {
-        if (ObjectUtils.isEmpty(exam)){
+        if (ObjectUtils.isEmpty(exam)) {
             return R.failed("考试为空");
         }
         return examService.update(exam);
@@ -129,27 +129,27 @@ public class ExamController extends BaseController {
 
 
     /**
-    * @Author xkx
-    * @Description 删除或恢复考试
-    * @Date 2022-06-16 17:29
-    * @Param [toolId, delFlag]
-    * @return com.chick.base.R
-    **/
+     * @return com.chick.base.R
+     * @Author xkx
+     * @Description 删除或恢复考试
+     * @Date 2022-06-16 17:29
+     * @Param [toolId, delFlag]
+     **/
     @PostMapping("/deleteOrRenew")
     public R deleteOrRenew(@RequestBody Exam exam) {
-        if (ObjectUtils.isEmpty(exam)){
+        if (ObjectUtils.isEmpty(exam)) {
             return R.failed("考试为空");
         }
         return examService.deleteOrRenew(exam);
     }
 
     /**
-    * @Author xkx
-    * @Description  
-    * @Date 2023-02-13 22:52
-    * @Param []
-    * @return com.chick.base.R
-    **/
+     * @return com.chick.base.R
+     * @Author xkx
+     * @Description
+     * @Date 2023-02-13 22:53
+     * @Param []
+     **/
     @GetMapping("/checkFile")
     public R checkFile() {
         return examService.checkFile();

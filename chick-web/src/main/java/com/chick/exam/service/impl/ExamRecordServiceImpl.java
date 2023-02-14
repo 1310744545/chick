@@ -31,6 +31,7 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
 
     @Resource
     private ExamRecordMapper examRecordMapper;
+
     @Override
     public R getRecordById(String id) {
         ExamRecord examRecord = baseMapper.selectOne(Wrappers.<ExamRecord>lambdaQuery()
@@ -51,7 +52,7 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
         //        .eq(ExamRecord::getSubjectId, subjectId)
         //        .eq(ExamRecord::getUserId, userId)
         //        .eq(ExamRecord::getDelFlag, CommonConstants.UN_DELETE_FLAG));
-        for (ExamRecordVO examRecord : examRecordVOS.getRecords()){
+        for (ExamRecordVO examRecord : examRecordVOS.getRecords()) {
             // 这里先不管智能和模拟，到时候再改,这里也是
             examRecord.setCountDo(StringUtils.isBlank(examRecord.getDoQuestion()) ? 0 : examRecord.getDoQuestion().split(",").length);
         }
