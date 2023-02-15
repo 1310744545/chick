@@ -19,5 +19,7 @@ public class ExamRealGoExamVO {
     ExamSubject examSubject;
     ExamDetail examDetail;
     ExamRecord examRecord;
-    List<ExamRealQuestion> examRealQuestions;
+    List<ExamQuestionByRecordVO> examQuestionByRecordVOS;
+
+    String type;
 }

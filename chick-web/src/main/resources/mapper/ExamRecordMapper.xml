@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chick.exam.mapper.ExamRecordMapper">
     <select id="selectExamRecord" parameterType="string" resultType="com.chick.exam.vo.ExamRecordVO">
-        select
-            id,
-            real_id as realId,
-            type,
-            (select year from exam_real where id = real_id) as realName,
+        select id,
+               real_id as realId,
+               type,
+               (select year
+        from exam_real
+        where id = real_id) as realName,
             (select count(1) from exam_real_question where exam_real_id = real_id) as countAll,
             all_question_id as allQuestion,
             do_question_id as doQuestion,
@@ -14,9 +15,19 @@
             create_date as createDate
         from exam_record
         where user_id = #{userId}
-        and exam_id = #{examId}
-        and detail_id = #{detailId}
-        and subject_id = #{subjectId}
+          and exam_id = #{examId}
+          and detail_id = #{detailId}
+          and subject_id = #{subjectId}
         order by create_date desc
+    </select>
+
+    <select id="selectExamRecordInfoByRealId" parameterType="string" resultType="com.chick.exam.entity.ExamRecord">
+        select er.exam_id    as examId,
+               es.detail_id  as detailId,
+               er.subject_id as subjectId,
+               er.id         as realId
+        from exam_real er
+                 left join exam_subject es on er.subject_id = es.id
+        where er.id = #{realId}
     </select>
 </mapper>

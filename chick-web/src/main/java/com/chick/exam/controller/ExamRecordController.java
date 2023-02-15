@@ -7,12 +7,11 @@ import com.chick.controller.BaseController;
 import com.chick.exam.entity.ExamRecord;
 import com.chick.exam.service.ExamRealQuestionService;
 import com.chick.exam.service.ExamRecordService;
+import com.chick.exam.vo.CreateRecordVO;
 import com.chick.utils.PageUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -32,7 +31,7 @@ public class ExamRecordController extends BaseController {
 
     /**
      * @Author xkx
-     * @Description 查询真题
+     * @Description 查询记录中的已做题
      * @Date 2023-02-10 14:16
      * @Param [current, size, keyword, delFlag, examId, subjectId]
      * @return com.chick.base.R
@@ -61,6 +60,36 @@ public class ExamRecordController extends BaseController {
             return R.failed("是否删除标记为空");
         }
         return examRecordService.getExaminationRecord(PageUtils.validPage(current, size), keyword, delFlag, examId, subjectId, detailId, getUserId());
+    }
+
+    /**
+     * @Author xkx
+     * @Description 创建做题记录
+     * @Date 2023-02-15 13:24
+     * @Param [realId, type]
+     * @return com.chick.base.R
+     **/
+    @PostMapping("/createRecord")
+    public R createRecord(@RequestBody CreateRecordVO createRecordVO) {
+        if (ObjectUtils.isEmpty(createRecordVO)){
+            return R.failed("id不能为空");
+        }
+        return examRecordService.createRecord(createRecordVO, getUserId());
+    }
+
+    /**
+     * @Author xkx
+     * @Description 获取真题
+     * @Date 2023-02-10 14:16
+     * @Param [current, size, keyword, delFlag, examId, subjectId]
+     * @return com.chick.base.R
+     **/
+    @GetMapping("/getQuestionByRecordId")
+    public R getQuestionByRecordId(String recordId) {
+        if (StringUtils.isEmpty(recordId)){
+            return R.failed("id不能为空");
+        }
+        return examRecordService.getQuestionByRecordId(recordId, getUserId());
     }
 }
 

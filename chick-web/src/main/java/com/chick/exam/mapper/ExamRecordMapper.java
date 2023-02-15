@@ -18,4 +18,6 @@ import java.util.List;
  */
 public interface ExamRecordMapper extends BaseMapper<ExamRecord> {
     IPage<ExamRecordVO> selectExamRecord(Page<ExamRecordVO> validPage, String examId, String subjectId, String detailId, String userId);
+
+    ExamRecord selectExamRecordInfoByRealId(String realId);
 }
