@@ -103,9 +103,14 @@ public interface CommonConstants {
      * 考试记录类型
      */
     String REAL = "1";
-    String SIMULATION_TEST = "2";
-    String INTELLIGENT_EXERCISE = "3";
-
+    String INTELLIGENT_EXERCISE = "2";
+    String SIMULATION_TEST = "3";
+    /**
+     * 做题类型
+     */
+    String UNLIMITED = "1";
+    String UN_DO = "2";
+    String DO = "3";
     /**
      * 是否作答
      */
