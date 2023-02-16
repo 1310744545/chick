@@ -17,8 +17,9 @@ public class ExamRecordVO {
     private String realId;
     private String type;
     private String realName;
-    private Integer countAll;
-    private Integer countDo;
+    private Integer countAll; //总题数
+    private Integer countDo;  //已做题数
+    private Integer countRight;  //正确数
     private String allQuestion;
     private String doQuestion;
     private Date createDate;

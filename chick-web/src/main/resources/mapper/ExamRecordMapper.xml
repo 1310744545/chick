@@ -5,14 +5,13 @@
         select id,
                real_id as realId,
                type,
-               (select year
-        from exam_real
-        where id = real_id) as realName,
+               (select year from exam_real where id = real_id) as realName,
             (select count(1) from exam_real_question where exam_real_id = real_id) as countAll,
             all_question_id as allQuestion,
             do_question_id as doQuestion,
             update_date as updateDate,
-            create_date as createDate
+            create_date as createDate,
+            (select count(1) from exam_answer_questions t where (SELECT INSTR(do_question_id, t.question_id)) != 0 and t.is_right = 0) as countRight
         from exam_record
         where user_id = #{userId}
           and exam_id = #{examId}

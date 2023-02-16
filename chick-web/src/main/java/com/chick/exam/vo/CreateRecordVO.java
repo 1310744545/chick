@@ -13,4 +13,9 @@ import lombok.Data;
 public class CreateRecordVO {
     private String type;
     private String realId;
+    private String examId;
+    private String subjectId;
+    private String detailId;
+    private String answerType; //1、不限，2、未做题，3、已做题
+    private Integer count;
 }

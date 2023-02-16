@@ -4,8 +4,6 @@ package com.chick.exam.controller;
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
 import com.chick.controller.BaseController;
-import com.chick.exam.entity.ExamRecord;
-import com.chick.exam.service.ExamRealQuestionService;
 import com.chick.exam.service.ExamRecordService;
 import com.chick.exam.vo.CreateRecordVO;
 import com.chick.utils.PageUtils;
@@ -46,7 +44,7 @@ public class ExamRecordController extends BaseController {
 
     /**
      * @Author xkx
-     * @Description 查询真题
+     * @Description 查询做题记录
      * @Date 2023-02-10 14:16
      * @Param [current, size, keyword, delFlag, examId, subjectId]
      * @return com.chick.base.R

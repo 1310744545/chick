@@ -13,4 +13,12 @@ import lombok.Data;
 public class ExamQuestionByRecordVO {
     private String id;
     private String name;
+
+    public ExamQuestionByRecordVO() {
+    }
+
+    public ExamQuestionByRecordVO(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

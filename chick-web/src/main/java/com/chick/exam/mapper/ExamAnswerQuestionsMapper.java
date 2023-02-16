@@ -2,6 +2,9 @@ package com.chick.exam.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chick.exam.entity.ExamAnswerQuestions;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,5 @@ import com.chick.exam.entity.ExamAnswerQuestions;
 public interface ExamAnswerQuestionsMapper extends BaseMapper<ExamAnswerQuestions> {
 
     int deleteByRecordId(String recordId);
+    List<String> selectQuestionByExamIdDetailIdSubjectIdUserId(@Param("examId") String examId, @Param("detailId")String detailId, @Param("subjectId")String subjectId, @Param("userId")String userId);
 }

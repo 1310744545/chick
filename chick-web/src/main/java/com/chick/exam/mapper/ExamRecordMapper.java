@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chick.exam.entity.ExamRecord;
 import com.chick.exam.vo.ExamRecordVO;
 
-import java.util.List;
 
 /**
  * <p>
