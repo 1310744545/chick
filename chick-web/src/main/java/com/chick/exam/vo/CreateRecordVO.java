@@ -16,6 +16,6 @@ public class CreateRecordVO {
     private String examId;
     private String subjectId;
     private String detailId;
-    private String answerType; //1、不限，2、未做题，3、已做题
+    private String questionType; //1、不限，2、未做题，3、已做题
     private Integer count;
 }

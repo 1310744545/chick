@@ -78,7 +78,7 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
                 }
                 List<String> allQuestionIds = new ArrayList<>(); // 要抽取的题目id
                 List<String> doQuestions = new ArrayList<>(); // 去除的
-                switch (createRecordVO.getType()) {
+                switch (createRecordVO.getQuestionType()) {
                     case CommonConstants.UNLIMITED:
                         // 不限
                         allQuestionIds = examQuestionMapper.selectQuestionByExamIdDetailIdSubjectId(createRecordVO.getExamId(), createRecordVO.getDetailId(), createRecordVO.getSubjectId());
