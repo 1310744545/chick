@@ -76,7 +76,7 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
                 if (createRecordVO.getCount() <= 0) {
                     return R.failed("练题数需大于0");
                 }
-                List<String> allQuestionIds = new ArrayList<>(); // 要抽取的题目id啊啊啊
+                List<String> allQuestionIds = new ArrayList<>(); // 要抽取的题目id啊啊啊啊
                 List<String> doQuestions = new ArrayList<>(); // 去除的
                 switch (createRecordVO.getQuestionType()) {
                     case CommonConstants.UNLIMITED:
