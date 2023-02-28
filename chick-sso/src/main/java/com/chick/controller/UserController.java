@@ -3,15 +3,13 @@ package com.chick.controller;
 
 import com.chick.base.CommonConstants;
 import com.chick.base.R;
-import com.chick.pojo.vo.EmailUserVO;
-import com.chick.pojo.vo.LoginUserVO;
-import com.chick.pojo.vo.RegisterEmailUserVO;
-import com.chick.pojo.vo.RegisterUserVO;
+import com.chick.pojo.vo.*;
 import com.chick.service.IUserService;
 import com.chick.utils.EmailUtil;
 import com.chick.utils.JwtUtils;
 import com.chick.utils.SecurityUtils;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +41,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户相关接口")
 public class UserController extends BaseController {
     @Autowired
     private IUserService userService;
@@ -57,11 +56,6 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation(value = "登录", httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
-    })
     @PostMapping("/login")
     public R login(@RequestBody LoginUserVO loginUserVO, HttpServletRequest request) {
         if (ObjectUtils.isEmpty(loginUserVO)){
@@ -77,13 +71,30 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 微信登录
+     * @param request 请求头
+     * @return
+     */
+    @ApiOperation(value = "微信登录", httpMethod = "POST")
+    @PostMapping("/loginWeChat")
+    public R login(@RequestBody LoginWeChatUserVO loginWeChatUserVO, HttpServletRequest request) {
+        if (ObjectUtils.isEmpty(loginWeChatUserVO)){
+            return R.failed("系统错误");
+        }
+        if (StringUtils.isAnyBlank(loginWeChatUserVO.getUsername())) {
+            return R.failed("微信号不能为空");
+        }
+        return userService.loginWeChat(loginWeChatUserVO, request);
+    }
+
+    /**
     * @Author xkx
     * @Description 邮箱登录
     * @Date 2023-02-12 21:34
     * @Param [loginUserVO, request]
     * @return com.chick.base.R
     **/
-    @ApiOperation(value = "登录", httpMethod = "POST")
+    @ApiOperation(value = "邮箱登录", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "用户名", required = true, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query")
@@ -232,6 +243,7 @@ public class UserController extends BaseController {
         return userService.sendEmailCodeRegister(email);
     }
 
+    @ApiOperation("邮箱登录")
     @GetMapping("/sendEmailCodeLogin")
     public R sendEmailCodeLogin(String email){
         if (StringUtils.isBlank(email)){

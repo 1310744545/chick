@@ -15,10 +15,7 @@ import com.chick.pojo.bo.UserInfoDetail;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
 import com.chick.pojo.entity.UserRole;
-import com.chick.pojo.vo.EmailUserVO;
-import com.chick.pojo.vo.LoginUserVO;
-import com.chick.pojo.vo.RegisterEmailUserVO;
-import com.chick.pojo.vo.RegisterUserVO;
+import com.chick.pojo.vo.*;
 import com.chick.service.IUserService;
 import com.chick.utils.EmailUtil;
 import com.chick.utils.JwtUtils;
@@ -150,6 +147,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         //通过自己的UserDetailService获取用户信息
         UserDetails userDetails = userDetailService.loadUserByUsername(loginUserVO.getUsername());
+        //生成token
+        String token = jwtUtils.generateToken((UserInfoDetail) userDetails);
+
+        HashMap<String, String> tokenCarry = new HashMap<>();
+        tokenCarry.put("head", head);
+        tokenCarry.put("token", token);
+        return R.ok(tokenCarry, "登陆成功");
+    }
+
+    @Override
+    public R loginWeChat(LoginWeChatUserVO loginWeChatUserVO, HttpServletRequest request) {
+        // 查询是否存在，不存在创建
+        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getUsername, loginWeChatUserVO.getUsername()));
+        if (ObjectUtils.isEmpty(user)){
+            user = new User();
+            user.setUserId(UUID.randomUUID().toString());
+            user.setUsername(CommonConstants.DEFAULT_USERNAME + loginWeChatUserVO.getUsername());
+            user.setPassword(passwordEncoder.encode(CommonConstants.DEFAULT_PASSWORD));
+            int insert = baseMapper.insert(user);
+            // 插入角色
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getUserId());
+            userRole.setRoleId(CommonConstants.ROLE_COMMON);
+            userRoleMapper.insert(userRole);
+        }
+        //通过自己的UserDetailService获取用户信息
+        UserDetails userDetails = userDetailService.loadUserByUsername(user.getUsername());
         //生成token
         String token = jwtUtils.generateToken((UserInfoDetail) userDetails);
 

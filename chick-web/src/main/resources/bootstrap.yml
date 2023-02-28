@@ -1,7 +1,8 @@
 spring:
   profiles:
-    active: dev
+#    active: dev
 #    active: dev2
+    active: hotel
 #    active: devNovel
   application:
     name: chick
@@ -13,8 +14,8 @@ spring:
         namespace: e8cc886d-0d6c-42a2-b4c9-0c7ad82affa9
   main:
     allow-bean-definition-overriding: true
-
-
+  resources:
+    static-locations: "/static/"
 
 
 

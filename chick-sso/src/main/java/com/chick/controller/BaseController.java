@@ -4,6 +4,7 @@ import com.chick.base.R;
 import com.chick.pojo.bo.UserInfoDetail;
 import com.chick.service.impl.UserServiceImpl;
 import com.chick.utils.SecurityUtils;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.validation.ObjectError;
  * @Version 1.0
  */
 @Controller
+@Api(hidden = true)
 public class BaseController {
 
     @Autowired

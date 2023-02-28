@@ -8,6 +8,7 @@ import com.chick.pojo.dto.RoleMenuUpdateDTO;
 import com.chick.pojo.entity.RoleMenu;
 import com.chick.service.IRoleMenuService;
 import com.chick.service.IRoleService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/roleMenu")
+@Api(tags = "角色菜单关系相关接口")
 public class RoleMenuController extends BaseController {
 
     @Resource

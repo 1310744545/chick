@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.chick.base.R;
 import com.chick.pojo.entity.Role;
 import com.chick.pojo.entity.User;
-import com.chick.pojo.vo.EmailUserVO;
-import com.chick.pojo.vo.LoginUserVO;
-import com.chick.pojo.vo.RegisterEmailUserVO;
-import com.chick.pojo.vo.RegisterUserVO;
+import com.chick.pojo.vo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +50,15 @@ public interface IUserService extends IService<User> {
      * @return
      */
     R login(LoginUserVO loginUserVO, HttpServletRequest request);
+
+    /**
+     * 用户登录
+     *
+     * @param loginWeChatUserVO 登录用户(用户名密码)
+     * @param request
+     * @return
+     */
+    R loginWeChat(LoginWeChatUserVO loginWeChatUserVO, HttpServletRequest request);
     /**
      * 用户登录
      *

@@ -6,6 +6,7 @@ import com.chick.base.R;
 import com.chick.pojo.entity.User;
 import com.chick.service.IUserManagerService;
 import com.chick.utils.PageUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/user/manager")
+@Api(tags = "用户管理相关接口")
 public class UserManagerController extends BaseController {
     @Resource
     private IUserManagerService userManagerService;

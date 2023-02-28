@@ -108,6 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .and()
+                .anonymous().authorities("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**").and()
                 //解决匿名用户访问无权限资源时的异常
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 //解决认证过的用户访问无权限资源时的异常

@@ -8,6 +8,7 @@ import com.chick.pojo.entity.Menu;
 import com.chick.pojo.entity.Role;
 import com.chick.service.IRoleService;
 import com.chick.service.impl.RoleServiceImpl;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,7 @@ import static com.chick.common.utils.ChickUtil.DoId;
  */
 @RestController
 @RequestMapping("/role")
+@Api(tags = "角色相关接口")
 public class RoleController extends BaseController {
 
     @Resource

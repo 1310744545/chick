@@ -33,7 +33,7 @@ public class CodeGenerator {
 
         // 3、数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/chick?serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/hotel?serverTimezone=GMT%2B8");
         //dsc.setUrl("jdbc:mysql://124.221.239.221:3306/chick?serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
@@ -53,7 +53,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("novel_content");//对那一张表生成代码
+        strategy.setInclude("hotel", "reservation", "collect");//对那一张表生成代码
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 

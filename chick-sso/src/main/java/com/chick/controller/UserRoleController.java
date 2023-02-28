@@ -1,6 +1,7 @@
 package com.chick.controller;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/sys/userRole")
+@Api(tags = "用户角色相关接口")
 public class UserRoleController extends BaseController {
 
 }

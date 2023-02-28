@@ -124,4 +124,16 @@ public interface CommonConstants {
     String ROLE_VIP = "3";
     String ROLE_MANAGER = "2";
     String ROLE_ADMIN = "1";
+
+    /**
+     * 酒店状态
+     */
+    String PUBLISH = "1";
+    String UN_PUBLISH = "0";
+
+    /**
+     * 预定状态
+     */
+    String RESERVATION_ING = "0";
+    String RESERVATION_ED = "1";
 }

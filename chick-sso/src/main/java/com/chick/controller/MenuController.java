@@ -4,6 +4,7 @@ package com.chick.controller;
 import com.chick.base.R;
 import com.chick.pojo.entity.Menu;
 import com.chick.service.IMenuService;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/menu")
+@Api(tags = "菜单相关接口")
 public class MenuController extends BaseController {
 
     @Autowired
