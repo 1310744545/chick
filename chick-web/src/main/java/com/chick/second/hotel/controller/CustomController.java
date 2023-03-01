@@ -93,7 +93,7 @@ public class CustomController extends BaseController {
     /**
      * 查询收藏列表
      *
-     * @param current 查询收藏列表
+     * @param current 查询 收藏列表
      * @return R
      */
     @ApiOperation(value = "查询收藏列表", httpMethod = "GET")
