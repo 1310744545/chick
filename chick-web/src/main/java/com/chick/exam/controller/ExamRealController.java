@@ -32,7 +32,7 @@ public class ExamRealController {
     /**
      * @Author xkx
      * @Description 查询真题列表
-     * @Date 2022-06-17 13:54
+     * @Date 2022-06-17 13:54a
      * @Param [current, size, keyword, delFlag, examId]
      * @return com.chick.base.R
      **/
