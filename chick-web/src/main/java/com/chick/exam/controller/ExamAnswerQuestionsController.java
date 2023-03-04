@@ -17,10 +17,10 @@ import javax.annotation.Resource;
 
 /**
  * <p>
- *  前端控制器阿松大
+ *  前端控制器
  * </p>
  *
- * @author xiaokexin
+ * @author xiaokexind
  * @since 2022-06-15
  */
 @RestController
