@@ -45,7 +45,7 @@ public class ExamQuestionTypeController extends BaseController {
             return R.failed("是否删除标记为空");
         }
         if (!StringUtils.isNotBlank(examId)) {
-            return R.failed("考试id为空");
+            return R.failed("考试id不可为空");
         }
         if (!StringUtils.isNotBlank(detailId)) {
             return R.failed("考试题目id为空");
@@ -64,7 +64,7 @@ public class ExamQuestionTypeController extends BaseController {
     @PostMapping("/insert")
     public R insert(@RequestBody ExamQuestionType examQuestionType) {
         if (ObjectUtils.isEmpty(examQuestionType)){
-            return R.failed("考试题目为空");
+            return R.failed("考试题目不可为空");
         }
         return examQuestionTypeService.insert(examQuestionType);
     }
