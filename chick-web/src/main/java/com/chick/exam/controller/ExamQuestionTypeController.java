@@ -64,7 +64,7 @@ public class ExamQuestionTypeController extends BaseController {
     @PostMapping("/insert")
     public R insert(@RequestBody ExamQuestionType examQuestionType) {
         if (ObjectUtils.isEmpty(examQuestionType)){
-            return R.failed("考试题目不可为空");
+            return R.failed("考试题目为空");
         }
         return examQuestionTypeService.insert(examQuestionType);
     }
