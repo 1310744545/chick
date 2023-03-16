@@ -252,7 +252,7 @@ public class RKPassEvent implements ExamReptileEvent {
                 examAnswer.setCorrect(1); // 先设置为错误答案
                 //Collections.sort(questionList);
                 //int i = questionList.indexOf(document.getElementsByClass("word_title_v2").get(0).text().replace("第", "").replace("题", ""));
-                //examAnswer.setTakeUpSort(i == -1 ? 0 : (i + 1)); // 先设置只有一个空
+                //examAnswer.setTakeUpSort(i == -1 ? 0 : (i + 1)); //  先设置只有是的一个空
                 examAnswers.add(examAnswer);
                 sort++;
             }
