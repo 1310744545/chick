@@ -45,5 +45,6 @@ public class test12345678910 implements Runnable {
         thread.start();
         thread2.start();
         ArrayList<Object> objects = new ArrayList<>();
+        ArrayList<Object> objectsw = new ArrayList<>();
     }
 }
