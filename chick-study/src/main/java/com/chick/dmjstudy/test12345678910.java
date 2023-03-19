@@ -1,5 +1,6 @@
 package com.chick.dmjstudy;
 
+import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -43,5 +44,6 @@ public class test12345678910 implements Runnable {
         Thread thread2 = new Thread(test, "b");
         thread.start();
         thread2.start();
+        ArrayList<Object> objects = new ArrayList<>();
     }
 }
