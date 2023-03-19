@@ -104,7 +104,7 @@ public interface CommonConstants {
      */
     String REAL = "1";
     String INTELLIGENT_EXERCISE = "2";
-    String SIMULATION_TEST = "3";
+    String CHAPTER_TEST = "3";
     /**
      * 做题类型
      */
@@ -136,4 +136,23 @@ public interface CommonConstants {
      */
     String RESERVATION_ING = "0";
     String RESERVATION_ED = "1";
+
+    /**
+     * 登录平台
+     */
+    String WE_XIN = "weixin";
+    String QQ = "qq";
+
+    /**
+     * 解决状态
+     */
+    String RESOLVE = "1";
+    String UN_RESOLVE = "0";
+
+    /**
+     * 做题模式
+     */
+    String EXAM = "1";
+    String DO_EXAM = "2";
+    String READ = "3";
 }
