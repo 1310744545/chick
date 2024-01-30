@@ -40,9 +40,9 @@ public class BaseOperateController extends BaseController {
     /**
      * @return com.chick.base.R
      * insert：
-     * ACT_RE_DEPLOYMENT：流程部署表，每部署一个就增加一个
+     * ACT_RE_DEPLOYMENT：流程部署表，每部署一个就增加一个2131
      * ACT_RE_PROCDEF：流程定义表，存放我们定义的流程信息，KEY是唯一标识
-     * ACT_GE_BYTEARRAY：流程资源表，存放流程部署文件和图片文件
+     * ACT_GE_BYTEARRAY：流程资源表，存放流程部署文件和图片文件123
      * update：
      * ACT_GE_PROPERTY：每次操作都有更新，GE是通用表
      * @Author xkx
