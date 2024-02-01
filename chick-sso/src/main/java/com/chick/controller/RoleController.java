@@ -23,7 +23,7 @@ import static com.chick.common.utils.ChickUtil.DoId;
  * 用户角色表  前端控制器
  * </p>
  *
- * @author 肖可欣
+ * @author 肖可欣222玩玩
  * @since 2022-05-27 16:07
  */
 @RestController
@@ -36,7 +36,7 @@ public class RoleController extends BaseController {
 
     /**
      * @Author xkx
-     * @Description 获取全部角色
+     * @Description 获取全部角色杀杀杀
      * @Date 2022-06-06 17:39
      * @Param []
      * @return com.chick.base.R
@@ -50,7 +50,7 @@ public class RoleController extends BaseController {
      * @Author xiaokexin
      * @Description 保存角色
      * @Date 2022/2/24 17:35
-     * @Param [sysDbInfo]
+     * @Param [sysDbInfo]烦烦烦
      * @return com.chick.base.R
      **/
     @PostMapping("/saveRole")
@@ -65,7 +65,7 @@ public class RoleController extends BaseController {
      * @Author xiaokexin
      * @Description 更新角色
      * @Date 2022/2/24 17:35
-     * @Param [sysDbInfo]
+     * @Param [sysDbInfo]刚刚
      * @return com.chick.base.R
      **/
     @PostMapping("/updateRole")

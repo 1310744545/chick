@@ -76,8 +76,8 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
                 if (createRecordVO.getCount() <= 0) {
                     return R.failed("练题数需大于0");
                 }
-                List<String> allQuestionIds = new ArrayList<>(); // 要抽取的题目id啊啊啊啊
-                List<String> doQuestions = new ArrayList<>(); // 去除的
+                List<String> allQuestionIds = new ArrayList<>(); // 要抽取的题目id我去饿
+                List<String> doQuestions = new ArrayList<>(); // 去除的现场v现场
                 switch (createRecordVO.getQuestionType()) {
                     case CommonConstants.UNLIMITED:
                         // 不限
@@ -106,8 +106,8 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
                 examRecord = new ExamRecord(userId, createRecordVO.getExamId(), createRecordVO.getDetailId(), createRecordVO.getType(), createRecordVO.getRealId(), sj.toString(), "", createRecordVO.getSubjectId());
                 examRecordMapper.insert(examRecord);
                 return R.ok(examRecord.getId(), "试题生成成功");
-            case CommonConstants.SIMULATION_TEST:
-                // 模拟测验
+//            case CommonConstants.SIMULATION_TEST:
+//                // 模拟测验
         }
         return null;
     }
@@ -139,8 +139,8 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
                     examQuestionByRecordVOS.add(new ExamQuestionByRecordVO(questionId, "第" + i + "题"));
                     i++;
                 }
-            case CommonConstants.SIMULATION_TEST:
-                // 模拟测验
+//            case CommonConstants.SIMULATION_TEST:
+//                // 模拟测验
         }
         examRealGoExamVO.setExamQuestionByRecordVOS(examQuestionByRecordVOS);
         examRealGoExamVO.setExam(exam);
@@ -169,7 +169,7 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
             // 已做题数
             examRecord.setCountDo(StringUtils.isBlank(examRecord.getDoQuestion()) ? 0 : examRecord.getDoQuestion().split(",").length);
             // 总题数 智能和模拟测验用
-            if (CommonConstants.INTELLIGENT_EXERCISE.equals(examRecord.getType()) || CommonConstants.SIMULATION_TEST.equals(examRecord.getType())){
+            if (CommonConstants.INTELLIGENT_EXERCISE.equals(examRecord.getType()) ){
                 examRecord.setCountAll(examRecord.getAllQuestion().split(",").length);
             }
         }
