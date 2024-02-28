@@ -5,95 +5,195 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75698e2f-3900-4e0b-99c3-20c2cd05c7a6" name="Default Changelist" comment="基础框架修改，新增定时任务模块">
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/aspect/WebLogAspect.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/base/CommonConstants.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/base/R.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/domin/BaseEntity.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/ChickUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$HashOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$Helper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$KeyOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$ListOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$LockOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$RedisOpsResultIsNullException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$SetOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$StringOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil$ZSetOps.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisStringUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/common/utils/RedisUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/config/ChickRunner.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/config/RedisConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/config/SwaggerConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/controller/ConfigController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/entity/SysConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/mapper/SysConfigMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/service/ISysConfigService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/config/service/impl/SysConfigServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/controller/DictionaryController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/entity/SysDbInfo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/entity/SysDbInfoVO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/mapper/SysDbInfoMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/service/ISysDbInfoService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/com/chick/web/dictionary/service/Impl/SysDbInfoServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/mapper/SysConfigMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-common/target/classes/mapper/SysDbInfoMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/DemoSMSVerificationCode.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/JedisClusterDemo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/JedisDemoBase.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/JedisPoolUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/RedisTestController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/RedisTestLockController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jedis/SpikeDemoController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/ClassLoaderLoad.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/CustomClassLoader.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/GetClassLoader.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/classLoader/InitializationDemo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/heap/HeapDemo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/jvm/stack/LocalVariablesTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ClothFactory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/Human.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/HumanUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/MyInvocationHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/NikeClothFactory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ProxyClothFactory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ProxyFactory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/ProxyStudy.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/StaticProxy.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-study/target/classes/com/chick/proxy/SuperMan.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/bootstrap.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/ChickWebApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/JDKDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/MavenDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/MysqlDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/NavicatDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/NginxDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/RabbitMQDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/RedisDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/TomcatDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/XFtpDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/chick/tools/download/controller/XShellDownloadController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/JDKDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/MavenDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/MysqlDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/NavcatDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/NginxDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/RabbitMQDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/RedisDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/TomcatDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/XFtpDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/XShellDownloadService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/JDKDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/MavenDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/MysqlDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/NavcatDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/NginxDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/RabbitMQDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/RedisMQDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/TomcatDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/XShellDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-web/target/classes/com/tools/download/service/impl/XftpDownloadServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-xxl-job/target/classes/com/chick/config/XxlJobConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chick-xxl-job/target/classes/com/chick/task/SampleXxlJob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_annotation_4_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_base_4_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_spring_boot_starter_4_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_web_4_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_hutool_hutool_all_5_4_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_cloud_spring_cloud_alibaba_nacos_config_2_2_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_cloud_spring_cloud_starter_alibaba_nacos_config_2_2_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_spring_boot_starter_1_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_2_47.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_nacos_nacos_api_1_1_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_nacos_nacos_client_1_1_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_nacos_nacos_common_1_1_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_spring_spring_context_support_1_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aliyun_aliyun_java_sdk_core_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aliyun_aliyun_java_sdk_ecs_4_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aliyun_aliyun_java_sdk_kms_2_7_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aliyun_aliyun_java_sdk_ram_3_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aliyun_aliyun_java_sdk_sts_3_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_aliyun_oss_aliyun_sdk_oss_3_10_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_annotation_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_boot_starter_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_core_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_extension_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_baomidou_mybatis_plus_generator_3_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_axet_kaptcha_0_0_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_virtuald_curvesapi_1_06.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_xiaoymin_knife4j_annotations_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_xiaoymin_knife4j_core_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_xiaoymin_knife4j_spring_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_xiaoymin_knife4j_spring_boot_autoconfigure_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_xiaoymin_knife4j_spring_boot_starter_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_xiaoymin_knife4j_spring_ui_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_3_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_failureaccess_1_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_30_0_jre.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_core_3_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_javase_3_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jhlabs_filters_2_0_235.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_xuxueli_xxl_job_core_2_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_3_4_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_14.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_lettuce_lettuce_core_5_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_micrometer_micrometer_core_1_5_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_all_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_52_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_3_10_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_prometheus_simpleclient_0_5_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_bean_validators_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_core_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_schema_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spi_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spring_web_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger2_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_common_2_9_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_activation_jakarta_activation_api_1_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_annotation_jakarta_annotation_api_1_3_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_xml_bind_jakarta_xml_bind_api_2_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_2_0_1_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_47.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_10_14.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_10_14.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ognl_ognl_3_2_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_collections4_4_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_19.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_math3_3_6_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_8_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_13_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_13_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_4_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_4_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_4_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_9_0_38.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_9_0_38.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_3_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_9_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_16_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_5_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_groovy_groovy_2_5_13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jettison_jettison_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_jakarta_el_3_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hdrhistogram_HdrHistogram_2_1_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_25_0_GA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jdom_jdom2_2_0_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_12_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_latencyutils_LatencyUtils_2_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mapstruct_mapstruct_1_2_0_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_3_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_junit_jupiter_3_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_5_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_2_0_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_16_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_actuator_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_actuator_autoconfigure_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_configuration_processor_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_actuator_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_aop_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_redis_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_commons_2_2_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_context_2_2_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_core_1_2_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_metadata_1_2_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_5_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_2_9_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_7_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_26.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_3_7_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chick-common/chick-common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chick-common/chick-common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chick-study/chick-study.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chick-study/chick-study.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chick-web/chick-web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chick-web/chick-web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chick-xxl-job/chick-xxl-job.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chick-xxl-job/chick-xxl-job.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chick.iml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,41 +239,42 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\Program Files\MavenRep" />
-        <option name="mavenHome" value="D:\Program Files\apache-maven-3.6.3" />
-        <option name="useMavenConfig" value="true" />
-        <option name="userSettingsFile" value="D:\Program Files\apache-maven-3.6.3\conf\settings.xml" />
+        <option name="localRepository" value="D:\Program Files\Maven\apache-maven-3.0.4\repostory" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../Program Files/Maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\Program Files\Maven\apache-maven-3.6.3\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
   <component name="MavenRunner">
     <option name="skipTests" value="true" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="21OLKImMkE5fIwvKhjfa7MIR0Wd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RequestMappingsPanelOrder0" value="0" />
-    <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelWidth0" value="75" />
-    <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last.edited.regexp" value="Sample Text" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../xxl-job-2.3.0" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.48321342" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.chick [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.chick [test].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/ideaProjects/chick&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -249,14 +350,13 @@
     </configuration>
     <configuration name="ChickWebApplication " type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
       <module name="chick-web" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chick.ChickWebApplication" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chick.ChickWebApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -286,6 +386,13 @@
         <item itemvalue="Application.HeapDemo" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-1.8.0_402-corretto-1.8.0_402-4caba194b151-ae57be32" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -380,6 +487,11 @@
       <workItem from="1645967061863" duration="596000" />
       <workItem from="1646011987451" duration="16086000" />
       <workItem from="1646095838876" duration="971000" />
+      <workItem from="1706598668143" duration="196000" />
+      <workItem from="1706598880499" duration="939000" />
+      <workItem from="1706662243677" duration="2274000" />
+      <workItem from="1706833954617" duration="101000" />
+      <workItem from="1708928859903" duration="813000" />
     </task>
     <task id="LOCAL-00001" summary="初始化">
       <created>1638885445793</created>
@@ -437,7 +549,15 @@
       <option name="project" value="LOCAL" />
       <updated>1646095915202</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="基础框架修改，新增定时任务模块">
+      <option name="closed" value="true" />
+      <created>1706599332078</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1706599332078</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
