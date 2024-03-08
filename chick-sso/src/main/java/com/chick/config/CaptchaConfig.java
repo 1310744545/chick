@@ -9,9 +9,9 @@ import java.util.Properties;
 
 
 /**
- * @ClassName CaptchaConfig
+ * @ClassName CaptchaConfig阿斯顿
  * @Author xiaokexin
- * @Date 2022-05-27 16:07
+ * @Date 2022-05-27 16:07阿斯顿
  * @Description CaptchaConfig
  * @Version 1.0
  */
