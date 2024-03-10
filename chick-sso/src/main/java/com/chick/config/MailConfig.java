@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @ClassName MailConfig
  * @Author xiaokexin
  * @Date 2022-10-18 9:37
- * @Description 邮件发送配置类阿斯顿
+ * @Description 邮件发送配置类阿斯顿阿三大苏打现场
  * @Version 1.0
  */
 @Component
